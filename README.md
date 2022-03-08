@@ -1,5 +1,6 @@
 # 6CCS3PRJ Individual Project - Unity's A.I. Planner vs Behaviour Trees
 ---
+Unity version: 2020.3.21f1
 
 This is a stealth based game where the agent is the player and is implemented using either:
 - Unity's A.I. Planner
