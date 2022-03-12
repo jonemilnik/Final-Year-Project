@@ -11,8 +11,15 @@ public class Enemy : MonoBehaviour
     private bool isWalking;
     private float timer = 0.0f;
     public float waitTime;
+    private List<Vector3> waypoints = new List<Vector3>();
+    void SetWaypoints()
+    {
 
-    
+        foreach (Transform child in transform)
+        {
+            waypoints.Add(child.position);
+        }
+    }
 
     // Start is called before the first frame update
     void Awake()
@@ -20,13 +27,13 @@ public class Enemy : MonoBehaviour
         // Initialize initial state
         agent = GetComponent<NavMeshAgent>();
         isWalking = false;
+        SetWaypoints();
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        List<GameObject> waypoints = GetWaypoints();
 
         // Inspecting area
         if (!isWalking)
@@ -38,36 +45,23 @@ public class Enemy : MonoBehaviour
                 isWalking = true;
                 timer = 0.0f;
                 waypointPointer = (waypointPointer + 1) % waypoints.Count;
-                agent.SetDestination(waypoints[waypointPointer].transform.position);
+                agent.SetDestination(waypoints[waypointPointer]);
+                Debug.Log(waypoints[waypointPointer]);
             }
         }
         else
         {
-            if ( Vector3.SqrMagnitude(gameObject.transform.position - waypoints[waypointPointer].transform.position) < 0.005 == true)  {
+
+            // Normalises vectors to worry only about x and z values
+            Vector3 normalVector = new Vector3(1, 0, 1);
+
+            // Checks if normal vectors distance is less than epsilon
+            if (Vector3.Distance(Vector3.Scale(gameObject.transform.position, normalVector)
+                , Vector3.Scale(waypoints[waypointPointer], normalVector)) < Vector3.kEpsilon)
+            {
                 isWalking = false;
             }
         }
     }
 
-    private List<GameObject> GetWaypoints()
-    {
-        List<GameObject> waypoints = new List<GameObject>();
-
-        foreach (Transform child in transform)
-        {
-            waypoints.Add(child.gameObject);
-        }
-
-        return waypoints;
-    }
-
-    //private void OnDrawGizmosSelected()
-    //{
-    //    List<GameObject> waypoints = GetWaypoints();
- 
-    //    foreach (GameObject wp in waypoints)
-    //    {
-    //        wp.GetComponent<Waypoint>().setParentSelected(true);
-    //    }
-    //}
 }
