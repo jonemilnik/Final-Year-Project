@@ -11,14 +11,12 @@ public class Enemy : MonoBehaviour
     private bool isWalking;
     private float timer = 0.0f;
     public float waitTime;
-    private List<Vector3> waypoints = new List<Vector3>();
-    void SetWaypoints()
+    [SerializeField]
+    private List<Transform> _waypoints;
+   
+    void InspectArea()
     {
 
-        foreach (Transform child in transform)
-        {
-            waypoints.Add(child.position);
-        }
     }
 
     // Start is called before the first frame update
@@ -27,8 +25,6 @@ public class Enemy : MonoBehaviour
         // Initialize initial state
         agent = GetComponent<NavMeshAgent>();
         isWalking = false;
-        SetWaypoints();
-        
     }
 
     // Update is called once per frame
@@ -44,9 +40,8 @@ public class Enemy : MonoBehaviour
             {
                 isWalking = true;
                 timer = 0.0f;
-                waypointPointer = (waypointPointer + 1) % waypoints.Count;
-                agent.SetDestination(waypoints[waypointPointer]);
-                Debug.Log(waypoints[waypointPointer]);
+                waypointPointer = (waypointPointer + 1) % _waypoints.Count;
+                agent.SetDestination(_waypoints[waypointPointer].position);
             }
         }
         else
@@ -57,7 +52,7 @@ public class Enemy : MonoBehaviour
 
             // Checks if normal vectors distance is less than epsilon
             if (Vector3.Distance(Vector3.Scale(gameObject.transform.position, normalVector)
-                , Vector3.Scale(waypoints[waypointPointer], normalVector)) < Vector3.kEpsilon)
+                , Vector3.Scale(_waypoints[waypointPointer].position, normalVector)) < Vector3.kEpsilon)
             {
                 isWalking = false;
             }
