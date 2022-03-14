@@ -95,6 +95,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   viewRadius: 4
-  viewAngle: 74
+  viewAngle: 80
   material: {fileID: 2100000, guid: c9025c1f54bf7b140917af1e93de8f07, type: 2}
-  meshResolution: 0
+  meshResolution: 1

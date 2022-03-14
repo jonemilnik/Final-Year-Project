@@ -13,11 +13,16 @@ public class Enemy : MonoBehaviour
     public float waitTime;
     [SerializeField]
     private List<Transform> _waypoints;
-   
-    void InspectArea()
-    {
 
-    }
+    //IEnumerator InspectArea()
+    //{
+    //    bool facingPath = false;
+    //    Vector3 dir = GetDirToPath();
+    //    while (!facingPath)
+    //    {
+
+    //    }
+    //}
 
     // Start is called before the first frame update
     void Awake()
@@ -25,6 +30,46 @@ public class Enemy : MonoBehaviour
         // Initialize initial state
         agent = GetComponent<NavMeshAgent>();
         isWalking = false;
+    }
+
+    //Get direction to face path
+    Vector3 GetDirToPath()
+    {
+        FieldOfView fov = transform.GetChild(0).GetComponent<FieldOfView>();
+        //Used to filter only colliders with 'Path' layer
+        int layerMask = 1 << 3;
+        //Perform raycast in these directions
+        Vector3[] directions =
+            {
+                Vector3.forward, Vector3.back, Vector3.left, Vector3.right
+            };
+
+        //Stores index of direction and value of distance to path
+        (int?, float?) closestDir = (null, null);
+
+        for (int i = 0; i < directions.Length; i++)
+        {
+            RaycastHit hit;
+            Debug.Log(closestDir);
+
+            if (Physics.Raycast(transform.position, directions[i], out hit, fov.viewRadius, layerMask))
+            {
+                if (closestDir.Item1 == null)
+                {
+                    closestDir = (i, hit.distance);
+                }
+                else
+                {
+                    //Direction of raycast has shorter distance to path
+                    if (hit.distance < closestDir.Item2)
+                    {
+                        closestDir = (i, hit.distance);
+                    }
+                }
+            }
+        }
+        return directions[(int)closestDir.Item1];
+        //transform.rotation = Quaternion.LookRotation(directions[(int) closestDir.Item1]);
     }
 
     // Update is called once per frame
@@ -55,6 +100,7 @@ public class Enemy : MonoBehaviour
                 , Vector3.Scale(_waypoints[waypointPointer].position, normalVector)) < Vector3.kEpsilon)
             {
                 isWalking = false;
+                //FacePath();
             }
         }
     }
