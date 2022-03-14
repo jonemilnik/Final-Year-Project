@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44880497, g: 0.4988678, b: 0.5756953, a: 1}
+  m_IndirectSpecularColor: {r: 0.4488055, g: 0.49886858, b: 0.57569635, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -132,7 +132,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -1425649882023526553, guid: 6dc83f3ec9e972f448766212546824d8, type: 3}
       propertyPath: waitTime
-      value: 5
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -1425649882023526553, guid: 6dc83f3ec9e972f448766212546824d8, type: 3}
+      propertyPath: inspectAngle
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: -1425649882023526553, guid: 6dc83f3ec9e972f448766212546824d8, type: 3}
       propertyPath: waypoints.Array.size
@@ -2796,7 +2800,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 127
   m_RenderingLayerMask: 1
   m_Lightmapping: 1
   m_LightShadowCasterMode: 0
@@ -3060,7 +3064,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh16510
+  m_Name: pb_Mesh17416
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3293,7 +3297,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -3792,7 +3796,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -4558,11 +4562,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -1425649882023526553, guid: 6dc83f3ec9e972f448766212546824d8, type: 3}
       propertyPath: waitTime
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -1425649882023526553, guid: 6dc83f3ec9e972f448766212546824d8, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1425649882023526553, guid: 6dc83f3ec9e972f448766212546824d8, type: 3}
+      propertyPath: inspectAngle
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: -1425649882023526553, guid: 6dc83f3ec9e972f448766212546824d8, type: 3}
       propertyPath: _waypoints.Array.size
@@ -5841,7 +5849,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -6584,7 +6592,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -13709,7 +13717,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 133949481066734525, guid: 48acd2872a7e05641b5e5d27b9324a90, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.17
+      value: -5.3521957
       objectReference: {fileID: 0}
     - target: {fileID: 133949481066734525, guid: 48acd2872a7e05641b5e5d27b9324a90, type: 3}
       propertyPath: m_LocalPosition.y
@@ -13717,7 +13725,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 133949481066734525, guid: 48acd2872a7e05641b5e5d27b9324a90, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.4865522
+      value: 5.4865522
       objectReference: {fileID: 0}
     - target: {fileID: 133949481066734525, guid: 48acd2872a7e05641b5e5d27b9324a90, type: 3}
       propertyPath: m_LocalRotation.w

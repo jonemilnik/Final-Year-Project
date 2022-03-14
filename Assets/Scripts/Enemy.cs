@@ -9,27 +9,70 @@ public class Enemy : MonoBehaviour
     private NavMeshAgent agent;
     private int waypointPointer = 0;
     private bool isWalking;
+    private bool isInspecting;
     private float timer = 0.0f;
-    public float waitTime;
+    //[SerializeField]
+    //private float waitTime;
     [SerializeField]
     private List<Transform> _waypoints;
+    [SerializeField]
+    private float inspectAngle;
 
-    //IEnumerator InspectArea()
-    //{
-    //    bool facingPath = false;
-    //    Vector3 dir = GetDirToPath();
-    //    while (!facingPath)
-    //    {
-
-    //    }
-    //}
-
-    // Start is called before the first frame update
-    void Awake()
+    IEnumerator InspectArea()
     {
-        // Initialize initial state
-        agent = GetComponent<NavMeshAgent>();
-        isWalking = false;
+        isInspecting = true; 
+
+        //Face path first
+        yield return StartCoroutine("FacePath");
+        //yield return new WaitForSeconds(0.5f);
+
+        //Inspect Left
+        yield return StartCoroutine(InspectDirection(-inspectAngle, 0.05f, 0.15f));
+        //yield return new WaitForSeconds(2.0f);
+        
+        //Inspect Right
+        yield return StartCoroutine(InspectDirection(inspectAngle * 2, 0.05f, 0.15f));
+        //yield return new WaitForSeconds(2.0f);
+
+        //Centre view again
+        yield return StartCoroutine(InspectDirection(-inspectAngle, 0.05f, 0.04f));
+        //yield return new WaitForSeconds(1.0f);
+
+        isInspecting = false;
+    }
+
+    IEnumerator InspectDirection(float angle, float rotationSpeed, float timeLimit)
+    {
+        FieldOfView fov = transform.GetChild(0).GetComponent<FieldOfView>();
+        //Angle to look from forward direction
+        float time = 0.0f;
+
+        Vector3 inspectDir = fov.GetVectorFromAngle(angle);
+        Quaternion rotation = Quaternion.LookRotation(inspectDir);
+
+        while (time < 0.15f)
+        {
+            Debug.Log(time);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, time);
+            time += Time.deltaTime * rotationSpeed;
+            yield return null;
+        }
+    }
+
+    IEnumerator FacePath()
+    {
+        Vector3 dir = GetDirToPath();
+        Quaternion lookRotation = Quaternion.LookRotation(dir);
+        float time = 0.0f;
+        float rotationSpeed = 0.05f;
+
+        while (time < 0.03f)
+        {
+            Debug.Log(time);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, time);
+            time += Time.deltaTime * rotationSpeed;
+            yield return null;
+        }
     }
 
     //Get direction to face path
@@ -50,7 +93,6 @@ public class Enemy : MonoBehaviour
         for (int i = 0; i < directions.Length; i++)
         {
             RaycastHit hit;
-            Debug.Log(closestDir);
 
             if (Physics.Raycast(transform.position, directions[i], out hit, fov.viewRadius, layerMask))
             {
@@ -72,6 +114,17 @@ public class Enemy : MonoBehaviour
         //transform.rotation = Quaternion.LookRotation(directions[(int) closestDir.Item1]);
     }
 
+    // Start is called before the first frame update
+    void Awake()
+    {
+        // Initialize initial state
+        agent = GetComponent<NavMeshAgent>();
+        isWalking = false;
+        isInspecting = false;
+    }
+
+    
+
     // Update is called once per frame
     void Update()
     {
@@ -79,9 +132,8 @@ public class Enemy : MonoBehaviour
         // Inspecting area
         if (!isWalking)
         {
-            timer += Time.deltaTime;
-
-            if (timer > waitTime)
+            
+            if (!isInspecting)
             {
                 isWalking = true;
                 timer = 0.0f;
@@ -100,7 +152,7 @@ public class Enemy : MonoBehaviour
                 , Vector3.Scale(_waypoints[waypointPointer].position, normalVector)) < Vector3.kEpsilon)
             {
                 isWalking = false;
-                //FacePath();
+                StartCoroutine(InspectArea());
             }
         }
     }
