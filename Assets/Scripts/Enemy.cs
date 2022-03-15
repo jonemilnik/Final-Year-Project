@@ -10,7 +10,6 @@ public class Enemy : MonoBehaviour
     private int waypointPointer = 0;
     private bool isWalking;
     private bool isInspecting;
-    private float timer = 0.0f;
     //[SerializeField]
     //private float waitTime;
     [SerializeField]
@@ -18,25 +17,21 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float inspectAngle;
 
-    IEnumerator InspectArea()
+    IEnumerator InspectArea() 
     {
         isInspecting = true; 
 
         //Face path first
         yield return StartCoroutine("FacePath");
-        //yield return new WaitForSeconds(0.5f);
 
         //Inspect Left
         yield return StartCoroutine(InspectDirection(-inspectAngle, 0.05f, 0.15f));
-        //yield return new WaitForSeconds(2.0f);
         
         //Inspect Right
         yield return StartCoroutine(InspectDirection(inspectAngle * 2, 0.05f, 0.15f));
-        //yield return new WaitForSeconds(2.0f);
 
         //Centre view again
         yield return StartCoroutine(InspectDirection(-inspectAngle, 0.05f, 0.04f));
-        //yield return new WaitForSeconds(1.0f);
 
         isInspecting = false;
     }
@@ -52,7 +47,6 @@ public class Enemy : MonoBehaviour
 
         while (time < 0.15f)
         {
-            Debug.Log(time);
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, time);
             time += Time.deltaTime * rotationSpeed;
             yield return null;
@@ -68,7 +62,6 @@ public class Enemy : MonoBehaviour
 
         while (time < 0.03f)
         {
-            Debug.Log(time);
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, time);
             time += Time.deltaTime * rotationSpeed;
             yield return null;
@@ -119,11 +112,11 @@ public class Enemy : MonoBehaviour
     {
         // Initialize initial state
         agent = GetComponent<NavMeshAgent>();
-        isWalking = false;
+        isWalking = true;
         isInspecting = false;
+        //Walk to first waypoint
+        agent.SetDestination(_waypoints[waypointPointer].position);
     }
-
-    
 
     // Update is called once per frame
     void Update()
@@ -136,7 +129,6 @@ public class Enemy : MonoBehaviour
             if (!isInspecting)
             {
                 isWalking = true;
-                timer = 0.0f;
                 waypointPointer = (waypointPointer + 1) % _waypoints.Count;
                 agent.SetDestination(_waypoints[waypointPointer].position);
             }

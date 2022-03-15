@@ -1,14 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 
 public class Player : MonoBehaviour
 {
     private Rigidbody rb;
-    private bool isHiding = false;
+    private NavMeshAgent agent;
+    public bool isHiding = false;
     private Vector3 prevPos;
     public float thrust = 1.2f;
+    [SerializeField]
+    private List<Transform> _waypoints;
 
     void CheckMovementInput() 
     {
@@ -75,6 +79,8 @@ public class Player : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        agent = GetComponent<NavMeshAgent>();
+        agent.SetDestination(_waypoints[0].position);
     }
 
     // Update is called once per frame

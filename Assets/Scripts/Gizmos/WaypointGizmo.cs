@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class Waypoint : MonoBehaviour
+public class WaypointGizmo : MonoBehaviour
 {
     private void OnDrawGizmos()
     {

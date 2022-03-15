@@ -104,15 +104,19 @@ public class FieldOfView : MonoBehaviour
             {
                 continue;
             }
-            Transform collider = collidersInRadius[i].transform;
+            Collider collider = collidersInRadius[i];
             // Find direction vector from player to collider and normalize to ease calculation 
-            Vector3 colliderDirection = (collider.position - transform.position).normalized;
+            Vector3 colliderDirection = (collider.transform.position - transform.position).normalized;
             float colliderAngleFromPlayer = Vector3.Angle(transform.forward, colliderDirection);
 
             //If collider in fov
             if (colliderAngleFromPlayer < viewAngle / 2)
             {
-                Debug.Log("Player Spotted!");
+                //If player not hiding
+                if (!collider.GetComponent<Player>().isHiding)
+                {
+                    FindObjectOfType<GameManager>().LoseGame();
+                }
             }
 
 
