@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a93ef591de1cd6a42b724b9314379ad4, type: 3}
+  m_Name: StealthProblem
+  m_EditorClassIdentifier: 
+  m_ActionDefinitions:
+  - {fileID: 11400000, guid: c7fb6a82308003649aa98eeb8426a010, type: 2}
+  - {fileID: 11400000, guid: 72ce0ef5b95158d41aa8eba43ce114fc, type: 2}
+  - {fileID: 11400000, guid: 41612ce62f14c8240ae6ba17d994c4ba, type: 2}
+  - {fileID: 11400000, guid: 4f76dccdfbfaebb4e8e17f075c21756b, type: 2}
+  m_StateTerminationDefinitions:
+  - {fileID: 11400000, guid: abf9a6e277f25134199051e1eaccfcc8, type: 2}
+  m_CustomCumulativeRewardEstimator: 
+  m_DefaultEstimateLower: -100
+  m_DefaultEstimateAverage: 0
+  m_DefaultEstimateUpper: 100
+  DiscountFactor: 0.95

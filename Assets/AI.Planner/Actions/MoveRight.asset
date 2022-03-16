@@ -12,10 +12,73 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab48ef9de5712c440bd0e1f505d00e04, type: 3}
   m_Name: MoveRight
   m_EditorClassIdentifier: 
-  m_Parameters: []
-  m_Preconditions: []
+  m_Parameters:
+  - m_Name: To
+    m_RequiredTraits:
+    - {fileID: 11400000, guid: c4c629a259d263849995cedfdc0cb569, type: 2}
+    m_ProhibitedTraits: []
+    m_LimitCount: 0
+    m_LimitComparerType: 
+    m_LimitComparerReference: 
+  - m_Name: From
+    m_RequiredTraits:
+    - {fileID: 11400000, guid: c4c629a259d263849995cedfdc0cb569, type: 2}
+    m_ProhibitedTraits: []
+    m_LimitCount: 0
+    m_LimitComparerType: 
+    m_LimitComparerReference: 
+  - m_Name: Agent
+    m_RequiredTraits:
+    - {fileID: 11400000, guid: 54b85485fe12d7a498cdc469687b5816, type: 2}
+    m_ProhibitedTraits: []
+    m_LimitCount: 0
+    m_LimitComparerType: 
+    m_LimitComparerReference: 
+  m_Preconditions:
+  - m_Operator: ==
+    m_CustomOperatorType: 
+    m_OperandA:
+      m_Parameter: To
+      m_Trait: {fileID: 11400000, guid: c4c629a259d263849995cedfdc0cb569, type: 2}
+      m_TraitPropertyId: 0
+      m_Enum: {fileID: 0}
+      m_Value: 
+    m_OperandB:
+      m_Parameter: Agent
+      m_Trait: {fileID: 11400000, guid: 54b85485fe12d7a498cdc469687b5816, type: 2}
+      m_TraitPropertyId: 0
+      m_Enum: {fileID: 0}
+      m_Value: 
+  - m_Operator: ==
+    m_CustomOperatorType: 
+    m_OperandA:
+      m_Parameter: Agent
+      m_Trait: {fileID: 11400000, guid: 54b85485fe12d7a498cdc469687b5816, type: 2}
+      m_TraitPropertyId: 0
+      m_Enum: {fileID: 0}
+      m_Value: 
+    m_OperandB:
+      m_Parameter: From
+      m_Trait: {fileID: 0}
+      m_TraitPropertyId: -1
+      m_Enum: {fileID: 0}
+      m_Value: 
   m_CreatedObjects: []
   m_RemovedObjects: []
-  m_ObjectModifiers: []
+  m_ObjectModifiers:
+  - m_Operator: =
+    m_CustomOperatorType: 
+    m_OperandA:
+      m_Parameter: Agent
+      m_Trait: {fileID: 11400000, guid: 54b85485fe12d7a498cdc469687b5816, type: 2}
+      m_TraitPropertyId: 0
+      m_Enum: {fileID: 0}
+      m_Value: 
+    m_OperandB:
+      m_Parameter: To
+      m_Trait: {fileID: 0}
+      m_TraitPropertyId: -1
+      m_Enum: {fileID: 0}
+      m_Value: 
   m_Reward: 0
   m_CustomRewards: []
