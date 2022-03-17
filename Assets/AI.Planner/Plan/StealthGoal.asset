@@ -43,5 +43,5 @@ MonoBehaviour:
       m_TraitPropertyId: -1
       m_Enum: {fileID: 0}
       m_Value: 
-  m_TerminalReward: 0
+  m_TerminalReward: 100
   m_CustomTerminalRewards: []

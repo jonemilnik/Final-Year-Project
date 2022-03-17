@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private List<Transform> _waypoints;
 
+    
     void CheckMovementInput() 
     {
         if (Input.GetKey(KeyCode.W))

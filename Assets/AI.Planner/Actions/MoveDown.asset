@@ -80,5 +80,5 @@ MonoBehaviour:
       m_TraitPropertyId: -1
       m_Enum: {fileID: 0}
       m_Value: 
-  m_Reward: 0
+  m_Reward: -0.5
   m_CustomRewards: []
