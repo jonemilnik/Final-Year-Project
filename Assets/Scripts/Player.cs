@@ -77,18 +77,24 @@ public class Player : MonoBehaviour
         }
     }
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
-        agent.SetDestination(_waypoints[0].position);
+        
+    }
+
+    private void Start()
+    {
+        //transform.position = GameObject.Find("StartState").GetComponent<Transform>().position;
+        Physics.IgnoreCollision(GetComponent<Collider>(), GameObject.Find("EnemyWalls").GetComponent<Collider>());
     }
 
     // Update is called once per frame
     void Update()
     {
-        CheckMovementInput();
-        CheckActionInput();
+       //CheckMovementInput();
+       //CheckActionInput();
 
     }
 }

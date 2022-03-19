@@ -15,7 +15,7 @@ MonoBehaviour:
   m_Color: {r: 0.28, g: 1, b: 1, a: 1}
   m_Properties:
   - id: 0
-  m_NextElementId: 1
+  m_NextElementId: 3
   references:
     version: 1
     00000000:

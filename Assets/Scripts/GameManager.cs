@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -6,6 +7,14 @@ public class GameManager : MonoBehaviour
     private bool gameOver = false;
     public static int wins = 0;
     public static int losses = 0;
+    private Vector3 initialPlayerPos;
+
+    private void Start()
+    {
+        initialPlayerPos = FindObjectOfType<Player>().GetComponent<Transform>().position;
+        Debug.Log(initialPlayerPos);
+    }
+
     public void LoseGame()
     {
         if (gameOver == false)
@@ -29,7 +38,8 @@ public class GameManager : MonoBehaviour
     }
     void Restart()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        GameObject.Find("Player").GetComponent<NavMeshAgent>().Warp(GameObject.Find("StartState").transform.position);
+        Debug.Log("Final Pos: " + FindObjectOfType<Player>().GetComponent<Transform>().position);
     }
 
     

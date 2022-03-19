@@ -115,7 +115,7 @@ public class Enemy : MonoBehaviour
         isWalking = true;
         isInspecting = false;
         //Walk to first waypoint
-        agent.SetDestination(_waypoints[waypointPointer].position);
+        //agent.SetDestination(_waypoints[waypointPointer].position);
     }
 
     // Update is called once per frame
