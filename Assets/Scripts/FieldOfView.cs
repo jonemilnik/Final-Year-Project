@@ -113,7 +113,7 @@ public class FieldOfView : MonoBehaviour
             if (colliderAngleFromPlayer < viewAngle / 2)
             {
                 //If player not hiding
-                if (!collider.GetComponent<Player>().isHiding)
+                if (!collider.GetComponent<PlayerHandler>().isHiding)
                 {
                     FindObjectOfType<GameManager>().LoseGame();
                 }

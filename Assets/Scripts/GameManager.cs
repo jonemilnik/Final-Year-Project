@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        initialPlayerPos = FindObjectOfType<Player>().GetComponent<Transform>().position;
+        initialPlayerPos = FindObjectOfType<PlayerHandler>().GetComponent<Transform>().position;
         Debug.Log(initialPlayerPos);
     }
 
@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
     void Restart()
     {
         GameObject.Find("Player").GetComponent<NavMeshAgent>().Warp(GameObject.Find("StartState").transform.position);
-        Debug.Log("Final Pos: " + FindObjectOfType<Player>().GetComponent<Transform>().position);
+        Debug.Log("Final Pos: " + FindObjectOfType<PlayerHandler>().GetComponent<Transform>().position);
     }
 
     
