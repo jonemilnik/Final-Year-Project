@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3327415774906831618}
   - component: {fileID: 8196213307773942172}
   - component: {fileID: -1425649882023526553}
+  - component: {fileID: 2732057884545620105}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -132,5 +133,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 274350089a63ae0468f7cff19562c1f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 0
   _waypoints: []
+  inspectAngle: 0
+  isFacingPlayer: 0
+--- !u!114 &2732057884545620105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1700966720724116471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94461bf9d83877a46897d3533c797a0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

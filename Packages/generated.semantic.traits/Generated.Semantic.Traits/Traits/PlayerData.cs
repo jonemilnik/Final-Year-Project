@@ -10,15 +10,16 @@ namespace Generated.Semantic.Traits
     public partial struct PlayerData : ITraitData, IEquatable<PlayerData>
     {
         public Unity.Entities.Entity Waypoint;
+        public System.Boolean IsSpotted;
 
         public bool Equals(PlayerData other)
         {
-            return Waypoint.Equals(other.Waypoint);
+            return Waypoint.Equals(other.Waypoint) && IsSpotted.Equals(other.IsSpotted);
         }
 
         public override string ToString()
         {
-            return $"Player: {Waypoint}";
+            return $"Player: {Waypoint} {IsSpotted}";
         }
     }
 }

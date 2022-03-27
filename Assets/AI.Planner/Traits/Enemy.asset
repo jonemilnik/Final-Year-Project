@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83c2836cfe3b2446da67909e4bcf860a, type: 3}
-  m_Name: GoalPoint
+  m_Name: Enemy
   m_EditorClassIdentifier: 
-  m_Color: {r: 0.27843142, g: 1, b: 0.31253916, a: 1}
+  m_Color: {r: 1, g: 0.28596225, b: 0.27843142, a: 1}
   m_Properties: []
-  m_NextElementId: 0
+  m_NextElementId: 2
   references:
     version: 1

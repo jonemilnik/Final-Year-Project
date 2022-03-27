@@ -4,42 +4,62 @@ using UnityEngine;
 using Unity.AI.Planner.Controller;
 using Unity.AI.Planner.Traits;
 using Generated.Semantic.Traits;
+using UnityEngine.AI;
 
 
 public class PlayerController : MonoBehaviour
 {
-    float thrust = 1.2f;
-    float updateStateDelay = 0.25f;
-     
+    float speed = 1.2f;
+    float updateQueryDelay = 0.25f;
+    float timeOfLastQueryUpdate;
+    DecisionController decisionController;
+    Player playerTrait;
+ 
 
-    //private void Update()
-    //{
-        
-    //}
+    private void Start()
+    {
+        decisionController = GetComponent<DecisionController>();
+        playerTrait = GameObject.Find("Player").GetComponent<Player>();
+       
+    }
+    private void Update()
+    {
+        playerTrait.IsSpotted = GameObject.Find("Player").GetComponent<PlayerHandler>().isSpotted;
+
+        // Update world state constantly and not just after every action
+        if (decisionController.Initialized && Time.realtimeSinceStartup > timeOfLastQueryUpdate + updateQueryDelay)
+        {
+            decisionController.UpdateStateWithWorldQuery();
+            timeOfLastQueryUpdate = Time.realtimeSinceStartup;
+        }
+
+    }
 
     public IEnumerator MoveTo(GameObject agent, GameObject destination)
     {
-        Debug.Log("Move to: " + destination.name);
-        //agent.GetComponent<NavMeshAgent>().SetDestination(destination.transform.position);
-        agent.transform.position = destination.transform.position;
-        //ITrait trait= agent.GetComponent<ITrait>();
-        //Component[] components = agent.GetComponents<Component>();
-        //foreach (Component component in components)
-        //{
-        //    Debug.Log(component.ToString());
-        //}
-        Player trait = agent.GetComponent<Player>();
-        trait.Waypoint = destination;
-        //Debug.Log("Player components: " + GameObject.Find("Player").GetComponents<Component>());
-        yield return new WaitForSeconds(1.0f);
+        NavMeshAgent navMAgent = agent.GetComponent<NavMeshAgent>();
+        navMAgent.SetDestination(destination.transform.position);
+        while (true)
+        {
+            if (!navMAgent.pathPending)
+            {
+                if (navMAgent.remainingDistance <= navMAgent.stoppingDistance)
+                {
+                    if (!navMAgent.hasPath || navMAgent.velocity.sqrMagnitude == 0f)
+                    {
+                        break;
+                    }
+                }
+            }
+            yield return null;
+        }
 
+        Player playerTrait = agent.GetComponent<Player>();
+        playerTrait.Waypoint = destination;
     }
 
-    public IEnumerator ReturnToStart(GameObject agent, GameObject finalWaypoint)
-    {
-        agent.transform.position = finalWaypoint.transform.position;
-        yield return null;
-    }
+    
+
 
 
 }

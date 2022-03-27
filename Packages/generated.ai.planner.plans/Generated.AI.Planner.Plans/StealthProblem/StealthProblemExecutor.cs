@@ -30,6 +30,12 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                 terminal = true;
                 terminalReward += StealthGoalInstance.TerminalReward(state);
             }
+            var StealthSpottedInstance = new StealthSpotted();
+            if (StealthSpottedInstance.IsTerminal(state))
+            {
+                terminal = true;
+                terminalReward += StealthSpottedInstance.TerminalReward(state);
+            }
             return terminal;
         }
     }
@@ -42,6 +48,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             { ActionScheduler.MoveLeftGuid, nameof(MoveLeft) },
             { ActionScheduler.MoveRightGuid, nameof(MoveRight) },
             { ActionScheduler.MoveUpGuid, nameof(MoveUp) },
+            { ActionScheduler.RunFromEnemyGuid, nameof(RunFromEnemy) },
         };
 
         PlannerStateConverter<TraitBasedObject, StateEntityKey, StateData, StateDataContext, StateManager> m_StateConverter;
@@ -77,6 +84,9 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                 case var actionGuid when actionGuid == ActionScheduler.MoveUpGuid:
                     actionName = nameof(MoveUp);
                     break;
+                case var actionGuid when actionGuid == ActionScheduler.RunFromEnemyGuid:
+                    actionName = nameof(RunFromEnemy);
+                    break;
             }
 
             var executeInfos = GetExecutionInfo(actionName);
@@ -110,6 +120,9 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                     case nameof(MoveUp):
                         parameterIndex = MoveUp.GetIndexForParameterName(traitBasedObjectName);
                         break;
+                    case nameof(RunFromEnemy):
+                        parameterIndex = RunFromEnemy.GetIndexForParameterName(traitBasedObjectName);
+                        break;
                 }
 
                 if (parameterIndex == -1)
@@ -127,6 +140,10 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                         case nameof(Player):
                             var traitPlayer = stateData.GetTraitOnObjectAtIndex<Player>(traitBasedObjectIndex);
                             arguments[i] = split.Length == 3 ? traitPlayer.GetField(split[2]) : traitPlayer;
+                            break;
+                        case nameof(Enemy):
+                            var traitEnemy = stateData.GetTraitOnObjectAtIndex<Enemy>(traitBasedObjectIndex);
+                            arguments[i] = split.Length == 3 ? traitEnemy.GetField(split[2]) : traitEnemy;
                             break;
                         case nameof(GoalPoint):
                             var traitGoalPoint = stateData.GetTraitOnObjectAtIndex<GoalPoint>(traitBasedObjectIndex);
@@ -189,6 +206,9 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                         break;
                  case var actionGuid when actionGuid == ActionScheduler.MoveUpGuid:
                     parameterNames = MoveUp.parameterNames;
+                        break;
+                 case var actionGuid when actionGuid == ActionScheduler.RunFromEnemyGuid:
+                    parameterNames = RunFromEnemy.parameterNames;
                         break;
             }
 

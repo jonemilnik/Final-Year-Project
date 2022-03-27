@@ -17,6 +17,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
         public static readonly Guid MoveLeftGuid = Guid.NewGuid();
         public static readonly Guid MoveRightGuid = Guid.NewGuid();
         public static readonly Guid MoveUpGuid = Guid.NewGuid();
+        public static readonly Guid RunFromEnemyGuid = Guid.NewGuid();
 
         // Input
         public NativeList<StateEntityKey> UnexpandedStates { get; set; }
@@ -41,6 +42,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             public EntityCommandBuffer MoveLeftECB;
             public EntityCommandBuffer MoveRightECB;
             public EntityCommandBuffer MoveUpECB;
+            public EntityCommandBuffer RunFromEnemyECB;
 
             public void Execute()
             {
@@ -86,6 +88,16 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                         CreatedStateInfo.Enqueue(MoveUpRefs[j].TransitionInfo);
                     entityManager.RemoveComponent(stateEntity, typeof(MoveUpFixupReference));
                 }
+
+                RunFromEnemyECB.Playback(entityManager);
+                for (int i = 0; i < UnexpandedStates.Length; i++)
+                {
+                    var stateEntity = UnexpandedStates[i].Entity;
+                    var RunFromEnemyRefs = entityManager.GetBuffer<RunFromEnemyFixupReference>(stateEntity);
+                    for (int j = 0; j < RunFromEnemyRefs.Length; j++)
+                        CreatedStateInfo.Enqueue(RunFromEnemyRefs[j].TransitionInfo);
+                    entityManager.RemoveComponent(stateEntity, typeof(RunFromEnemyFixupReference));
+                }
             }
         }
 
@@ -104,14 +116,18 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             var MoveUpDataContext = StateManager.StateDataContext;
             var MoveUpECB = StateManager.GetEntityCommandBuffer();
             MoveUpDataContext.EntityCommandBuffer = MoveUpECB.AsParallelWriter();
+            var RunFromEnemyDataContext = StateManager.StateDataContext;
+            var RunFromEnemyECB = StateManager.GetEntityCommandBuffer();
+            RunFromEnemyDataContext.EntityCommandBuffer = RunFromEnemyECB.AsParallelWriter();
 
-            var allActionJobs = new NativeArray<JobHandle>(5, Allocator.TempJob)
+            var allActionJobs = new NativeArray<JobHandle>(6, Allocator.TempJob)
             {
                 [0] = new MoveDown(MoveDownGuid, UnexpandedStates, MoveDownDataContext).Schedule(UnexpandedStates, 0, inputDeps),
                 [1] = new MoveLeft(MoveLeftGuid, UnexpandedStates, MoveLeftDataContext).Schedule(UnexpandedStates, 0, inputDeps),
                 [2] = new MoveRight(MoveRightGuid, UnexpandedStates, MoveRightDataContext).Schedule(UnexpandedStates, 0, inputDeps),
                 [3] = new MoveUp(MoveUpGuid, UnexpandedStates, MoveUpDataContext).Schedule(UnexpandedStates, 0, inputDeps),
-                [4] = entityManager.ExclusiveEntityTransactionDependency
+                [4] = new RunFromEnemy(RunFromEnemyGuid, UnexpandedStates, RunFromEnemyDataContext).Schedule(UnexpandedStates, 0, inputDeps),
+                [5] = entityManager.ExclusiveEntityTransactionDependency
             };
 
             var allActionJobsHandle = JobHandle.CombineDependencies(allActionJobs);
@@ -127,6 +143,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                 MoveLeftECB = MoveLeftECB,
                 MoveRightECB = MoveRightECB,
                 MoveUpECB = MoveUpECB,
+                RunFromEnemyECB = RunFromEnemyECB,
             };
 
             var playbackJobHandle = playbackJob.Schedule(allActionJobsHandle);

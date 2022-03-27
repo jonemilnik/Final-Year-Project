@@ -45,6 +45,28 @@ namespace Generated.Semantic.Traits
                     m_EntityManager.SetComponentData(m_Entity, data);
             }
         }
+        public System.Boolean IsSpotted
+        {
+            get
+            {
+                if (m_EntityManager != default && m_EntityManager.HasComponent<PlayerData>(m_Entity))
+                {
+                    m_p3 = m_EntityManager.GetComponentData<PlayerData>(m_Entity).IsSpotted;
+                }
+
+                return m_p3;
+            }
+            set
+            {
+                PlayerData data = default;
+                var dataActive = m_EntityManager != default && m_EntityManager.HasComponent<PlayerData>(m_Entity);
+                if (dataActive)
+                    data = m_EntityManager.GetComponentData<PlayerData>(m_Entity);
+                data.IsSpotted = m_p3 = value;
+                if (dataActive)
+                    m_EntityManager.SetComponentData(m_Entity, data);
+            }
+        }
         public PlayerData Data
         {
             get => m_EntityManager != default && m_EntityManager.HasComponent<PlayerData>(m_Entity) ?
@@ -60,6 +82,9 @@ namespace Generated.Semantic.Traits
         [SerializeField]
         [InspectorName("Waypoint")]
         UnityEngine.GameObject m_p0 = default;
+        [SerializeField]
+        [InspectorName("IsSpotted")]
+        System.Boolean m_p3 = false;
         #pragma warning restore 649
 
         EntityManager m_EntityManager;
@@ -75,6 +100,7 @@ namespace Generated.Semantic.Traits
                 if (semanticObject)
                     data.Waypoint = semanticObject.Entity;
             }
+            data.IsSpotted = m_p3;
 
             return data;
         }

@@ -13,6 +13,12 @@ public class PlayerHandler : MonoBehaviour
     public float thrust = 1.2f;
     [SerializeField]
     private List<Transform> _waypoints;
+    public bool isSpotted = false;
+
+    public void setIsSpotted (bool b)
+    {
+        isSpotted = b;
+    }
 
     
     void CheckMovementInput() 
@@ -93,8 +99,7 @@ public class PlayerHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       //CheckMovementInput();
-       //CheckActionInput();
-
+        //CheckMovementInput();
+        //CheckActionInput();
     }
 }

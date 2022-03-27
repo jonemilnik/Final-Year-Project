@@ -88,11 +88,6 @@ public class FieldOfView : MonoBehaviour
         mesh.uv = uvs;
         
     }
-    void UpdateFieldOfView()
-    {
-        mesh.Clear();
-        
-    }
 
     void FindPlayer()
     {
@@ -112,10 +107,13 @@ public class FieldOfView : MonoBehaviour
             //If collider in fov
             if (colliderAngleFromPlayer < viewAngle / 2)
             {
+                PlayerHandler player = collider.GetComponent<PlayerHandler>();
                 //If player not hiding
-                if (!collider.GetComponent<PlayerHandler>().isHiding)
+                if (!player.isHiding)
                 {
-                    FindObjectOfType<GameManager>().LoseGame();
+                    player.setIsSpotted(true);
+                    //GetComponentInParent<EnemyController>().setPlayerSpotted(true);
+                    //FindObjectOfType<GameManager>().LoseGame();
                 }
             }
 
@@ -131,6 +129,8 @@ public class FieldOfView : MonoBehaviour
         //Vector calculated using trigonometry
         return new Vector3( Mathf.Sin(angleDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleDegrees * Mathf.Deg2Rad) );  
     }
+
+    
 
 
 }

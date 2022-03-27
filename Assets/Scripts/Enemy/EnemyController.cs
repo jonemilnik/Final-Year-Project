@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour
+public class EnemyController : MonoBehaviour
 {
     private NavMeshAgent agent;
     private int waypointPointer = 0;
@@ -16,6 +16,22 @@ public class Enemy : MonoBehaviour
     private List<Transform> _waypoints;
     [SerializeField]
     private float inspectAngle;
+    [HideInInspector]
+    public bool isFacingPlayer = false;
+    FieldOfView fov;
+
+    void UpdateFacingPlayer()
+    {
+        Transform player = GameObject.Find("Player").transform;
+        Vector3 dirToPlayer = player.position - transform.position;
+        if (Vector3.Angle(transform.forward, dirToPlayer) <= fov.viewAngle / 2)
+        {
+            isFacingPlayer = true;
+        } else
+        {
+            isFacingPlayer = false;
+        }
+    }
 
     IEnumerator InspectArea() 
     {
@@ -38,7 +54,7 @@ public class Enemy : MonoBehaviour
 
     IEnumerator InspectDirection(float angle, float rotationSpeed, float timeLimit)
     {
-        FieldOfView fov = transform.GetChild(0).GetComponent<FieldOfView>();
+        
         //Angle to look from forward direction
         float time = 0.0f;
 
@@ -68,10 +84,10 @@ public class Enemy : MonoBehaviour
         }
     }
 
+
     //Get direction to face path
     Vector3 GetDirToPath()
     {
-        FieldOfView fov = transform.GetChild(0).GetComponent<FieldOfView>();
         //Used to filter only colliders with 'Path' layer
         int layerMask = 1 << 3;
         //Perform raycast in these directions
@@ -112,15 +128,17 @@ public class Enemy : MonoBehaviour
     {
         // Initialize initial state
         agent = GetComponent<NavMeshAgent>();
+        fov = transform.GetChild(0).GetComponent<FieldOfView>();
         isWalking = true;
         isInspecting = false;
         //Walk to first waypoint
-        //agent.SetDestination(_waypoints[waypointPointer].position);
+        agent.SetDestination(_waypoints[waypointPointer].position);
     }
 
     // Update is called once per frame
     void Update()
     {
+        UpdateFacingPlayer();
 
         // Inspecting area
         if (!isWalking)
