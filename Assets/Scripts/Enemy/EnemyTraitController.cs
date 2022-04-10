@@ -21,6 +21,9 @@ public class EnemyTraitController : MonoBehaviour
     {
         
         EnemyController controller = GetComponent<EnemyController>();
+        enemyTrait.DistToPlayer = controller.GetDistToPlayer();
+        enemyTrait.IsFacingPlayer = controller.isFacingPlayer;
+        
         //enemyTrait.IsFacingPlayer = controller.isFacingPlayer;
         //Debug.Log("Enemy facing player: " + enemyTrait.IsFacingPlayer);
     }

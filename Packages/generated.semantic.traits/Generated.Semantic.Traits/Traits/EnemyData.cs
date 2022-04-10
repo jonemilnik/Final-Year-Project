@@ -9,15 +9,17 @@ namespace Generated.Semantic.Traits
     [Serializable]
     public partial struct EnemyData : ITraitData, IEquatable<EnemyData>
     {
+        public System.Boolean IsFacingPlayer;
+        public System.Single DistToPlayer;
 
         public bool Equals(EnemyData other)
         {
-            return true;
+            return IsFacingPlayer.Equals(other.IsFacingPlayer) && DistToPlayer.Equals(other.DistToPlayer);
         }
 
         public override string ToString()
         {
-            return $"Enemy";
+            return $"Enemy: {IsFacingPlayer} {DistToPlayer}";
         }
     }
 }

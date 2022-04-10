@@ -48,7 +48,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             { ActionScheduler.MoveLeftGuid, nameof(MoveLeft) },
             { ActionScheduler.MoveRightGuid, nameof(MoveRight) },
             { ActionScheduler.MoveUpGuid, nameof(MoveUp) },
-            { ActionScheduler.RunFromEnemyGuid, nameof(RunFromEnemy) },
+            { ActionScheduler.RunAwayGuid, nameof(RunAway) },
         };
 
         PlannerStateConverter<TraitBasedObject, StateEntityKey, StateData, StateDataContext, StateManager> m_StateConverter;
@@ -84,8 +84,8 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                 case var actionGuid when actionGuid == ActionScheduler.MoveUpGuid:
                     actionName = nameof(MoveUp);
                     break;
-                case var actionGuid when actionGuid == ActionScheduler.RunFromEnemyGuid:
-                    actionName = nameof(RunFromEnemy);
+                case var actionGuid when actionGuid == ActionScheduler.RunAwayGuid:
+                    actionName = nameof(RunAway);
                     break;
             }
 
@@ -120,8 +120,8 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                     case nameof(MoveUp):
                         parameterIndex = MoveUp.GetIndexForParameterName(traitBasedObjectName);
                         break;
-                    case nameof(RunFromEnemy):
-                        parameterIndex = RunFromEnemy.GetIndexForParameterName(traitBasedObjectName);
+                    case nameof(RunAway):
+                        parameterIndex = RunAway.GetIndexForParameterName(traitBasedObjectName);
                         break;
                 }
 
@@ -207,8 +207,8 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                  case var actionGuid when actionGuid == ActionScheduler.MoveUpGuid:
                     parameterNames = MoveUp.parameterNames;
                         break;
-                 case var actionGuid when actionGuid == ActionScheduler.RunFromEnemyGuid:
-                    parameterNames = RunFromEnemy.parameterNames;
+                 case var actionGuid when actionGuid == ActionScheduler.RunAwayGuid:
+                    parameterNames = RunAway.parameterNames;
                         break;
             }
 

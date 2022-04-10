@@ -411,6 +411,13 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
                             plannerTraitData.Waypoint = Waypoint;
                         SetTraitOnObject(plannerTraitData, ref traitBasedObject);
                     }
+                    if (type == typeof(Generated.Semantic.Traits.EnemyData))
+                    {
+                        var traitData = sourceEntityManager.GetComponentData<Generated.Semantic.Traits.EnemyData>(sourceEntity);
+                        var plannerTraitData = new Enemy();
+                        UnsafeUtility.CopyStructureToPtr(ref traitData, UnsafeUtility.AddressOf(ref plannerTraitData));
+                        SetTraitOnObject(plannerTraitData, ref traitBasedObject);
+                    }
                 }
             }
         }
@@ -849,6 +856,10 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
                 return false;
 
 
+            if (traitBasedObjectLHS.EnemyIndex != TraitBasedObject.Unset
+                && !EnemyTraitAttributesEqual(EnemyBuffer[traitBasedObjectLHS.EnemyIndex], rhsState.EnemyBuffer[traitBasedObjectRHS.EnemyIndex]))
+                return false;
+
 
 
 
@@ -859,6 +870,13 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
         {
             return
                     one.IsSpotted == two.IsSpotted;
+        }
+        
+        bool EnemyTraitAttributesEqual(Enemy one, Enemy two)
+        {
+            return
+                    one.IsFacingPlayer == two.IsFacingPlayer && 
+                    one.DistToPlayer == two.DistToPlayer;
         }
         
         bool CheckRelationsAndQueueObjects(TraitBasedObject traitBasedObjectLHS, TraitBasedObject traitBasedObjectRHS, StateData rhsState, ObjectCorrespondence objectMap)
@@ -986,7 +1004,10 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
             bufferLength = EnemyBuffer.Length;
             for (int i = 0; i < bufferLength; i++)
             {
-                var value = 397;
+                var element = EnemyBuffer[i];
+                var value = 397
+                    ^ element.IsFacingPlayer.GetHashCode()
+                    ^ element.DistToPlayer.GetHashCode();
                 stateHashValue = 3860031 + (stateHashValue + value) * 2779 + (stateHashValue * value * 2);
             }
             bufferLength = GoalPointBuffer.Length;

@@ -13,19 +13,17 @@ using Unity.Mathematics;
 namespace Generated.AI.Planner.Plans.StealthProblem
 {
     [BurstCompile]
-    struct RunFromEnemy : IJobParallelForDefer
+    struct RunAway : IJobParallelForDefer
     {
         public Guid ActionGuid;
         
         const int k_EnemyIndex = 0;
-        const int k_FromIndex = 1;
-        const int k_ToIndex = 2;
-        const int k_MaxArguments = 3;
+        const int k_AgentIndex = 1;
+        const int k_MaxArguments = 2;
 
         public static readonly string[] parameterNames = {
             "Enemy",
-            "From",
-            "To",
+            "Agent",
         };
 
         [ReadOnly] NativeArray<StateEntityKey> m_StatesToExpand;
@@ -34,27 +32,23 @@ namespace Generated.AI.Planner.Plans.StealthProblem
         // local allocations
         [NativeDisableContainerSafetyRestriction] NativeArray<ComponentType> EnemyFilter;
         [NativeDisableContainerSafetyRestriction] NativeList<int> EnemyObjectIndices;
-        [NativeDisableContainerSafetyRestriction] NativeArray<ComponentType> FromFilter;
-        [NativeDisableContainerSafetyRestriction] NativeList<int> FromObjectIndices;
-        [NativeDisableContainerSafetyRestriction] NativeArray<ComponentType> ToFilter;
-        [NativeDisableContainerSafetyRestriction] NativeList<int> ToObjectIndices;
+        [NativeDisableContainerSafetyRestriction] NativeArray<ComponentType> AgentFilter;
+        [NativeDisableContainerSafetyRestriction] NativeList<int> AgentObjectIndices;
 
         [NativeDisableContainerSafetyRestriction] NativeList<ActionKey> ArgumentPermutations;
-        [NativeDisableContainerSafetyRestriction] NativeList<RunFromEnemyFixupReference> TransitionInfo;
+        [NativeDisableContainerSafetyRestriction] NativeList<RunAwayFixupReference> TransitionInfo;
 
         bool LocalContainersInitialized => ArgumentPermutations.IsCreated;
 
-        internal RunFromEnemy(Guid guid, NativeList<StateEntityKey> statesToExpand, StateDataContext stateDataContext)
+        internal RunAway(Guid guid, NativeList<StateEntityKey> statesToExpand, StateDataContext stateDataContext)
         {
             ActionGuid = guid;
             m_StatesToExpand = statesToExpand.AsDeferredJobArray();
             m_StateDataContext = stateDataContext;
             EnemyFilter = default;
             EnemyObjectIndices = default;
-            FromFilter = default;
-            FromObjectIndices = default;
-            ToFilter = default;
-            ToObjectIndices = default;
+            AgentFilter = default;
+            AgentObjectIndices = default;
             ArgumentPermutations = default;
             TransitionInfo = default;
         }
@@ -63,13 +57,11 @@ namespace Generated.AI.Planner.Plans.StealthProblem
         {
             EnemyFilter = new NativeArray<ComponentType>(1, Allocator.Temp){[0] = ComponentType.ReadWrite<Enemy>(),  };
             EnemyObjectIndices = new NativeList<int>(2, Allocator.Temp);
-            FromFilter = new NativeArray<ComponentType>(1, Allocator.Temp){[0] = ComponentType.ReadWrite<WayPoint>(),  };
-            FromObjectIndices = new NativeList<int>(2, Allocator.Temp);
-            ToFilter = new NativeArray<ComponentType>(1, Allocator.Temp){[0] = ComponentType.ReadWrite<WayPoint>(),  };
-            ToObjectIndices = new NativeList<int>(2, Allocator.Temp);
+            AgentFilter = new NativeArray<ComponentType>(1, Allocator.Temp){[0] = ComponentType.ReadWrite<Player>(),  };
+            AgentObjectIndices = new NativeList<int>(2, Allocator.Temp);
 
             ArgumentPermutations = new NativeList<ActionKey>(4, Allocator.Temp);
-            TransitionInfo = new NativeList<RunFromEnemyFixupReference>(ArgumentPermutations.Length, Allocator.Temp);
+            TransitionInfo = new NativeList<RunAwayFixupReference>(ArgumentPermutations.Length, Allocator.Temp);
         }
 
         public static int GetIndexForParameterName(string parameterName)
@@ -77,10 +69,8 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             
             if (string.Equals(parameterName, "Enemy", StringComparison.OrdinalIgnoreCase))
                  return k_EnemyIndex;
-            if (string.Equals(parameterName, "From", StringComparison.OrdinalIgnoreCase))
-                 return k_FromIndex;
-            if (string.Equals(parameterName, "To", StringComparison.OrdinalIgnoreCase))
-                 return k_ToIndex;
+            if (string.Equals(parameterName, "Agent", StringComparison.OrdinalIgnoreCase))
+                 return k_AgentIndex;
 
             return -1;
         }
@@ -90,12 +80,10 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             EnemyObjectIndices.Clear();
             stateData.GetTraitBasedObjectIndices(EnemyObjectIndices, EnemyFilter);
             
-            FromObjectIndices.Clear();
-            stateData.GetTraitBasedObjectIndices(FromObjectIndices, FromFilter);
+            AgentObjectIndices.Clear();
+            stateData.GetTraitBasedObjectIndices(AgentObjectIndices, AgentFilter);
             
-            ToObjectIndices.Clear();
-            stateData.GetTraitBasedObjectIndices(ToObjectIndices, ToFilter);
-            
+            var EnemyBuffer = stateData.EnemyBuffer;
             
             
 
@@ -104,25 +92,21 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                 var EnemyIndex = EnemyObjectIndices[i0];
                 var EnemyObject = stateData.TraitBasedObjects[EnemyIndex];
                 
+                if (!(EnemyBuffer[EnemyObject.EnemyIndex].IsFacingPlayer == true))
+                    continue;
+                
+                if (!(EnemyBuffer[EnemyObject.EnemyIndex].DistToPlayer <= 6f))
+                    continue;
                 
                 
             
             
 
-            for (int i1 = 0; i1 < FromObjectIndices.Length; i1++)
+            for (int i1 = 0; i1 < AgentObjectIndices.Length; i1++)
             {
-                var FromIndex = FromObjectIndices[i1];
-                var FromObject = stateData.TraitBasedObjects[FromIndex];
+                var AgentIndex = AgentObjectIndices[i1];
+                var AgentObject = stateData.TraitBasedObjects[AgentIndex];
                 
-                
-                
-            
-            
-
-            for (int i2 = 0; i2 < ToObjectIndices.Length; i2++)
-            {
-                var ToIndex = ToObjectIndices[i2];
-                var ToObject = stateData.TraitBasedObjects[ToIndex];
                 
                 
                 
@@ -130,15 +114,9 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                 var actionKey = new ActionKey(k_MaxArguments) {
                                                         ActionGuid = ActionGuid,
                                                        [k_EnemyIndex] = EnemyIndex,
-                                                       [k_FromIndex] = FromIndex,
-                                                       [k_ToIndex] = ToIndex,
+                                                       [k_AgentIndex] = AgentIndex,
                                                     };
-                  if (!new global::AI.Planner.Custom.StealthProblem.RunAwayPrecondition().CheckCustomPrecondition(stateData, actionKey))
-                    continue;
-
                 argumentPermutations.Add(actionKey);
-            
-            }
             
             }
             
@@ -149,15 +127,8 @@ namespace Generated.AI.Planner.Plans.StealthProblem
         {
             var originalState = m_StateDataContext.GetStateData(originalStateEntityKey);
             var originalStateObjectBuffer = originalState.TraitBasedObjects;
-            var originalFromObject = originalStateObjectBuffer[action[k_FromIndex]];
 
             var newState = m_StateDataContext.CopyStateData(originalState);
-            var newWayPointBuffer = newState.WayPointBuffer;
-            {
-                    var @WayPoint = newWayPointBuffer[originalFromObject.WayPointIndex];
-                    @WayPoint.Left = newWayPointBuffer[originalFromObject.WayPointIndex].Left;
-                    newWayPointBuffer[originalFromObject.WayPointIndex] = @WayPoint;
-            }
 
             
 
@@ -170,7 +141,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
 
         float Reward(StateData originalState, ActionKey action, StateData newState)
         {
-            var reward = -100f;
+            var reward = -0.1f;
 
             return reward;
         }
@@ -192,12 +163,12 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             TransitionInfo.Capacity = math.max(TransitionInfo.Capacity, ArgumentPermutations.Length);
             for (var i = 0; i < ArgumentPermutations.Length; i++)
             {
-                TransitionInfo.Add(new RunFromEnemyFixupReference { TransitionInfo = ApplyEffects(ArgumentPermutations[i], stateEntityKey) });
+                TransitionInfo.Add(new RunAwayFixupReference { TransitionInfo = ApplyEffects(ArgumentPermutations[i], stateEntityKey) });
             }
 
             // fixups
             var stateEntity = stateEntityKey.Entity;
-            var fixupBuffer = m_StateDataContext.EntityCommandBuffer.AddBuffer<RunFromEnemyFixupReference>(jobIndex, stateEntity);
+            var fixupBuffer = m_StateDataContext.EntityCommandBuffer.AddBuffer<RunAwayFixupReference>(jobIndex, stateEntity);
             fixupBuffer.CopyFrom(TransitionInfo);
         }
 
@@ -207,19 +178,14 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             return state.GetTraitOnObjectAtIndex<T>(action[k_EnemyIndex]);
         }
         
-        public static T GetFromTrait<T>(StateData state, ActionKey action) where T : struct, ITrait
+        public static T GetAgentTrait<T>(StateData state, ActionKey action) where T : struct, ITrait
         {
-            return state.GetTraitOnObjectAtIndex<T>(action[k_FromIndex]);
-        }
-        
-        public static T GetToTrait<T>(StateData state, ActionKey action) where T : struct, ITrait
-        {
-            return state.GetTraitOnObjectAtIndex<T>(action[k_ToIndex]);
+            return state.GetTraitOnObjectAtIndex<T>(action[k_AgentIndex]);
         }
         
     }
 
-    public struct RunFromEnemyFixupReference : IBufferElementData
+    public struct RunAwayFixupReference : IBufferElementData
     {
         internal StateTransitionInfoPair<StateEntityKey, ActionKey, StateTransitionInfo> TransitionInfo;
     }

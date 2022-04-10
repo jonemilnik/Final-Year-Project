@@ -20,6 +20,13 @@ MonoBehaviour:
     m_LimitCount: 0
     m_LimitComparerType: 
     m_LimitComparerReference: 
+  - m_Name: Enemy
+    m_RequiredTraits:
+    - {fileID: 11400000, guid: 80239e6d49fa88f42a4404dc77adba35, type: 2}
+    m_ProhibitedTraits: []
+    m_LimitCount: 0
+    m_LimitComparerType: 
+    m_LimitComparerReference: 
   m_Criteria:
   - m_Operator: ==
     m_CustomOperatorType: 

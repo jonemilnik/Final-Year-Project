@@ -24,13 +24,20 @@ public class EnemyController : MonoBehaviour
     {
         Transform player = GameObject.Find("Player").transform;
         Vector3 dirToPlayer = player.position - transform.position;
-        if (Vector3.Angle(transform.forward, dirToPlayer) <= fov.viewAngle / 2)
+        if (Vector3.Angle(transform.forward, dirToPlayer) <= 90)
         {
             isFacingPlayer = true;
         } else
         {
             isFacingPlayer = false;
         }
+        //Debug.Log(isFacingPlayer);
+    }
+
+    public float GetDistToPlayer()
+    {
+        Transform player = GameObject.Find("Player").transform;
+        return Vector3.Distance(transform.position, player.position);
     }
 
     IEnumerator InspectArea() 

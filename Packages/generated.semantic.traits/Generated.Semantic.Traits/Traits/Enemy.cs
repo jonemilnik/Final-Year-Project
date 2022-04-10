@@ -13,10 +13,82 @@ namespace Generated.Semantic.Traits
     [RequireComponent(typeof(SemanticObject))]
     public partial class Enemy : MonoBehaviour, ITrait
     {
+        public System.Boolean IsFacingPlayer
+        {
+            get
+            {
+                if (m_EntityManager != default && m_EntityManager.HasComponent<EnemyData>(m_Entity))
+                {
+                    m_p2 = m_EntityManager.GetComponentData<EnemyData>(m_Entity).IsFacingPlayer;
+                }
+
+                return m_p2;
+            }
+            set
+            {
+                EnemyData data = default;
+                var dataActive = m_EntityManager != default && m_EntityManager.HasComponent<EnemyData>(m_Entity);
+                if (dataActive)
+                    data = m_EntityManager.GetComponentData<EnemyData>(m_Entity);
+                data.IsFacingPlayer = m_p2 = value;
+                if (dataActive)
+                    m_EntityManager.SetComponentData(m_Entity, data);
+            }
+        }
+        public System.Single DistToPlayer
+        {
+            get
+            {
+                if (m_EntityManager != default && m_EntityManager.HasComponent<EnemyData>(m_Entity))
+                {
+                    m_p3 = m_EntityManager.GetComponentData<EnemyData>(m_Entity).DistToPlayer;
+                }
+
+                return m_p3;
+            }
+            set
+            {
+                EnemyData data = default;
+                var dataActive = m_EntityManager != default && m_EntityManager.HasComponent<EnemyData>(m_Entity);
+                if (dataActive)
+                    data = m_EntityManager.GetComponentData<EnemyData>(m_Entity);
+                data.DistToPlayer = m_p3 = value;
+                if (dataActive)
+                    m_EntityManager.SetComponentData(m_Entity, data);
+            }
+        }
+        public EnemyData Data
+        {
+            get => m_EntityManager != default && m_EntityManager.HasComponent<EnemyData>(m_Entity) ?
+                m_EntityManager.GetComponentData<EnemyData>(m_Entity) : GetData();
+            set
+            {
+                if (m_EntityManager != default && m_EntityManager.HasComponent<EnemyData>(m_Entity))
+                    m_EntityManager.SetComponentData(m_Entity, value);
+            }
+        }
+
+        #pragma warning disable 649
+        [SerializeField]
+        [InspectorName("IsFacingPlayer")]
+        System.Boolean m_p2 = false;
+        [SerializeField]
+        [InspectorName("DistToPlayer")]
+        System.Single m_p3 = 0f;
+        #pragma warning restore 649
 
         EntityManager m_EntityManager;
         World m_World;
         Entity m_Entity;
+
+        EnemyData GetData()
+        {
+            EnemyData data = default;
+            data.IsFacingPlayer = m_p2;
+            data.DistToPlayer = m_p3;
+
+            return data;
+        }
 
         
         void OnEnable()
@@ -35,7 +107,7 @@ namespace Generated.Semantic.Traits
 
             if (!destinationManager.HasComponent(entity, typeof(EnemyData)))
             {
-                destinationManager.AddComponent<EnemyData>(entity);
+                destinationManager.AddComponentData(entity, GetData());
             }
         }
 
@@ -49,12 +121,17 @@ namespace Generated.Semantic.Traits
             }
         }
 
-        
+        void OnValidate()
+        {
+
+            // Commit local fields to backing store
+            Data = GetData();
+        }
 
 #if UNITY_EDITOR
         void OnDrawGizmos()
         {
-            TraitGizmos.DrawGizmoForTrait(nameof(EnemyData), gameObject,null);
+            TraitGizmos.DrawGizmoForTrait(nameof(EnemyData), gameObject,Data);
         }
 #endif
     }

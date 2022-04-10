@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab48ef9de5712c440bd0e1f505d00e04, type: 3}
-  m_Name: RunFromEnemy
+  m_Name: RunAway
   m_EditorClassIdentifier: 
   m_Parameters:
   - m_Name: Enemy
@@ -20,51 +20,44 @@ MonoBehaviour:
     m_LimitCount: 0
     m_LimitComparerType: 
     m_LimitComparerReference: 
-  - m_Name: From
+  - m_Name: Agent
     m_RequiredTraits:
-    - {fileID: 11400000, guid: c4c629a259d263849995cedfdc0cb569, type: 2}
-    m_ProhibitedTraits: []
-    m_LimitCount: 0
-    m_LimitComparerType: 
-    m_LimitComparerReference: 
-  - m_Name: To
-    m_RequiredTraits:
-    - {fileID: 11400000, guid: c4c629a259d263849995cedfdc0cb569, type: 2}
+    - {fileID: 11400000, guid: 54b85485fe12d7a498cdc469687b5816, type: 2}
     m_ProhibitedTraits: []
     m_LimitCount: 0
     m_LimitComparerType: 
     m_LimitComparerReference: 
   m_Preconditions:
-  - m_Operator: Custom
-    m_CustomOperatorType: AI.Planner.Custom.StealthProblem.RunAwayPrecondition
-    m_OperandA:
-      m_Parameter: 
-      m_Trait: {fileID: 0}
-      m_TraitPropertyId: 0
-      m_Enum: {fileID: 0}
-      m_Value: 
-    m_OperandB:
-      m_Parameter: 
-      m_Trait: {fileID: 0}
-      m_TraitPropertyId: 0
-      m_Enum: {fileID: 0}
-      m_Value: 
-  m_CreatedObjects: []
-  m_RemovedObjects: []
-  m_ObjectModifiers:
-  - m_Operator: =
+  - m_Operator: ==
     m_CustomOperatorType: 
     m_OperandA:
-      m_Parameter: From
-      m_Trait: {fileID: 11400000, guid: c4c629a259d263849995cedfdc0cb569, type: 2}
-      m_TraitPropertyId: 0
+      m_Parameter: Enemy
+      m_Trait: {fileID: 11400000, guid: 80239e6d49fa88f42a4404dc77adba35, type: 2}
+      m_TraitPropertyId: 2
       m_Enum: {fileID: 0}
       m_Value: 
     m_OperandB:
-      m_Parameter: From
-      m_Trait: {fileID: 11400000, guid: c4c629a259d263849995cedfdc0cb569, type: 2}
-      m_TraitPropertyId: 0
+      m_Parameter: 
+      m_Trait: {fileID: 0}
+      m_TraitPropertyId: -1
+      m_Enum: {fileID: 0}
+      m_Value: true
+  - m_Operator: <=
+    m_CustomOperatorType: 
+    m_OperandA:
+      m_Parameter: Enemy
+      m_Trait: {fileID: 11400000, guid: 80239e6d49fa88f42a4404dc77adba35, type: 2}
+      m_TraitPropertyId: 3
       m_Enum: {fileID: 0}
       m_Value: 
-  m_Reward: -100
+    m_OperandB:
+      m_Parameter: 
+      m_Trait: {fileID: 0}
+      m_TraitPropertyId: -1
+      m_Enum: {fileID: 0}
+      m_Value: 6f
+  m_CreatedObjects: []
+  m_RemovedObjects: []
+  m_ObjectModifiers: []
+  m_Reward: -0.1
   m_CustomRewards: []
