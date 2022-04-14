@@ -33,11 +33,11 @@ public class PlayerController : MonoBehaviour
         playerTrait.IsSpotted = GameObject.Find("Player").GetComponent<PlayerHandler>().isSpotted;
 
         // Update world state constantly and not just after every action
-        if (decisionController.Initialized && Time.realtimeSinceStartup > timeOfLastQueryUpdate + updateQueryDelay)
-        {
-            decisionController.UpdateStateWithWorldQuery();
-            timeOfLastQueryUpdate = Time.realtimeSinceStartup;
-        }
+        //if (decisionController.Initialized && Time.realtimeSinceStartup > timeOfLastQueryUpdate + updateQueryDelay)
+        //{
+        //    decisionController.UpdateStateWithWorldQuery();
+        //    timeOfLastQueryUpdate = Time.realtimeSinceStartup;
+        //}
 
     }
 
@@ -83,8 +83,8 @@ public class PlayerController : MonoBehaviour
             {
                 closestDist = dist;
                 closestWaypoint = waypoint;
-                Debug.Log("PlayerTrait Waypoint: " + playerTrait.Waypoint.name);
-                Debug.Log("Closest waypoint: " + closestWaypoint.name);
+                //Debug.Log("PlayerTrait Waypoint: " + playerTrait.Waypoint.name);
+                //Debug.Log("Closest waypoint: " + closestWaypoint.name);
             }
 
             

@@ -44,10 +44,6 @@ namespace Generated.AI.Planner.Plans.StealthProblem
     {
         static Dictionary<Guid, string> s_ActionGuidToNameLookup = new Dictionary<Guid,string>()
         {
-            { ActionScheduler.MoveDownGuid, nameof(MoveDown) },
-            { ActionScheduler.MoveLeftGuid, nameof(MoveLeft) },
-            { ActionScheduler.MoveRightGuid, nameof(MoveRight) },
-            { ActionScheduler.MoveUpGuid, nameof(MoveUp) },
             { ActionScheduler.RunAwayGuid, nameof(RunAway) },
         };
 
@@ -72,18 +68,6 @@ namespace Generated.AI.Planner.Plans.StealthProblem
 
             switch (actionKey.ActionGuid)
             {
-                case var actionGuid when actionGuid == ActionScheduler.MoveDownGuid:
-                    actionName = nameof(MoveDown);
-                    break;
-                case var actionGuid when actionGuid == ActionScheduler.MoveLeftGuid:
-                    actionName = nameof(MoveLeft);
-                    break;
-                case var actionGuid when actionGuid == ActionScheduler.MoveRightGuid:
-                    actionName = nameof(MoveRight);
-                    break;
-                case var actionGuid when actionGuid == ActionScheduler.MoveUpGuid:
-                    actionName = nameof(MoveUp);
-                    break;
                 case var actionGuid when actionGuid == ActionScheduler.RunAwayGuid:
                     actionName = nameof(RunAway);
                     break;
@@ -108,18 +92,6 @@ namespace Generated.AI.Planner.Plans.StealthProblem
 
                 switch (actionName)
                 {
-                    case nameof(MoveDown):
-                        parameterIndex = MoveDown.GetIndexForParameterName(traitBasedObjectName);
-                        break;
-                    case nameof(MoveLeft):
-                        parameterIndex = MoveLeft.GetIndexForParameterName(traitBasedObjectName);
-                        break;
-                    case nameof(MoveRight):
-                        parameterIndex = MoveRight.GetIndexForParameterName(traitBasedObjectName);
-                        break;
-                    case nameof(MoveUp):
-                        parameterIndex = MoveUp.GetIndexForParameterName(traitBasedObjectName);
-                        break;
                     case nameof(RunAway):
                         parameterIndex = RunAway.GetIndexForParameterName(traitBasedObjectName);
                         break;
@@ -133,21 +105,25 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                 {
                     switch (split[1])
                     {
-                        case nameof(WayPoint):
-                            var traitWayPoint = stateData.GetTraitOnObjectAtIndex<WayPoint>(traitBasedObjectIndex);
-                            arguments[i] = split.Length == 3 ? traitWayPoint.GetField(split[2]) : traitWayPoint;
+                        case nameof(Enemy):
+                            var traitEnemy = stateData.GetTraitOnObjectAtIndex<Enemy>(traitBasedObjectIndex);
+                            arguments[i] = split.Length == 3 ? traitEnemy.GetField(split[2]) : traitEnemy;
                             break;
                         case nameof(Player):
                             var traitPlayer = stateData.GetTraitOnObjectAtIndex<Player>(traitBasedObjectIndex);
                             arguments[i] = split.Length == 3 ? traitPlayer.GetField(split[2]) : traitPlayer;
                             break;
-                        case nameof(Enemy):
-                            var traitEnemy = stateData.GetTraitOnObjectAtIndex<Enemy>(traitBasedObjectIndex);
-                            arguments[i] = split.Length == 3 ? traitEnemy.GetField(split[2]) : traitEnemy;
+                        case nameof(Hideable):
+                            var traitHideable = stateData.GetTraitOnObjectAtIndex<Hideable>(traitBasedObjectIndex);
+                            arguments[i] = split.Length == 3 ? traitHideable.GetField(split[2]) : traitHideable;
                             break;
                         case nameof(GoalPoint):
                             var traitGoalPoint = stateData.GetTraitOnObjectAtIndex<GoalPoint>(traitBasedObjectIndex);
                             arguments[i] = split.Length == 3 ? traitGoalPoint.GetField(split[2]) : traitGoalPoint;
+                            break;
+                        case nameof(WayPoint):
+                            var traitWayPoint = stateData.GetTraitOnObjectAtIndex<WayPoint>(traitBasedObjectIndex);
+                            arguments[i] = split.Length == 3 ? traitWayPoint.GetField(split[2]) : traitWayPoint;
                             break;
                     }
                 }
@@ -195,18 +171,6 @@ namespace Generated.AI.Planner.Plans.StealthProblem
 
             switch (((IActionKeyWithGuid)actionKey).ActionGuid)
             {
-                 case var actionGuid when actionGuid == ActionScheduler.MoveDownGuid:
-                    parameterNames = MoveDown.parameterNames;
-                        break;
-                 case var actionGuid when actionGuid == ActionScheduler.MoveLeftGuid:
-                    parameterNames = MoveLeft.parameterNames;
-                        break;
-                 case var actionGuid when actionGuid == ActionScheduler.MoveRightGuid:
-                    parameterNames = MoveRight.parameterNames;
-                        break;
-                 case var actionGuid when actionGuid == ActionScheduler.MoveUpGuid:
-                    parameterNames = MoveUp.parameterNames;
-                        break;
                  case var actionGuid when actionGuid == ActionScheduler.RunAwayGuid:
                     parameterNames = RunAway.parameterNames;
                         break;

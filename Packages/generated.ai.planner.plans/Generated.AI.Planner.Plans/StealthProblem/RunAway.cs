@@ -19,11 +19,13 @@ namespace Generated.AI.Planner.Plans.StealthProblem
         
         const int k_EnemyIndex = 0;
         const int k_AgentIndex = 1;
-        const int k_MaxArguments = 2;
+        const int k_ToIndex = 2;
+        const int k_MaxArguments = 3;
 
         public static readonly string[] parameterNames = {
             "Enemy",
             "Agent",
+            "To",
         };
 
         [ReadOnly] NativeArray<StateEntityKey> m_StatesToExpand;
@@ -34,6 +36,8 @@ namespace Generated.AI.Planner.Plans.StealthProblem
         [NativeDisableContainerSafetyRestriction] NativeList<int> EnemyObjectIndices;
         [NativeDisableContainerSafetyRestriction] NativeArray<ComponentType> AgentFilter;
         [NativeDisableContainerSafetyRestriction] NativeList<int> AgentObjectIndices;
+        [NativeDisableContainerSafetyRestriction] NativeArray<ComponentType> ToFilter;
+        [NativeDisableContainerSafetyRestriction] NativeList<int> ToObjectIndices;
 
         [NativeDisableContainerSafetyRestriction] NativeList<ActionKey> ArgumentPermutations;
         [NativeDisableContainerSafetyRestriction] NativeList<RunAwayFixupReference> TransitionInfo;
@@ -49,6 +53,8 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             EnemyObjectIndices = default;
             AgentFilter = default;
             AgentObjectIndices = default;
+            ToFilter = default;
+            ToObjectIndices = default;
             ArgumentPermutations = default;
             TransitionInfo = default;
         }
@@ -59,6 +65,8 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             EnemyObjectIndices = new NativeList<int>(2, Allocator.Temp);
             AgentFilter = new NativeArray<ComponentType>(1, Allocator.Temp){[0] = ComponentType.ReadWrite<Player>(),  };
             AgentObjectIndices = new NativeList<int>(2, Allocator.Temp);
+            ToFilter = new NativeArray<ComponentType>(1, Allocator.Temp){[0] = ComponentType.ReadWrite<Hideable>(),  };
+            ToObjectIndices = new NativeList<int>(2, Allocator.Temp);
 
             ArgumentPermutations = new NativeList<ActionKey>(4, Allocator.Temp);
             TransitionInfo = new NativeList<RunAwayFixupReference>(ArgumentPermutations.Length, Allocator.Temp);
@@ -71,6 +79,8 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                  return k_EnemyIndex;
             if (string.Equals(parameterName, "Agent", StringComparison.OrdinalIgnoreCase))
                  return k_AgentIndex;
+            if (string.Equals(parameterName, "To", StringComparison.OrdinalIgnoreCase))
+                 return k_ToIndex;
 
             return -1;
         }
@@ -82,6 +92,9 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             
             AgentObjectIndices.Clear();
             stateData.GetTraitBasedObjectIndices(AgentObjectIndices, AgentFilter);
+            
+            ToObjectIndices.Clear();
+            stateData.GetTraitBasedObjectIndices(ToObjectIndices, ToFilter);
             
             var EnemyBuffer = stateData.EnemyBuffer;
             
@@ -99,6 +112,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                     continue;
                 
                 
+                
             
             
 
@@ -110,13 +124,29 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                 
                 
                 
+                
+            
+            
+
+            for (int i2 = 0; i2 < ToObjectIndices.Length; i2++)
+            {
+                var ToIndex = ToObjectIndices[i2];
+                var ToObject = stateData.TraitBasedObjects[ToIndex];
+                
+                
+                
+                
+                
 
                 var actionKey = new ActionKey(k_MaxArguments) {
                                                         ActionGuid = ActionGuid,
                                                        [k_EnemyIndex] = EnemyIndex,
                                                        [k_AgentIndex] = AgentIndex,
+                                                       [k_ToIndex] = ToIndex,
                                                     };
                 argumentPermutations.Add(actionKey);
+            
+            }
             
             }
             
@@ -181,6 +211,11 @@ namespace Generated.AI.Planner.Plans.StealthProblem
         public static T GetAgentTrait<T>(StateData state, ActionKey action) where T : struct, ITrait
         {
             return state.GetTraitOnObjectAtIndex<T>(action[k_AgentIndex]);
+        }
+        
+        public static T GetToTrait<T>(StateData state, ActionKey action) where T : struct, ITrait
+        {
+            return state.GetTraitOnObjectAtIndex<T>(action[k_ToIndex]);
         }
         
     }
