@@ -433,8 +433,8 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
                         var traitData = sourceEntityManager.GetComponentData<Generated.Semantic.Traits.PlayerData>(sourceEntity);
                         var plannerTraitData = new Player();
                         plannerTraitData.IsSpotted = traitData.IsSpotted;
-                        if (entityToObjectId.TryGetValue(traitData.Waypoint, out var Waypoint))
-                            plannerTraitData.Waypoint = Waypoint;
+                        if (entityToObjectId.TryGetValue(traitData.SetWaypoint, out var SetWaypoint))
+                            plannerTraitData.SetWaypoint = SetWaypoint;
                         SetTraitOnObject(plannerTraitData, ref traitBasedObject);
                     }
                     if (type == typeof(Generated.Semantic.Traits.LocationData))
@@ -911,7 +911,10 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
         {
             return
                     one.IsFacingPlayer == two.IsFacingPlayer && 
-                    one.DistToPlayer == two.DistToPlayer;
+                    one.DistToPlayer == two.DistToPlayer && 
+                    one.Speed == two.Speed && 
+                    one.DistToWaypoint == two.DistToWaypoint && 
+                    one.FOVRadius == two.FOVRadius;
         }
         
         bool PlayerTraitAttributesEqual(Player one, Player two)
@@ -935,9 +938,9 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
             ObjectId rhsAssignedId;
             if (traitBasedObjectLHS.PlayerIndex != TraitBasedObject.Unset)
             {
-                // The Ids to match for Player.Waypoint
-                lhsRelationId = PlayerBuffer[traitBasedObjectLHS.PlayerIndex].Waypoint.Id;
-                rhsRelationId = rhsState.PlayerBuffer[traitBasedObjectRHS.PlayerIndex].Waypoint.Id;
+                // The Ids to match for Player.SetWaypoint
+                lhsRelationId = PlayerBuffer[traitBasedObjectLHS.PlayerIndex].SetWaypoint.Id;
+                rhsRelationId = rhsState.PlayerBuffer[traitBasedObjectRHS.PlayerIndex].SetWaypoint.Id;
 
                 if (lhsRelationId.Equals(ObjectId.None) ^ rhsRelationId.Equals(ObjectId.None))
                     return false;
@@ -970,7 +973,10 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
                 var element = EnemyBuffer[i];
                 var value = 397
                     ^ element.IsFacingPlayer.GetHashCode()
-                    ^ element.DistToPlayer.GetHashCode();
+                    ^ element.DistToPlayer.GetHashCode()
+                    ^ element.Speed.GetHashCode()
+                    ^ element.DistToWaypoint.GetHashCode()
+                    ^ element.FOVRadius.GetHashCode();
                 stateHashValue = 3860031 + (stateHashValue + value) * 2779 + (stateHashValue * value * 2);
             }
             bufferLength = PlayerBuffer.Length;

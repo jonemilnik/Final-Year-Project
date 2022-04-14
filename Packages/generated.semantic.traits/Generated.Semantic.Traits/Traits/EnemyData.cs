@@ -11,15 +11,18 @@ namespace Generated.Semantic.Traits
     {
         public System.Boolean IsFacingPlayer;
         public System.Single DistToPlayer;
+        public System.Single Speed;
+        public System.Single DistToWaypoint;
+        public System.Single FOVRadius;
 
         public bool Equals(EnemyData other)
         {
-            return IsFacingPlayer.Equals(other.IsFacingPlayer) && DistToPlayer.Equals(other.DistToPlayer);
+            return IsFacingPlayer.Equals(other.IsFacingPlayer) && DistToPlayer.Equals(other.DistToPlayer) && Speed.Equals(other.Speed) && DistToWaypoint.Equals(other.DistToWaypoint) && FOVRadius.Equals(other.FOVRadius);
         }
 
         public override string ToString()
         {
-            return $"Enemy: {IsFacingPlayer} {DistToPlayer}";
+            return $"Enemy: {IsFacingPlayer} {DistToPlayer} {Speed} {DistToWaypoint} {FOVRadius}";
         }
     }
 }

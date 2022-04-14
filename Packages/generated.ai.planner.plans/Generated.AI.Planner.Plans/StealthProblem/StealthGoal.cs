@@ -30,7 +30,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                 var PlayerObject = stateData.TraitBasedObjects[PlayerIndex];
             
                 
-                if (!(PlayerBuffer[PlayerObject.PlayerIndex].Waypoint == stateData.GetTraitBasedObjectId(GoalLocationIndex)))
+                if (!(PlayerBuffer[PlayerObject.PlayerIndex].SetWaypoint == stateData.GetTraitBasedObjectId(GoalLocationIndex)))
                     continue;
                 GoalLocationObjectIndices.Dispose();
                 GoalLocationFilter.Dispose();

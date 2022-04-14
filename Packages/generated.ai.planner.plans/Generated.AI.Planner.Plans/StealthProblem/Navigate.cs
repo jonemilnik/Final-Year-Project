@@ -55,7 +55,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
 
         void InitializeLocalContainers()
         {
-            ToFilter = new NativeArray<ComponentType>(2, Allocator.Temp){[0] = ComponentType.ReadWrite<GoalPoint>(),[1] = ComponentType.ReadWrite<Location>(),  };
+            ToFilter = new NativeArray<ComponentType>(3, Allocator.Temp){[0] = ComponentType.ReadWrite<GoalPoint>(),[1] = ComponentType.ReadWrite<Location>(), [2] = ComponentType.Exclude<Hideable>(),  };
             ToObjectIndices = new NativeList<int>(2, Allocator.Temp);
             AgentFilter = new NativeArray<ComponentType>(1, Allocator.Temp){[0] = ComponentType.ReadWrite<Player>(),  };
             AgentObjectIndices = new NativeList<int>(2, Allocator.Temp);
@@ -125,7 +125,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             var newPlayerBuffer = newState.PlayerBuffer;
             {
                     var @Player = newPlayerBuffer[originalAgentObject.PlayerIndex];
-                    @Player.@Waypoint = originalState.GetTraitBasedObjectId(originalToObject);
+                    @Player.@SetWaypoint = originalState.GetTraitBasedObjectId(originalToObject);
                     newPlayerBuffer[originalAgentObject.PlayerIndex] = @Player;
             }
 

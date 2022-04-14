@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
         //    yield return null;
         //}
 
-        playerTrait.Waypoint = destination;
+        //playerTrait.SetWaypoint = destination;
 
         yield return null;
     }
@@ -107,7 +107,7 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        playerTrait.Waypoint = closestWaypoint;
+        //playerTrait.SetWaypoint = closestWaypoint;
         
         
     }

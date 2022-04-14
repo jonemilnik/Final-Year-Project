@@ -57,6 +57,72 @@ namespace Generated.Semantic.Traits
                     m_EntityManager.SetComponentData(m_Entity, data);
             }
         }
+        public System.Single Speed
+        {
+            get
+            {
+                if (m_EntityManager != default && m_EntityManager.HasComponent<EnemyData>(m_Entity))
+                {
+                    m_p5 = m_EntityManager.GetComponentData<EnemyData>(m_Entity).Speed;
+                }
+
+                return m_p5;
+            }
+            set
+            {
+                EnemyData data = default;
+                var dataActive = m_EntityManager != default && m_EntityManager.HasComponent<EnemyData>(m_Entity);
+                if (dataActive)
+                    data = m_EntityManager.GetComponentData<EnemyData>(m_Entity);
+                data.Speed = m_p5 = value;
+                if (dataActive)
+                    m_EntityManager.SetComponentData(m_Entity, data);
+            }
+        }
+        public System.Single DistToWaypoint
+        {
+            get
+            {
+                if (m_EntityManager != default && m_EntityManager.HasComponent<EnemyData>(m_Entity))
+                {
+                    m_p6 = m_EntityManager.GetComponentData<EnemyData>(m_Entity).DistToWaypoint;
+                }
+
+                return m_p6;
+            }
+            set
+            {
+                EnemyData data = default;
+                var dataActive = m_EntityManager != default && m_EntityManager.HasComponent<EnemyData>(m_Entity);
+                if (dataActive)
+                    data = m_EntityManager.GetComponentData<EnemyData>(m_Entity);
+                data.DistToWaypoint = m_p6 = value;
+                if (dataActive)
+                    m_EntityManager.SetComponentData(m_Entity, data);
+            }
+        }
+        public System.Single FOVRadius
+        {
+            get
+            {
+                if (m_EntityManager != default && m_EntityManager.HasComponent<EnemyData>(m_Entity))
+                {
+                    m_p8 = m_EntityManager.GetComponentData<EnemyData>(m_Entity).FOVRadius;
+                }
+
+                return m_p8;
+            }
+            set
+            {
+                EnemyData data = default;
+                var dataActive = m_EntityManager != default && m_EntityManager.HasComponent<EnemyData>(m_Entity);
+                if (dataActive)
+                    data = m_EntityManager.GetComponentData<EnemyData>(m_Entity);
+                data.FOVRadius = m_p8 = value;
+                if (dataActive)
+                    m_EntityManager.SetComponentData(m_Entity, data);
+            }
+        }
         public EnemyData Data
         {
             get => m_EntityManager != default && m_EntityManager.HasComponent<EnemyData>(m_Entity) ?
@@ -75,6 +141,15 @@ namespace Generated.Semantic.Traits
         [SerializeField]
         [InspectorName("DistToPlayer")]
         System.Single m_p3 = 0f;
+        [SerializeField]
+        [InspectorName("Speed")]
+        System.Single m_p5 = 3.5f;
+        [SerializeField]
+        [InspectorName("DistToWaypoint")]
+        System.Single m_p6 = 0f;
+        [SerializeField]
+        [InspectorName("FOVRadius")]
+        System.Single m_p8 = 4f;
         #pragma warning restore 649
 
         EntityManager m_EntityManager;
@@ -86,6 +161,9 @@ namespace Generated.Semantic.Traits
             EnemyData data = default;
             data.IsFacingPlayer = m_p2;
             data.DistToPlayer = m_p3;
+            data.Speed = m_p5;
+            data.DistToWaypoint = m_p6;
+            data.FOVRadius = m_p8;
 
             return data;
         }

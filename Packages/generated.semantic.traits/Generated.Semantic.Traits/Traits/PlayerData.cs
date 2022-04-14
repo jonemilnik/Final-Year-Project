@@ -9,17 +9,17 @@ namespace Generated.Semantic.Traits
     [Serializable]
     public partial struct PlayerData : ITraitData, IEquatable<PlayerData>
     {
-        public Unity.Entities.Entity Waypoint;
+        public Unity.Entities.Entity SetWaypoint;
         public System.Boolean IsSpotted;
 
         public bool Equals(PlayerData other)
         {
-            return Waypoint.Equals(other.Waypoint) && IsSpotted.Equals(other.IsSpotted);
+            return SetWaypoint.Equals(other.SetWaypoint) && IsSpotted.Equals(other.IsSpotted);
         }
 
         public override string ToString()
         {
-            return $"Player: {Waypoint} {IsSpotted}";
+            return $"Player: {SetWaypoint} {IsSpotted}";
         }
     }
 }

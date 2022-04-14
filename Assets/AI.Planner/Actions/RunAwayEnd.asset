@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab48ef9de5712c440bd0e1f505d00e04, type: 3}
-  m_Name: Navigate
+  m_Name: RunAwayEnd
   m_EditorClassIdentifier: 
   m_Parameters:
-  - m_Name: To
+  - m_Name: Enemy
     m_RequiredTraits:
-    - {fileID: 11400000, guid: b42f1dc7c796a6d46b190fb2ed46749a, type: 2}
+    - {fileID: 11400000, guid: 80239e6d49fa88f42a4404dc77adba35, type: 2}
     - {fileID: 11400000, guid: 6b7c2cd8001b84552891cf17ebf8b587, type: 2}
-    m_ProhibitedTraits:
-    - {fileID: 11400000, guid: 27b8bb141379f2d43b378c1d62a1ab5f, type: 2}
+    m_ProhibitedTraits: []
     m_LimitCount: 0
     m_LimitComparerType: 
     m_LimitComparerReference: 
   - m_Name: Agent
     m_RequiredTraits:
     - {fileID: 11400000, guid: 54b85485fe12d7a498cdc469687b5816, type: 2}
+    - {fileID: 11400000, guid: 6b7c2cd8001b84552891cf17ebf8b587, type: 2}
     m_ProhibitedTraits: []
     m_LimitCount: 0
     m_LimitComparerType: 
@@ -32,20 +32,6 @@ MonoBehaviour:
   m_Preconditions: []
   m_CreatedObjects: []
   m_RemovedObjects: []
-  m_ObjectModifiers:
-  - m_Operator: =
-    m_CustomOperatorType: 
-    m_OperandA:
-      m_Parameter: Agent
-      m_Trait: {fileID: 11400000, guid: 54b85485fe12d7a498cdc469687b5816, type: 2}
-      m_TraitPropertyId: 0
-      m_Enum: {fileID: 0}
-      m_Value: 
-    m_OperandB:
-      m_Parameter: To
-      m_Trait: {fileID: 0}
-      m_TraitPropertyId: -1
-      m_Enum: {fileID: 0}
-      m_Value: 
-  m_Reward: -1
+  m_ObjectModifiers: []
+  m_Reward: 0
   m_CustomRewards: []

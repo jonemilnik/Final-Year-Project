@@ -13,15 +13,15 @@ namespace Generated.Semantic.Traits
     [RequireComponent(typeof(SemanticObject))]
     public partial class Player : MonoBehaviour, ITrait
     {
-        public UnityEngine.GameObject Waypoint
+        public UnityEngine.GameObject SetWaypoint
         {
             get
             {
                 if (m_EntityManager != default && m_EntityManager.HasComponent<PlayerData>(m_Entity))
                 {
                     var data = m_EntityManager.GetComponentData<PlayerData>(m_Entity);
-                    if (data.Waypoint != default)
-                        m_p0 = m_EntityManager.GetComponentObject<Transform>(data.Waypoint).gameObject;
+                    if (data.SetWaypoint != default)
+                        m_p0 = m_EntityManager.GetComponentObject<Transform>(data.SetWaypoint).gameObject;
                 }
 
                 return m_p0;
@@ -40,7 +40,7 @@ namespace Generated.Semantic.Traits
                         entity = semanticObject.Entity;
                 }
                 m_p0 = value;
-                data.Waypoint = entity;
+                data.SetWaypoint = entity;
                 if (dataActive)
                     m_EntityManager.SetComponentData(m_Entity, data);
             }
@@ -80,7 +80,7 @@ namespace Generated.Semantic.Traits
 
         #pragma warning disable 649
         [SerializeField]
-        [InspectorName("Waypoint")]
+        [InspectorName("SetWaypoint")]
         UnityEngine.GameObject m_p0 = default;
         [SerializeField]
         [InspectorName("IsSpotted")]
@@ -98,7 +98,7 @@ namespace Generated.Semantic.Traits
             {
                 var semanticObject = m_p0.GetComponent<SemanticObject>();
                 if (semanticObject)
-                    data.Waypoint = semanticObject.Entity;
+                    data.SetWaypoint = semanticObject.Entity;
             }
             data.IsSpotted = m_p3;
 
@@ -108,7 +108,7 @@ namespace Generated.Semantic.Traits
         IEnumerator UpdateRelations()
         {
             yield return null; // Wait one frame for all game objects to be converted to entities
-            Waypoint = m_p0;
+            SetWaypoint = m_p0;
             yield break;
         }
         void OnEnable()

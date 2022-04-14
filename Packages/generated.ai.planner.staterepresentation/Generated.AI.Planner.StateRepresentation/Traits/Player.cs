@@ -9,17 +9,17 @@ namespace Generated.AI.Planner.StateRepresentation
     [Serializable]
     public struct Player : ITrait, IBufferElementData, IEquatable<Player>
     {
-        public const string FieldWaypoint = "Waypoint";
+        public const string FieldSetWaypoint = "SetWaypoint";
         public const string FieldIsSpotted = "IsSpotted";
-        public Unity.AI.Planner.Traits.TraitBasedObjectId Waypoint;
+        public Unity.AI.Planner.Traits.TraitBasedObjectId SetWaypoint;
         public System.Boolean IsSpotted;
 
         public void SetField(string fieldName, object value)
         {
             switch (fieldName)
             {
-                case nameof(Waypoint):
-                    Waypoint = (Unity.AI.Planner.Traits.TraitBasedObjectId)value;
+                case nameof(SetWaypoint):
+                    SetWaypoint = (Unity.AI.Planner.Traits.TraitBasedObjectId)value;
                     break;
                 case nameof(IsSpotted):
                     IsSpotted = (System.Boolean)value;
@@ -33,8 +33,8 @@ namespace Generated.AI.Planner.StateRepresentation
         {
             switch (fieldName)
             {
-                case nameof(Waypoint):
-                    return Waypoint;
+                case nameof(SetWaypoint):
+                    return SetWaypoint;
                 case nameof(IsSpotted):
                     return IsSpotted;
                 default:
@@ -44,12 +44,12 @@ namespace Generated.AI.Planner.StateRepresentation
 
         public bool Equals(Player other)
         {
-            return Waypoint == other.Waypoint && IsSpotted == other.IsSpotted;
+            return SetWaypoint == other.SetWaypoint && IsSpotted == other.IsSpotted;
         }
 
         public override string ToString()
         {
-            return $"Player\n  Waypoint: {Waypoint}\n  IsSpotted: {IsSpotted}";
+            return $"Player\n  SetWaypoint: {SetWaypoint}\n  IsSpotted: {IsSpotted}";
         }
     }
 }
