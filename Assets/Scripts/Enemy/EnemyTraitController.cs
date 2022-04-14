@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Generated.Semantic.Traits;
 using Unity.AI.Planner.Controller;
-using Generated.AI.Planner.StateRepresentation.StealthProblem;
+
 
 public class EnemyTraitController : MonoBehaviour
 {

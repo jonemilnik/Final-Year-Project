@@ -16,7 +16,7 @@ MonoBehaviour:
   - m_Name: GoalLocation
     m_RequiredTraits:
     - {fileID: 11400000, guid: b42f1dc7c796a6d46b190fb2ed46749a, type: 2}
-    - {fileID: 11400000, guid: c4c629a259d263849995cedfdc0cb569, type: 2}
+    - {fileID: 11400000, guid: 6b7c2cd8001b84552891cf17ebf8b587, type: 2}
     m_ProhibitedTraits: []
     m_LimitCount: 0
     m_LimitComparerType: 

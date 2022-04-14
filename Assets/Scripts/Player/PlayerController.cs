@@ -9,9 +9,8 @@ using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
-    float speed = 1.2f;
-    float updateQueryDelay = 0.05f;
-    float timeOfLastQueryUpdate;
+    //float updateQueryDelay = 0.05f;
+    //float timeOfLastQueryUpdate;
     DecisionController decisionController;
     GameObject player;
     Player playerTrait;
@@ -44,24 +43,24 @@ public class PlayerController : MonoBehaviour
     public IEnumerator MoveTo(GameObject agent, GameObject destination)
     {
         navMAgent.SetDestination(destination.transform.position);
-        while (true)
-        {
-            if (!navMAgent.pathPending)
-            {
-                if (navMAgent.remainingDistance <= navMAgent.stoppingDistance)
-                {
-                    if (!navMAgent.hasPath || navMAgent.velocity.sqrMagnitude == 0f)
-                    {
-                        break;
-                    }
-                }
-            }
-            yield return null;
-        }
+        //while (true)
+        //{
+        //    if (!navMAgent.pathPending)
+        //    {
+        //        if (navMAgent.remainingDistance <= navMAgent.stoppingDistance)
+        //        {
+        //            if (!navMAgent.hasPath || navMAgent.velocity.sqrMagnitude == 0f)
+        //            {
+        //                break;
+        //            }
+        //        }
+        //    }
+        //    yield return null;
+        //}
 
         playerTrait.Waypoint = destination;
 
-        //yield return null;
+        yield return null;
     }
 
     public IEnumerator RunAway(GameObject agent)

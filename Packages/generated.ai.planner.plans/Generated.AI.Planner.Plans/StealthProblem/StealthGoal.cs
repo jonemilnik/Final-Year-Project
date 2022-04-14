@@ -11,7 +11,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
     {
         public bool IsTerminal(StateData stateData)
         {
-            var GoalLocationFilter = new NativeArray<ComponentType>(2, Allocator.Temp){[0] = ComponentType.ReadWrite<GoalPoint>(),[1] = ComponentType.ReadWrite<WayPoint>(),  };
+            var GoalLocationFilter = new NativeArray<ComponentType>(2, Allocator.Temp){[0] = ComponentType.ReadWrite<GoalPoint>(),[1] = ComponentType.ReadWrite<Location>(),  };
             var GoalLocationObjectIndices = new NativeList<int>(2, Allocator.Temp);
             stateData.GetTraitBasedObjectIndices(GoalLocationObjectIndices, GoalLocationFilter);
             var PlayerFilter = new NativeArray<ComponentType>(1, Allocator.Temp){[0] = ComponentType.ReadWrite<Player>(),  };
