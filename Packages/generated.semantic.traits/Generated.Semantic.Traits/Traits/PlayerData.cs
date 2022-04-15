@@ -13,15 +13,16 @@ namespace Generated.Semantic.Traits
         public System.Boolean IsSpotted;
         public System.Boolean IsRunning;
         public System.Single Speed;
+        public System.Boolean IsHiding;
 
         public bool Equals(PlayerData other)
         {
-            return SetWaypoint.Equals(other.SetWaypoint) && IsSpotted.Equals(other.IsSpotted) && IsRunning.Equals(other.IsRunning) && Speed.Equals(other.Speed);
+            return SetWaypoint.Equals(other.SetWaypoint) && IsSpotted.Equals(other.IsSpotted) && IsRunning.Equals(other.IsRunning) && Speed.Equals(other.Speed) && IsHiding.Equals(other.IsHiding);
         }
 
         public override string ToString()
         {
-            return $"Player: {SetWaypoint} {IsSpotted} {IsRunning} {Speed}";
+            return $"Player: {SetWaypoint} {IsSpotted} {IsRunning} {Speed} {IsHiding}";
         }
     }
 }

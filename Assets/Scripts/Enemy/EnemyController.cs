@@ -40,6 +40,11 @@ public class EnemyController : MonoBehaviour
         return Vector3.Distance(transform.position, player.position);
     }
 
+    public float GetDistToNextWaypoint()
+    {
+        return agent.remainingDistance;
+    }
+
     IEnumerator InspectArea() 
     {
         isInspecting = true; 

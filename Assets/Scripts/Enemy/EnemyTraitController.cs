@@ -23,6 +23,7 @@ public class EnemyTraitController : MonoBehaviour
     void Update()
     {
         enemyTrait.DistToPlayer = controller.GetDistToPlayer();
+        enemyTrait.DistToWaypoint = controller.GetDistToNextWaypoint();
         enemyTrait.IsFacingPlayer = controller.isFacingPlayer;
 
         moverTrait.X = transform.position.x;

@@ -13,10 +13,12 @@ namespace Generated.AI.Planner.StateRepresentation
         public const string FieldIsSpotted = "IsSpotted";
         public const string FieldIsRunning = "IsRunning";
         public const string FieldSpeed = "Speed";
+        public const string FieldIsHiding = "IsHiding";
         public Unity.AI.Planner.Traits.TraitBasedObjectId SetWaypoint;
         public System.Boolean IsSpotted;
         public System.Boolean IsRunning;
         public System.Single Speed;
+        public System.Boolean IsHiding;
 
         public void SetField(string fieldName, object value)
         {
@@ -33,6 +35,9 @@ namespace Generated.AI.Planner.StateRepresentation
                     break;
                 case nameof(Speed):
                     Speed = (System.Single)value;
+                    break;
+                case nameof(IsHiding):
+                    IsHiding = (System.Boolean)value;
                     break;
                 default:
                     throw new ArgumentException($"Field \"{fieldName}\" does not exist on trait Player.");
@@ -51,6 +56,8 @@ namespace Generated.AI.Planner.StateRepresentation
                     return IsRunning;
                 case nameof(Speed):
                     return Speed;
+                case nameof(IsHiding):
+                    return IsHiding;
                 default:
                     throw new ArgumentException($"Field \"{fieldName}\" does not exist on trait Player.");
             }
@@ -58,12 +65,12 @@ namespace Generated.AI.Planner.StateRepresentation
 
         public bool Equals(Player other)
         {
-            return SetWaypoint == other.SetWaypoint && IsSpotted == other.IsSpotted && IsRunning == other.IsRunning && Speed == other.Speed;
+            return SetWaypoint == other.SetWaypoint && IsSpotted == other.IsSpotted && IsRunning == other.IsRunning && Speed == other.Speed && IsHiding == other.IsHiding;
         }
 
         public override string ToString()
         {
-            return $"Player\n  SetWaypoint: {SetWaypoint}\n  IsSpotted: {IsSpotted}\n  IsRunning: {IsRunning}\n  Speed: {Speed}";
+            return $"Player\n  SetWaypoint: {SetWaypoint}\n  IsSpotted: {IsSpotted}\n  IsRunning: {IsRunning}\n  Speed: {Speed}\n  IsHiding: {IsHiding}";
         }
     }
 }

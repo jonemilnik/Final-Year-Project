@@ -475,6 +475,7 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
                         plannerTraitData.IsSpotted = traitData.IsSpotted;
                         plannerTraitData.IsRunning = traitData.IsRunning;
                         plannerTraitData.Speed = traitData.Speed;
+                        plannerTraitData.IsHiding = traitData.IsHiding;
                         if (entityToObjectId.TryGetValue(traitData.SetWaypoint, out var SetWaypoint))
                             plannerTraitData.SetWaypoint = SetWaypoint;
                         SetTraitOnObject(plannerTraitData, ref traitBasedObject);
@@ -986,7 +987,8 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
             return
                     one.IsSpotted == two.IsSpotted && 
                     one.IsRunning == two.IsRunning && 
-                    one.Speed == two.Speed;
+                    one.Speed == two.Speed && 
+                    one.IsHiding == two.IsHiding;
         }
         
         bool MoverTraitAttributesEqual(Mover one, Mover two)
@@ -1065,7 +1067,8 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
                 var value = 397
                     ^ element.IsSpotted.GetHashCode()
                     ^ element.IsRunning.GetHashCode()
-                    ^ element.Speed.GetHashCode();
+                    ^ element.Speed.GetHashCode()
+                    ^ element.IsHiding.GetHashCode();
                 stateHashValue = 3860031 + (stateHashValue + value) * 2779 + (stateHashValue * value * 2);
             }
             bufferLength = PlanningAgentBuffer.Length;
