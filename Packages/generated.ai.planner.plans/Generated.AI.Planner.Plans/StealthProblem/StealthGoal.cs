@@ -49,7 +49,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
 
         public float TerminalReward(StateData stateData)
         {
-            var reward = 0f;
+            var reward = 100f;
 
             return reward;
         }

@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
 
         // Update world state constantly and not just after every action
         if (decisionController.Initialized && decisionController.IsIdle && 
-            Time.realtimeSinceStartup > timeOfLastQueryUpdate + updateQueryDelay && !playerTrait.IsSpotted)
+            Time.realtimeSinceStartup > timeOfLastQueryUpdate + updateQueryDelay && !playerTrait.IsRunning && !playerTrait.IsSpotted)
         {
             decisionController.UpdateStateWithWorldQuery();
             timeOfLastQueryUpdate = Time.realtimeSinceStartup;
@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    public IEnumerator MoveTo(GameObject agent, GameObject destination)
+    public IEnumerator MoveTo(GameObject destination)
     {
         navMAgent.SetDestination(destination.transform.position);
         //while (true)
@@ -72,34 +72,10 @@ public class PlayerController : MonoBehaviour
         yield return null;
     }
 
-    public IEnumerator RunAway(GameObject agent)
+    public IEnumerator RunAway(GameObject destination)
     {
-        
-        GameObject waypointsObj = GameObject.Find("PlayerWaypoints");
-        GameObject closestWaypoint = null;
-        float closestDist = Mathf.Infinity;
-
-        // Find waypoint with closest distance to player
-        for (int i = 0; i < waypointsObj.transform.childCount; i++)
-        {
-            GameObject waypoint = waypointsObj.transform.GetChild(i).gameObject;
-            //Debug.Log("Waypoint: " + waypoint.name);
-            float dist = (waypoint.transform.position - player.transform.position).sqrMagnitude;
-            //Debug.Log("Waypoint Dist: " + dist);
-            
-            if (dist < closestDist)
-            {
-                closestDist = dist;
-                closestWaypoint = waypoint;
-                //Debug.Log("PlayerTrait Waypoint: " + playerTrait.Waypoint.name);
-                //Debug.Log("Closest waypoint: " + closestWaypoint.name);
-            }
-
-            
-        }
-
         //Debug.Log("Running away to: " + closestWaypoint.name);
-        navMAgent.SetDestination(closestWaypoint.transform.position);
+        navMAgent.SetDestination(destination.transform.position);
         while (true)
         {
             if (!navMAgent.pathPending)
@@ -114,11 +90,13 @@ public class PlayerController : MonoBehaviour
             }
             yield return null;
         }
-
-
-        //playerTrait.SetWaypoint = closestWaypoint;
+    
         
-        
+    }
+
+    public IEnumerator Wait()
+    {
+        yield return null;
     }
 
 

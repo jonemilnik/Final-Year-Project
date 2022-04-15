@@ -18,7 +18,8 @@ MonoBehaviour:
   - id: 1
   - id: 2
   - id: 3
-  m_NextElementId: 6
+  - id: 4
+  m_NextElementId: 7
   references:
     version: 1
     00000000:
@@ -43,4 +44,10 @@ MonoBehaviour:
       data:
         m_Name: Speed
         m_Id: 5
+        m_Value: 0
+    00000004:
+      type: {class: BooleanProperty, ns: Unity.Semantic.Traits, asm: Unity.Semantic.Traits}
+      data:
+        m_Name: IsHiding
+        m_Id: 6
         m_Value: 0

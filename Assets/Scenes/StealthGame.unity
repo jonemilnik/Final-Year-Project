@@ -7249,16 +7249,28 @@ MonoBehaviour:
     m_SourceGameObject: {fileID: 1245314750}
     m_Source: {fileID: 1245314753}
     m_Arguments:
-    - m_Parameter: Agent
-      m_Trait: {fileID: 0}
-      m_TraitPropertyId: -1
-      m_Enum: {fileID: 0}
-      m_Value: 
     - m_Parameter: To
       m_Trait: {fileID: 0}
       m_TraitPropertyId: -1
       m_Enum: {fileID: 0}
       m_Value: 
+  - m_ActionName: RunAway
+    m_PlanExecutorStateUpdateMode: 1
+    m_Method: RunAway
+    m_SourceGameObject: {fileID: 1245314750}
+    m_Source: {fileID: 1245314753}
+    m_Arguments:
+    - m_Parameter: To
+      m_Trait: {fileID: 0}
+      m_TraitPropertyId: -1
+      m_Enum: {fileID: 0}
+      m_Value: 
+  - m_ActionName: Wait
+    m_PlanExecutorStateUpdateMode: 1
+    m_Method: Wait
+    m_SourceGameObject: {fileID: 1245314750}
+    m_Source: {fileID: 1245314753}
+    m_Arguments: []
   m_AutoUpdate: 1
 --- !u!114 &1245314753
 MonoBehaviour:
@@ -9733,6 +9745,7 @@ MonoBehaviour:
   m_p3: 0
   m_p4: 0
   m_p5: 0
+  m_p6: 0
 --- !u!114 &2085050759
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -31,7 +31,35 @@ MonoBehaviour:
     m_LimitCount: 0
     m_LimitComparerType: 
     m_LimitComparerReference: 
-  m_Preconditions: []
+  m_Preconditions:
+  - m_Operator: '!='
+    m_CustomOperatorType: 
+    m_OperandA:
+      m_Parameter: Agent
+      m_Trait: {fileID: 11400000, guid: 54b85485fe12d7a498cdc469687b5816, type: 2}
+      m_TraitPropertyId: 4
+      m_Enum: {fileID: 0}
+      m_Value: 
+    m_OperandB:
+      m_Parameter: 
+      m_Trait: {fileID: 0}
+      m_TraitPropertyId: -1
+      m_Enum: {fileID: 0}
+      m_Value: true
+  - m_Operator: '!='
+    m_CustomOperatorType: 
+    m_OperandA:
+      m_Parameter: Agent
+      m_Trait: {fileID: 11400000, guid: 54b85485fe12d7a498cdc469687b5816, type: 2}
+      m_TraitPropertyId: 6
+      m_Enum: {fileID: 0}
+      m_Value: 
+    m_OperandB:
+      m_Parameter: 
+      m_Trait: {fileID: 0}
+      m_TraitPropertyId: -1
+      m_Enum: {fileID: 0}
+      m_Value: true
   m_CreatedObjects: []
   m_RemovedObjects: []
   m_ObjectModifiers:

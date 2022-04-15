@@ -14,6 +14,8 @@ namespace Generated.AI.Planner.Plans.StealthProblem
         ITraitBasedActionScheduler<TraitBasedObject, StateEntityKey, StateData, StateDataContext, StateManager, ActionKey>
     {
         public static readonly Guid NavigateGuid = Guid.NewGuid();
+        public static readonly Guid RunAwayGuid = Guid.NewGuid();
+        public static readonly Guid WaitGuid = Guid.NewGuid();
 
         // Input
         public NativeList<StateEntityKey> UnexpandedStates { get; set; }
@@ -35,6 +37,8 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             public NativeList<StateEntityKey> UnexpandedStates;
             public NativeQueue<StateTransitionInfoPair<StateEntityKey, ActionKey, StateTransitionInfo>> CreatedStateInfo;
             public EntityCommandBuffer NavigateECB;
+            public EntityCommandBuffer RunAwayECB;
+            public EntityCommandBuffer WaitECB;
 
             public void Execute()
             {
@@ -50,6 +54,26 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                         CreatedStateInfo.Enqueue(NavigateRefs[j].TransitionInfo);
                     entityManager.RemoveComponent(stateEntity, typeof(NavigateFixupReference));
                 }
+
+                RunAwayECB.Playback(entityManager);
+                for (int i = 0; i < UnexpandedStates.Length; i++)
+                {
+                    var stateEntity = UnexpandedStates[i].Entity;
+                    var RunAwayRefs = entityManager.GetBuffer<RunAwayFixupReference>(stateEntity);
+                    for (int j = 0; j < RunAwayRefs.Length; j++)
+                        CreatedStateInfo.Enqueue(RunAwayRefs[j].TransitionInfo);
+                    entityManager.RemoveComponent(stateEntity, typeof(RunAwayFixupReference));
+                }
+
+                WaitECB.Playback(entityManager);
+                for (int i = 0; i < UnexpandedStates.Length; i++)
+                {
+                    var stateEntity = UnexpandedStates[i].Entity;
+                    var WaitRefs = entityManager.GetBuffer<WaitFixupReference>(stateEntity);
+                    for (int j = 0; j < WaitRefs.Length; j++)
+                        CreatedStateInfo.Enqueue(WaitRefs[j].TransitionInfo);
+                    entityManager.RemoveComponent(stateEntity, typeof(WaitFixupReference));
+                }
             }
         }
 
@@ -59,11 +83,19 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             var NavigateDataContext = StateManager.StateDataContext;
             var NavigateECB = StateManager.GetEntityCommandBuffer();
             NavigateDataContext.EntityCommandBuffer = NavigateECB.AsParallelWriter();
+            var RunAwayDataContext = StateManager.StateDataContext;
+            var RunAwayECB = StateManager.GetEntityCommandBuffer();
+            RunAwayDataContext.EntityCommandBuffer = RunAwayECB.AsParallelWriter();
+            var WaitDataContext = StateManager.StateDataContext;
+            var WaitECB = StateManager.GetEntityCommandBuffer();
+            WaitDataContext.EntityCommandBuffer = WaitECB.AsParallelWriter();
 
-            var allActionJobs = new NativeArray<JobHandle>(2, Allocator.TempJob)
+            var allActionJobs = new NativeArray<JobHandle>(4, Allocator.TempJob)
             {
                 [0] = new Navigate(NavigateGuid, UnexpandedStates, NavigateDataContext).Schedule(UnexpandedStates, 0, inputDeps),
-                [1] = entityManager.ExclusiveEntityTransactionDependency
+                [1] = new RunAway(RunAwayGuid, UnexpandedStates, RunAwayDataContext).Schedule(UnexpandedStates, 0, inputDeps),
+                [2] = new Wait(WaitGuid, UnexpandedStates, WaitDataContext).Schedule(UnexpandedStates, 0, inputDeps),
+                [3] = entityManager.ExclusiveEntityTransactionDependency
             };
 
             var allActionJobsHandle = JobHandle.CombineDependencies(allActionJobs);
@@ -76,6 +108,8 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                 UnexpandedStates = UnexpandedStates,
                 CreatedStateInfo = m_CreatedStateInfo,
                 NavigateECB = NavigateECB,
+                RunAwayECB = RunAwayECB,
+                WaitECB = WaitECB,
             };
 
             var playbackJobHandle = playbackJob.Schedule(allActionJobsHandle);

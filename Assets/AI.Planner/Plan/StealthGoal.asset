@@ -44,5 +44,19 @@ MonoBehaviour:
       m_TraitPropertyId: -1
       m_Enum: {fileID: 0}
       m_Value: 
-  m_TerminalReward: 0
+  - m_Operator: ==
+    m_CustomOperatorType: 
+    m_OperandA:
+      m_Parameter: Player
+      m_Trait: {fileID: 11400000, guid: 54b85485fe12d7a498cdc469687b5816, type: 2}
+      m_TraitPropertyId: 0
+      m_Enum: {fileID: 0}
+      m_Value: 
+    m_OperandB:
+      m_Parameter: GoalLocation
+      m_Trait: {fileID: 0}
+      m_TraitPropertyId: -1
+      m_Enum: {fileID: 0}
+      m_Value: 
+  m_TerminalReward: 100
   m_CustomTerminalRewards: []
