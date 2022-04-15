@@ -11,8 +11,10 @@ namespace Generated.AI.Planner.StateRepresentation
     {
         public const string FieldSetWaypoint = "SetWaypoint";
         public const string FieldIsSpotted = "IsSpotted";
+        public const string FieldIsRunning = "IsRunning";
         public Unity.AI.Planner.Traits.TraitBasedObjectId SetWaypoint;
         public System.Boolean IsSpotted;
+        public System.Boolean IsRunning;
 
         public void SetField(string fieldName, object value)
         {
@@ -23,6 +25,9 @@ namespace Generated.AI.Planner.StateRepresentation
                     break;
                 case nameof(IsSpotted):
                     IsSpotted = (System.Boolean)value;
+                    break;
+                case nameof(IsRunning):
+                    IsRunning = (System.Boolean)value;
                     break;
                 default:
                     throw new ArgumentException($"Field \"{fieldName}\" does not exist on trait Player.");
@@ -37,6 +42,8 @@ namespace Generated.AI.Planner.StateRepresentation
                     return SetWaypoint;
                 case nameof(IsSpotted):
                     return IsSpotted;
+                case nameof(IsRunning):
+                    return IsRunning;
                 default:
                     throw new ArgumentException($"Field \"{fieldName}\" does not exist on trait Player.");
             }
@@ -44,12 +51,12 @@ namespace Generated.AI.Planner.StateRepresentation
 
         public bool Equals(Player other)
         {
-            return SetWaypoint == other.SetWaypoint && IsSpotted == other.IsSpotted;
+            return SetWaypoint == other.SetWaypoint && IsSpotted == other.IsSpotted && IsRunning == other.IsRunning;
         }
 
         public override string ToString()
         {
-            return $"Player\n  SetWaypoint: {SetWaypoint}\n  IsSpotted: {IsSpotted}";
+            return $"Player\n  SetWaypoint: {SetWaypoint}\n  IsSpotted: {IsSpotted}\n  IsRunning: {IsRunning}";
         }
     }
 }

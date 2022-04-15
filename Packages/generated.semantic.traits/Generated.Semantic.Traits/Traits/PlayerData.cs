@@ -11,15 +11,16 @@ namespace Generated.Semantic.Traits
     {
         public Unity.Entities.Entity SetWaypoint;
         public System.Boolean IsSpotted;
+        public System.Boolean IsRunning;
 
         public bool Equals(PlayerData other)
         {
-            return SetWaypoint.Equals(other.SetWaypoint) && IsSpotted.Equals(other.IsSpotted);
+            return SetWaypoint.Equals(other.SetWaypoint) && IsSpotted.Equals(other.IsSpotted) && IsRunning.Equals(other.IsRunning);
         }
 
         public override string ToString()
         {
-            return $"Player: {SetWaypoint} {IsSpotted}";
+            return $"Player: {SetWaypoint} {IsSpotted} {IsRunning}";
         }
     }
 }

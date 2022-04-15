@@ -67,6 +67,28 @@ namespace Generated.Semantic.Traits
                     m_EntityManager.SetComponentData(m_Entity, data);
             }
         }
+        public System.Boolean IsRunning
+        {
+            get
+            {
+                if (m_EntityManager != default && m_EntityManager.HasComponent<PlayerData>(m_Entity))
+                {
+                    m_p4 = m_EntityManager.GetComponentData<PlayerData>(m_Entity).IsRunning;
+                }
+
+                return m_p4;
+            }
+            set
+            {
+                PlayerData data = default;
+                var dataActive = m_EntityManager != default && m_EntityManager.HasComponent<PlayerData>(m_Entity);
+                if (dataActive)
+                    data = m_EntityManager.GetComponentData<PlayerData>(m_Entity);
+                data.IsRunning = m_p4 = value;
+                if (dataActive)
+                    m_EntityManager.SetComponentData(m_Entity, data);
+            }
+        }
         public PlayerData Data
         {
             get => m_EntityManager != default && m_EntityManager.HasComponent<PlayerData>(m_Entity) ?
@@ -85,6 +107,9 @@ namespace Generated.Semantic.Traits
         [SerializeField]
         [InspectorName("IsSpotted")]
         System.Boolean m_p3 = false;
+        [SerializeField]
+        [InspectorName("IsRunning")]
+        System.Boolean m_p4 = false;
         #pragma warning restore 649
 
         EntityManager m_EntityManager;
@@ -101,6 +126,7 @@ namespace Generated.Semantic.Traits
                     data.SetWaypoint = semanticObject.Entity;
             }
             data.IsSpotted = m_p3;
+            data.IsRunning = m_p4;
 
             return data;
         }

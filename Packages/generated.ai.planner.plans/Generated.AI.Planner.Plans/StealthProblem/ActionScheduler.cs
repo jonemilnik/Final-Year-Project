@@ -13,7 +13,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
     public struct ActionScheduler :
         ITraitBasedActionScheduler<TraitBasedObject, StateEntityKey, StateData, StateDataContext, StateManager, ActionKey>
     {
-        public static readonly Guid RunAwayGuid = Guid.NewGuid();
+        public static readonly Guid RunAwayStartGuid = Guid.NewGuid();
         public static readonly Guid NavigateGuid = Guid.NewGuid();
 
         // Input
@@ -35,7 +35,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             [ReadOnly]
             public NativeList<StateEntityKey> UnexpandedStates;
             public NativeQueue<StateTransitionInfoPair<StateEntityKey, ActionKey, StateTransitionInfo>> CreatedStateInfo;
-            public EntityCommandBuffer RunAwayECB;
+            public EntityCommandBuffer RunAwayStartECB;
             public EntityCommandBuffer NavigateECB;
 
             public void Execute()
@@ -43,14 +43,14 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                 // Playback entity changes and output state transition info
                 var entityManager = ExclusiveEntityTransaction;
 
-                RunAwayECB.Playback(entityManager);
+                RunAwayStartECB.Playback(entityManager);
                 for (int i = 0; i < UnexpandedStates.Length; i++)
                 {
                     var stateEntity = UnexpandedStates[i].Entity;
-                    var RunAwayRefs = entityManager.GetBuffer<RunAwayFixupReference>(stateEntity);
-                    for (int j = 0; j < RunAwayRefs.Length; j++)
-                        CreatedStateInfo.Enqueue(RunAwayRefs[j].TransitionInfo);
-                    entityManager.RemoveComponent(stateEntity, typeof(RunAwayFixupReference));
+                    var RunAwayStartRefs = entityManager.GetBuffer<RunAwayStartFixupReference>(stateEntity);
+                    for (int j = 0; j < RunAwayStartRefs.Length; j++)
+                        CreatedStateInfo.Enqueue(RunAwayStartRefs[j].TransitionInfo);
+                    entityManager.RemoveComponent(stateEntity, typeof(RunAwayStartFixupReference));
                 }
 
                 NavigateECB.Playback(entityManager);
@@ -68,16 +68,16 @@ namespace Generated.AI.Planner.Plans.StealthProblem
         public JobHandle Schedule(JobHandle inputDeps)
         {
             var entityManager = StateManager.ExclusiveEntityTransaction.EntityManager;
-            var RunAwayDataContext = StateManager.StateDataContext;
-            var RunAwayECB = StateManager.GetEntityCommandBuffer();
-            RunAwayDataContext.EntityCommandBuffer = RunAwayECB.AsParallelWriter();
+            var RunAwayStartDataContext = StateManager.StateDataContext;
+            var RunAwayStartECB = StateManager.GetEntityCommandBuffer();
+            RunAwayStartDataContext.EntityCommandBuffer = RunAwayStartECB.AsParallelWriter();
             var NavigateDataContext = StateManager.StateDataContext;
             var NavigateECB = StateManager.GetEntityCommandBuffer();
             NavigateDataContext.EntityCommandBuffer = NavigateECB.AsParallelWriter();
 
             var allActionJobs = new NativeArray<JobHandle>(3, Allocator.TempJob)
             {
-                [0] = new RunAway(RunAwayGuid, UnexpandedStates, RunAwayDataContext).Schedule(UnexpandedStates, 0, inputDeps),
+                [0] = new RunAwayStart(RunAwayStartGuid, UnexpandedStates, RunAwayStartDataContext).Schedule(UnexpandedStates, 0, inputDeps),
                 [1] = new Navigate(NavigateGuid, UnexpandedStates, NavigateDataContext).Schedule(UnexpandedStates, 0, inputDeps),
                 [2] = entityManager.ExclusiveEntityTransactionDependency
             };
@@ -91,7 +91,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                 ExclusiveEntityTransaction = StateManager.ExclusiveEntityTransaction,
                 UnexpandedStates = UnexpandedStates,
                 CreatedStateInfo = m_CreatedStateInfo,
-                RunAwayECB = RunAwayECB,
+                RunAwayStartECB = RunAwayStartECB,
                 NavigateECB = NavigateECB,
             };
 

@@ -16,7 +16,10 @@ MonoBehaviour:
   m_Properties:
   - id: 0
   - id: 1
-  m_NextElementId: 4
+  - id: 2
+  - id: 3
+  - id: 4
+  m_NextElementId: 9
   references:
     version: 1
     00000000:
@@ -31,3 +34,21 @@ MonoBehaviour:
         m_Name: DistToPlayer
         m_Id: 3
         m_Value: 0
+    00000002:
+      type: {class: FloatProperty, ns: Unity.Semantic.Traits, asm: Unity.Semantic.Traits}
+      data:
+        m_Name: Speed
+        m_Id: 5
+        m_Value: 3.5
+    00000003:
+      type: {class: FloatProperty, ns: Unity.Semantic.Traits, asm: Unity.Semantic.Traits}
+      data:
+        m_Name: DistToWaypoint
+        m_Id: 6
+        m_Value: 0
+    00000004:
+      type: {class: FloatProperty, ns: Unity.Semantic.Traits, asm: Unity.Semantic.Traits}
+      data:
+        m_Name: FOVRadius
+        m_Id: 8
+        m_Value: 4
