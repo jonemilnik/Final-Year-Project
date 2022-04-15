@@ -14,7 +14,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             var GoalLocationFilter = new NativeArray<ComponentType>(2, Allocator.Temp){[0] = ComponentType.ReadWrite<GoalPoint>(),[1] = ComponentType.ReadWrite<Location>(),  };
             var GoalLocationObjectIndices = new NativeList<int>(2, Allocator.Temp);
             stateData.GetTraitBasedObjectIndices(GoalLocationObjectIndices, GoalLocationFilter);
-            var PlayerFilter = new NativeArray<ComponentType>(1, Allocator.Temp){[0] = ComponentType.ReadWrite<Player>(),  };
+            var PlayerFilter = new NativeArray<ComponentType>(2, Allocator.Temp){[0] = ComponentType.ReadWrite<Player>(),[1] = ComponentType.ReadWrite<Mover>(),  };
             var PlayerObjectIndices = new NativeList<int>(2, Allocator.Temp);
             stateData.GetTraitBasedObjectIndices(PlayerObjectIndices, PlayerFilter);
             var PlayerBuffer = stateData.PlayerBuffer;
@@ -49,7 +49,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
 
         public float TerminalReward(StateData stateData)
         {
-            var reward = 100f;
+            var reward = 0f;
 
             return reward;
         }

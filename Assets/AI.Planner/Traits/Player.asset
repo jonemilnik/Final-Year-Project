@@ -17,7 +17,8 @@ MonoBehaviour:
   - id: 0
   - id: 1
   - id: 2
-  m_NextElementId: 5
+  - id: 3
+  m_NextElementId: 6
   references:
     version: 1
     00000000:
@@ -36,4 +37,10 @@ MonoBehaviour:
       data:
         m_Name: IsRunning
         m_Id: 4
+        m_Value: 0
+    00000003:
+      type: {class: FloatProperty, ns: Unity.Semantic.Traits, asm: Unity.Semantic.Traits}
+      data:
+        m_Name: Speed
+        m_Id: 5
         m_Value: 0

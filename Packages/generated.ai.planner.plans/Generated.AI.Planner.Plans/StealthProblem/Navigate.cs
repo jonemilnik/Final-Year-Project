@@ -55,7 +55,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
 
         void InitializeLocalContainers()
         {
-            ToFilter = new NativeArray<ComponentType>(3, Allocator.Temp){[0] = ComponentType.ReadWrite<GoalPoint>(),[1] = ComponentType.ReadWrite<Location>(), [2] = ComponentType.Exclude<Hideable>(),  };
+            ToFilter = new NativeArray<ComponentType>(5, Allocator.Temp){[0] = ComponentType.ReadWrite<Location>(), [1] = ComponentType.Exclude<Enemy>(), [2] = ComponentType.Exclude<Player>(), [3] = ComponentType.Exclude<PlanningAgent>(), [4] = ComponentType.Exclude<Moveable>(),  };
             ToObjectIndices = new NativeList<int>(2, Allocator.Temp);
             AgentFilter = new NativeArray<ComponentType>(1, Allocator.Temp){[0] = ComponentType.ReadWrite<Player>(),  };
             AgentObjectIndices = new NativeList<int>(2, Allocator.Temp);

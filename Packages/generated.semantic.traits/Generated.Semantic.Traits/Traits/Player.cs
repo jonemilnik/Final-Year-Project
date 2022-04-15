@@ -89,6 +89,28 @@ namespace Generated.Semantic.Traits
                     m_EntityManager.SetComponentData(m_Entity, data);
             }
         }
+        public System.Single Speed
+        {
+            get
+            {
+                if (m_EntityManager != default && m_EntityManager.HasComponent<PlayerData>(m_Entity))
+                {
+                    m_p5 = m_EntityManager.GetComponentData<PlayerData>(m_Entity).Speed;
+                }
+
+                return m_p5;
+            }
+            set
+            {
+                PlayerData data = default;
+                var dataActive = m_EntityManager != default && m_EntityManager.HasComponent<PlayerData>(m_Entity);
+                if (dataActive)
+                    data = m_EntityManager.GetComponentData<PlayerData>(m_Entity);
+                data.Speed = m_p5 = value;
+                if (dataActive)
+                    m_EntityManager.SetComponentData(m_Entity, data);
+            }
+        }
         public PlayerData Data
         {
             get => m_EntityManager != default && m_EntityManager.HasComponent<PlayerData>(m_Entity) ?
@@ -110,6 +132,9 @@ namespace Generated.Semantic.Traits
         [SerializeField]
         [InspectorName("IsRunning")]
         System.Boolean m_p4 = false;
+        [SerializeField]
+        [InspectorName("Speed")]
+        System.Single m_p5 = 0f;
         #pragma warning restore 649
 
         EntityManager m_EntityManager;
@@ -127,6 +152,7 @@ namespace Generated.Semantic.Traits
             }
             data.IsSpotted = m_p3;
             data.IsRunning = m_p4;
+            data.Speed = m_p5;
 
             return data;
         }

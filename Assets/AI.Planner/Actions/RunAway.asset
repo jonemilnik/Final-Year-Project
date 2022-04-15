@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab48ef9de5712c440bd0e1f505d00e04, type: 3}
-  m_Name: RunAwayStart
+  m_Name: RunAway
   m_EditorClassIdentifier: 
   m_Parameters:
   - m_Name: Enemy

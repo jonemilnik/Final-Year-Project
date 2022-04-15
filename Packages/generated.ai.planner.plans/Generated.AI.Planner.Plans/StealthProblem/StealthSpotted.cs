@@ -11,10 +11,10 @@ namespace Generated.AI.Planner.Plans.StealthProblem
     {
         public bool IsTerminal(StateData stateData)
         {
-            var PlayerFilter = new NativeArray<ComponentType>(1, Allocator.Temp){[0] = ComponentType.ReadWrite<Player>(),  };
+            var PlayerFilter = new NativeArray<ComponentType>(2, Allocator.Temp){[0] = ComponentType.ReadWrite<Player>(),[1] = ComponentType.ReadWrite<Mover>(),  };
             var PlayerObjectIndices = new NativeList<int>(2, Allocator.Temp);
             stateData.GetTraitBasedObjectIndices(PlayerObjectIndices, PlayerFilter);
-            var EnemyFilter = new NativeArray<ComponentType>(1, Allocator.Temp){[0] = ComponentType.ReadWrite<Enemy>(),  };
+            var EnemyFilter = new NativeArray<ComponentType>(2, Allocator.Temp){[0] = ComponentType.ReadWrite<Enemy>(),[1] = ComponentType.ReadWrite<Mover>(),  };
             var EnemyObjectIndices = new NativeList<int>(2, Allocator.Temp);
             stateData.GetTraitBasedObjectIndices(EnemyObjectIndices, EnemyFilter);
             var PlayerBuffer = stateData.PlayerBuffer;

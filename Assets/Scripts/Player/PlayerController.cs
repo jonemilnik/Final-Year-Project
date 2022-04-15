@@ -5,16 +5,15 @@ using Unity.AI.Planner.Controller;
 using Unity.AI.Planner.Traits;
 using Generated.Semantic.Traits;
 using UnityEngine.AI;
-using Location = Unity.AI.Planner.Traits.Location;
 
 public class PlayerController : MonoBehaviour
 {
-    //float updateQueryDelay = 0.05f;
-    //float timeOfLastQueryUpdate;
+    float updateQueryDelay = 0.1f;
+    float timeOfLastQueryUpdate;
     DecisionController decisionController;
     GameObject player;
     Player playerTrait;
-    Location locationTrait;
+    Mover moverTrait;
     NavMeshAgent navMAgent;
  
 
@@ -23,7 +22,7 @@ public class PlayerController : MonoBehaviour
         decisionController = GetComponent<DecisionController>();
         player = GameObject.Find("Player");
         playerTrait = player.GetComponent<Player>();
-        locationTrait = player.GetComponent<Location>();
+        moverTrait = player.GetComponent<Mover>();
         navMAgent = player.GetComponent<NavMeshAgent>();
         //navMAgent = player.GetComponent<NavMeshAgent>();
 
@@ -31,15 +30,22 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        playerTrait.IsSpotted = GameObject.Find("Player").GetComponent<PlayerHandler>().isSpotted;
-        locationTrait.Position = player.transform.position;
+        playerTrait.IsSpotted = player.GetComponent<PlayerHandler>().isSpotted;
+        moverTrait.X = player.transform.position.x;
+        moverTrait.Y = player.transform.position.y;
+        moverTrait.Z = player.transform.position.z;
+
+        moverTrait.ForwardX = player.transform.forward.x;
+        moverTrait.ForwardY = player.transform.forward.y;
+        moverTrait.ForwardZ = player.transform.forward.z;
 
         // Update world state constantly and not just after every action
-        //if (decisionController.Initialized && Time.realtimeSinceStartup > timeOfLastQueryUpdate + updateQueryDelay)
-        //{
-        //    decisionController.UpdateStateWithWorldQuery();
-        //    timeOfLastQueryUpdate = Time.realtimeSinceStartup;
-        //}
+        if (decisionController.Initialized && decisionController.IsIdle && 
+            Time.realtimeSinceStartup > timeOfLastQueryUpdate + updateQueryDelay && !playerTrait.IsSpotted)
+        {
+            decisionController.UpdateStateWithWorldQuery();
+            timeOfLastQueryUpdate = Time.realtimeSinceStartup;
+        }
 
     }
 

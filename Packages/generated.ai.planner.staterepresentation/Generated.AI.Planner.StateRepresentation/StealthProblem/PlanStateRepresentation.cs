@@ -37,25 +37,27 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
         static TraitArrayIndex()
         {
             var typeIndex = TypeManager.GetTypeIndex<T>();
-            if (typeIndex == TypeManager.GetTypeIndex<Enemy>())
+            if (typeIndex == TypeManager.GetTypeIndex<Location>())
                 Index = 0;
-            else if (typeIndex == TypeManager.GetTypeIndex<Location>())
+            else if (typeIndex == TypeManager.GetTypeIndex<Enemy>())
                 Index = 1;
             else if (typeIndex == TypeManager.GetTypeIndex<Player>())
                 Index = 2;
-            else if (typeIndex == TypeManager.GetTypeIndex<Hideable>())
-                Index = 3;
-            else if (typeIndex == TypeManager.GetTypeIndex<GoalPoint>())
-                Index = 4;
             else if (typeIndex == TypeManager.GetTypeIndex<PlanningAgent>())
+                Index = 3;
+            else if (typeIndex == TypeManager.GetTypeIndex<Moveable>())
+                Index = 4;
+            else if (typeIndex == TypeManager.GetTypeIndex<GoalPoint>())
                 Index = 5;
+            else if (typeIndex == TypeManager.GetTypeIndex<Mover>())
+                Index = 6;
         }
     }
 
     [StructLayout(LayoutKind.Sequential, Size=8)]
     public struct TraitBasedObject : ITraitBasedObject, IEquatable<TraitBasedObject>
     {
-        public int Length => 6;
+        public int Length => 7;
 
         public byte this[int i]
         {
@@ -64,17 +66,19 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
                 switch (i)
                 {
                     case 0:
-                        return EnemyIndex;
-                    case 1:
                         return LocationIndex;
+                    case 1:
+                        return EnemyIndex;
                     case 2:
                         return PlayerIndex;
                     case 3:
-                        return HideableIndex;
-                    case 4:
-                        return GoalPointIndex;
-                    case 5:
                         return PlanningAgentIndex;
+                    case 4:
+                        return MoveableIndex;
+                    case 5:
+                        return GoalPointIndex;
+                    case 6:
+                        return MoverIndex;
                 }
 
                 return Unset;
@@ -84,22 +88,25 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
                 switch (i)
                 {
                     case 0:
-                        EnemyIndex = value;
+                        LocationIndex = value;
                         break;
                     case 1:
-                        LocationIndex = value;
+                        EnemyIndex = value;
                         break;
                     case 2:
                         PlayerIndex = value;
                         break;
                     case 3:
-                        HideableIndex = value;
+                        PlanningAgentIndex = value;
                         break;
                     case 4:
-                        GoalPointIndex = value;
+                        MoveableIndex = value;
                         break;
                     case 5:
-                        PlanningAgentIndex = value;
+                        GoalPointIndex = value;
+                        break;
+                    case 6:
+                        MoverIndex = value;
                         break;
                 }
             }
@@ -109,29 +116,32 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
 
         public static TraitBasedObject Default => new TraitBasedObject
         {
-            EnemyIndex = Unset,
             LocationIndex = Unset,
+            EnemyIndex = Unset,
             PlayerIndex = Unset,
-            HideableIndex = Unset,
-            GoalPointIndex = Unset,
             PlanningAgentIndex = Unset,
+            MoveableIndex = Unset,
+            GoalPointIndex = Unset,
+            MoverIndex = Unset,
         };
 
 
-        public byte EnemyIndex;
         public byte LocationIndex;
+        public byte EnemyIndex;
         public byte PlayerIndex;
-        public byte HideableIndex;
-        public byte GoalPointIndex;
         public byte PlanningAgentIndex;
+        public byte MoveableIndex;
+        public byte GoalPointIndex;
+        public byte MoverIndex;
 
 
-        static readonly int s_EnemyTypeIndex = TypeManager.GetTypeIndex<Enemy>();
         static readonly int s_LocationTypeIndex = TypeManager.GetTypeIndex<Location>();
+        static readonly int s_EnemyTypeIndex = TypeManager.GetTypeIndex<Enemy>();
         static readonly int s_PlayerTypeIndex = TypeManager.GetTypeIndex<Player>();
-        static readonly int s_HideableTypeIndex = TypeManager.GetTypeIndex<Hideable>();
-        static readonly int s_GoalPointTypeIndex = TypeManager.GetTypeIndex<GoalPoint>();
         static readonly int s_PlanningAgentTypeIndex = TypeManager.GetTypeIndex<PlanningAgent>();
+        static readonly int s_MoveableTypeIndex = TypeManager.GetTypeIndex<Moveable>();
+        static readonly int s_GoalPointTypeIndex = TypeManager.GetTypeIndex<GoalPoint>();
+        static readonly int s_MoverTypeIndex = TypeManager.GetTypeIndex<Mover>();
 
         public bool HasSameTraits(TraitBasedObject other)
         {
@@ -166,14 +176,14 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
                 {
                     // This seems to be necessary for Burst compilation; Doesn't happen with non-Burst compilation
                 }
-                else if (t.TypeIndex == s_EnemyTypeIndex)
-                {
-                    if (t.AccessModeType == ComponentType.AccessMode.Exclude ^ EnemyIndex == Unset)
-                        return false;
-                }
                 else if (t.TypeIndex == s_LocationTypeIndex)
                 {
                     if (t.AccessModeType == ComponentType.AccessMode.Exclude ^ LocationIndex == Unset)
+                        return false;
+                }
+                else if (t.TypeIndex == s_EnemyTypeIndex)
+                {
+                    if (t.AccessModeType == ComponentType.AccessMode.Exclude ^ EnemyIndex == Unset)
                         return false;
                 }
                 else if (t.TypeIndex == s_PlayerTypeIndex)
@@ -181,9 +191,14 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
                     if (t.AccessModeType == ComponentType.AccessMode.Exclude ^ PlayerIndex == Unset)
                         return false;
                 }
-                else if (t.TypeIndex == s_HideableTypeIndex)
+                else if (t.TypeIndex == s_PlanningAgentTypeIndex)
                 {
-                    if (t.AccessModeType == ComponentType.AccessMode.Exclude ^ HideableIndex == Unset)
+                    if (t.AccessModeType == ComponentType.AccessMode.Exclude ^ PlanningAgentIndex == Unset)
+                        return false;
+                }
+                else if (t.TypeIndex == s_MoveableTypeIndex)
+                {
+                    if (t.AccessModeType == ComponentType.AccessMode.Exclude ^ MoveableIndex == Unset)
                         return false;
                 }
                 else if (t.TypeIndex == s_GoalPointTypeIndex)
@@ -191,9 +206,9 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
                     if (t.AccessModeType == ComponentType.AccessMode.Exclude ^ GoalPointIndex == Unset)
                         return false;
                 }
-                else if (t.TypeIndex == s_PlanningAgentTypeIndex)
+                else if (t.TypeIndex == s_MoverTypeIndex)
                 {
-                    if (t.AccessModeType == ComponentType.AccessMode.Exclude ^ PlanningAgentIndex == Unset)
+                    if (t.AccessModeType == ComponentType.AccessMode.Exclude ^ MoverIndex == Unset)
                         return false;
                 }
                 else
@@ -212,14 +227,14 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
                 {
                     // This seems to be necessary for Burst compilation; Doesn't happen with non-Burst compilation
                 }
-                else if (t.TypeIndex == s_EnemyTypeIndex)
-                {
-                    if (t.AccessModeType == ComponentType.AccessMode.Exclude ^ EnemyIndex == Unset)
-                        return false;
-                }
                 else if (t.TypeIndex == s_LocationTypeIndex)
                 {
                     if (t.AccessModeType == ComponentType.AccessMode.Exclude ^ LocationIndex == Unset)
+                        return false;
+                }
+                else if (t.TypeIndex == s_EnemyTypeIndex)
+                {
+                    if (t.AccessModeType == ComponentType.AccessMode.Exclude ^ EnemyIndex == Unset)
                         return false;
                 }
                 else if (t.TypeIndex == s_PlayerTypeIndex)
@@ -227,9 +242,14 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
                     if (t.AccessModeType == ComponentType.AccessMode.Exclude ^ PlayerIndex == Unset)
                         return false;
                 }
-                else if (t.TypeIndex == s_HideableTypeIndex)
+                else if (t.TypeIndex == s_PlanningAgentTypeIndex)
                 {
-                    if (t.AccessModeType == ComponentType.AccessMode.Exclude ^ HideableIndex == Unset)
+                    if (t.AccessModeType == ComponentType.AccessMode.Exclude ^ PlanningAgentIndex == Unset)
+                        return false;
+                }
+                else if (t.TypeIndex == s_MoveableTypeIndex)
+                {
+                    if (t.AccessModeType == ComponentType.AccessMode.Exclude ^ MoveableIndex == Unset)
                         return false;
                 }
                 else if (t.TypeIndex == s_GoalPointTypeIndex)
@@ -237,9 +257,9 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
                     if (t.AccessModeType == ComponentType.AccessMode.Exclude ^ GoalPointIndex == Unset)
                         return false;
                 }
-                else if (t.TypeIndex == s_PlanningAgentTypeIndex)
+                else if (t.TypeIndex == s_MoverTypeIndex)
                 {
-                    if (t.AccessModeType == ComponentType.AccessMode.Exclude ^ PlanningAgentIndex == Unset)
+                    if (t.AccessModeType == ComponentType.AccessMode.Exclude ^ MoverIndex == Unset)
                         return false;
                 }
                 else
@@ -252,7 +272,7 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
         public bool Equals(TraitBasedObject other)
         {
 
-                return EnemyIndex == other.EnemyIndex && LocationIndex == other.LocationIndex && PlayerIndex == other.PlayerIndex && HideableIndex == other.HideableIndex && GoalPointIndex == other.GoalPointIndex && PlanningAgentIndex == other.PlanningAgentIndex;
+                return LocationIndex == other.LocationIndex && EnemyIndex == other.EnemyIndex && PlayerIndex == other.PlayerIndex && PlanningAgentIndex == other.PlanningAgentIndex && MoveableIndex == other.MoveableIndex && GoalPointIndex == other.GoalPointIndex && MoverIndex == other.MoverIndex;
         }
 
         public override bool Equals(object obj)
@@ -265,13 +285,14 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
             unchecked
             {
 
-                    var hashCode = EnemyIndex.GetHashCode();
+                    var hashCode = LocationIndex.GetHashCode();
                     
-                     hashCode = (hashCode * 397) ^ LocationIndex.GetHashCode();
+                     hashCode = (hashCode * 397) ^ EnemyIndex.GetHashCode();
                      hashCode = (hashCode * 397) ^ PlayerIndex.GetHashCode();
-                     hashCode = (hashCode * 397) ^ HideableIndex.GetHashCode();
-                     hashCode = (hashCode * 397) ^ GoalPointIndex.GetHashCode();
                      hashCode = (hashCode * 397) ^ PlanningAgentIndex.GetHashCode();
+                     hashCode = (hashCode * 397) ^ MoveableIndex.GetHashCode();
+                     hashCode = (hashCode * 397) ^ GoalPointIndex.GetHashCode();
+                     hashCode = (hashCode * 397) ^ MoverIndex.GetHashCode();
                 return hashCode;
             }
         }
@@ -283,19 +304,21 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
         public DynamicBuffer<TraitBasedObject> TraitBasedObjects;
         public DynamicBuffer<TraitBasedObjectId> TraitBasedObjectIds;
 
-        public DynamicBuffer<Enemy> EnemyBuffer;
         public DynamicBuffer<Location> LocationBuffer;
+        public DynamicBuffer<Enemy> EnemyBuffer;
         public DynamicBuffer<Player> PlayerBuffer;
-        public DynamicBuffer<Hideable> HideableBuffer;
-        public DynamicBuffer<GoalPoint> GoalPointBuffer;
         public DynamicBuffer<PlanningAgent> PlanningAgentBuffer;
+        public DynamicBuffer<Moveable> MoveableBuffer;
+        public DynamicBuffer<GoalPoint> GoalPointBuffer;
+        public DynamicBuffer<Mover> MoverBuffer;
 
-        static readonly int s_EnemyTypeIndex = TypeManager.GetTypeIndex<Enemy>();
         static readonly int s_LocationTypeIndex = TypeManager.GetTypeIndex<Location>();
+        static readonly int s_EnemyTypeIndex = TypeManager.GetTypeIndex<Enemy>();
         static readonly int s_PlayerTypeIndex = TypeManager.GetTypeIndex<Player>();
-        static readonly int s_HideableTypeIndex = TypeManager.GetTypeIndex<Hideable>();
-        static readonly int s_GoalPointTypeIndex = TypeManager.GetTypeIndex<GoalPoint>();
         static readonly int s_PlanningAgentTypeIndex = TypeManager.GetTypeIndex<PlanningAgent>();
+        static readonly int s_MoveableTypeIndex = TypeManager.GetTypeIndex<Moveable>();
+        static readonly int s_GoalPointTypeIndex = TypeManager.GetTypeIndex<GoalPoint>();
+        static readonly int s_MoverTypeIndex = TypeManager.GetTypeIndex<Mover>();
 
         public StateData(ExclusiveEntityTransaction transaction, Entity stateEntity)
         {
@@ -303,12 +326,13 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
             TraitBasedObjects = transaction.GetBuffer<TraitBasedObject>(stateEntity);
             TraitBasedObjectIds = transaction.GetBuffer<TraitBasedObjectId>(stateEntity);
 
-            EnemyBuffer = transaction.GetBuffer<Enemy>(stateEntity);
             LocationBuffer = transaction.GetBuffer<Location>(stateEntity);
+            EnemyBuffer = transaction.GetBuffer<Enemy>(stateEntity);
             PlayerBuffer = transaction.GetBuffer<Player>(stateEntity);
-            HideableBuffer = transaction.GetBuffer<Hideable>(stateEntity);
-            GoalPointBuffer = transaction.GetBuffer<GoalPoint>(stateEntity);
             PlanningAgentBuffer = transaction.GetBuffer<PlanningAgent>(stateEntity);
+            MoveableBuffer = transaction.GetBuffer<Moveable>(stateEntity);
+            GoalPointBuffer = transaction.GetBuffer<GoalPoint>(stateEntity);
+            MoverBuffer = transaction.GetBuffer<Mover>(stateEntity);
         }
 
         public StateData(int jobIndex, EntityCommandBuffer.ParallelWriter entityCommandBuffer, Entity stateEntity)
@@ -317,12 +341,13 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
             TraitBasedObjects = entityCommandBuffer.AddBuffer<TraitBasedObject>(jobIndex, stateEntity);
             TraitBasedObjectIds = entityCommandBuffer.AddBuffer<TraitBasedObjectId>(jobIndex, stateEntity);
 
-            EnemyBuffer = entityCommandBuffer.AddBuffer<Enemy>(jobIndex, stateEntity);
             LocationBuffer = entityCommandBuffer.AddBuffer<Location>(jobIndex, stateEntity);
+            EnemyBuffer = entityCommandBuffer.AddBuffer<Enemy>(jobIndex, stateEntity);
             PlayerBuffer = entityCommandBuffer.AddBuffer<Player>(jobIndex, stateEntity);
-            HideableBuffer = entityCommandBuffer.AddBuffer<Hideable>(jobIndex, stateEntity);
-            GoalPointBuffer = entityCommandBuffer.AddBuffer<GoalPoint>(jobIndex, stateEntity);
             PlanningAgentBuffer = entityCommandBuffer.AddBuffer<PlanningAgent>(jobIndex, stateEntity);
+            MoveableBuffer = entityCommandBuffer.AddBuffer<Moveable>(jobIndex, stateEntity);
+            GoalPointBuffer = entityCommandBuffer.AddBuffer<GoalPoint>(jobIndex, stateEntity);
+            MoverBuffer = entityCommandBuffer.AddBuffer<Mover>(jobIndex, stateEntity);
         }
 
         public StateData Copy(int jobIndex, EntityCommandBuffer.ParallelWriter entityCommandBuffer)
@@ -333,18 +358,20 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
             var traitBasedObjectIds = entityCommandBuffer.SetBuffer<TraitBasedObjectId>(jobIndex, stateEntity);
             traitBasedObjectIds.CopyFrom(TraitBasedObjectIds.AsNativeArray());
 
-            var Enemys = entityCommandBuffer.SetBuffer<Enemy>(jobIndex, stateEntity);
-            Enemys.CopyFrom(EnemyBuffer.AsNativeArray());
             var Locations = entityCommandBuffer.SetBuffer<Location>(jobIndex, stateEntity);
             Locations.CopyFrom(LocationBuffer.AsNativeArray());
+            var Enemys = entityCommandBuffer.SetBuffer<Enemy>(jobIndex, stateEntity);
+            Enemys.CopyFrom(EnemyBuffer.AsNativeArray());
             var Players = entityCommandBuffer.SetBuffer<Player>(jobIndex, stateEntity);
             Players.CopyFrom(PlayerBuffer.AsNativeArray());
-            var Hideables = entityCommandBuffer.SetBuffer<Hideable>(jobIndex, stateEntity);
-            Hideables.CopyFrom(HideableBuffer.AsNativeArray());
-            var GoalPoints = entityCommandBuffer.SetBuffer<GoalPoint>(jobIndex, stateEntity);
-            GoalPoints.CopyFrom(GoalPointBuffer.AsNativeArray());
             var PlanningAgents = entityCommandBuffer.SetBuffer<PlanningAgent>(jobIndex, stateEntity);
             PlanningAgents.CopyFrom(PlanningAgentBuffer.AsNativeArray());
+            var Moveables = entityCommandBuffer.SetBuffer<Moveable>(jobIndex, stateEntity);
+            Moveables.CopyFrom(MoveableBuffer.AsNativeArray());
+            var GoalPoints = entityCommandBuffer.SetBuffer<GoalPoint>(jobIndex, stateEntity);
+            GoalPoints.CopyFrom(GoalPointBuffer.AsNativeArray());
+            var Movers = entityCommandBuffer.SetBuffer<Mover>(jobIndex, stateEntity);
+            Movers.CopyFrom(MoverBuffer.AsNativeArray());
 
             return new StateData
             {
@@ -352,12 +379,13 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
                 TraitBasedObjects = traitBasedObjects,
                 TraitBasedObjectIds = traitBasedObjectIds,
 
-                EnemyBuffer = Enemys,
                 LocationBuffer = Locations,
+                EnemyBuffer = Enemys,
                 PlayerBuffer = Players,
-                HideableBuffer = Hideables,
-                GoalPointBuffer = GoalPoints,
                 PlanningAgentBuffer = PlanningAgents,
+                MoveableBuffer = Moveables,
+                GoalPointBuffer = GoalPoints,
+                MoverBuffer = Movers,
             };
         }
 
@@ -371,35 +399,40 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
             for (int i = 0; i < types.Length; i++)
             {
                 var t = types[i];
-                if (t.TypeIndex == s_EnemyTypeIndex)
-                {
-                    EnemyBuffer.Add(default);
-                    traitBasedObject.EnemyIndex = (byte) (EnemyBuffer.Length - 1);
-                }
-                else if (t.TypeIndex == s_LocationTypeIndex)
+                if (t.TypeIndex == s_LocationTypeIndex)
                 {
                     LocationBuffer.Add(default);
                     traitBasedObject.LocationIndex = (byte) (LocationBuffer.Length - 1);
+                }
+                else if (t.TypeIndex == s_EnemyTypeIndex)
+                {
+                    EnemyBuffer.Add(default);
+                    traitBasedObject.EnemyIndex = (byte) (EnemyBuffer.Length - 1);
                 }
                 else if (t.TypeIndex == s_PlayerTypeIndex)
                 {
                     PlayerBuffer.Add(default);
                     traitBasedObject.PlayerIndex = (byte) (PlayerBuffer.Length - 1);
                 }
-                else if (t.TypeIndex == s_HideableTypeIndex)
+                else if (t.TypeIndex == s_PlanningAgentTypeIndex)
                 {
-                    HideableBuffer.Add(default);
-                    traitBasedObject.HideableIndex = (byte) (HideableBuffer.Length - 1);
+                    PlanningAgentBuffer.Add(default);
+                    traitBasedObject.PlanningAgentIndex = (byte) (PlanningAgentBuffer.Length - 1);
+                }
+                else if (t.TypeIndex == s_MoveableTypeIndex)
+                {
+                    MoveableBuffer.Add(default);
+                    traitBasedObject.MoveableIndex = (byte) (MoveableBuffer.Length - 1);
                 }
                 else if (t.TypeIndex == s_GoalPointTypeIndex)
                 {
                     GoalPointBuffer.Add(default);
                     traitBasedObject.GoalPointIndex = (byte) (GoalPointBuffer.Length - 1);
                 }
-                else if (t.TypeIndex == s_PlanningAgentTypeIndex)
+                else if (t.TypeIndex == s_MoverTypeIndex)
                 {
-                    PlanningAgentBuffer.Add(default);
-                    traitBasedObject.PlanningAgentIndex = (byte) (PlanningAgentBuffer.Length - 1);
+                    MoverBuffer.Add(default);
+                    traitBasedObject.MoverIndex = (byte) (MoverBuffer.Length - 1);
                 }
             }
 
@@ -421,17 +454,17 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
             {
                 foreach (var type in sourceTraitTypes)
                 {
-                    if (type == typeof(Generated.Semantic.Traits.EnemyData))
-                    {
-                        var traitData = sourceEntityManager.GetComponentData<Generated.Semantic.Traits.EnemyData>(sourceEntity);
-                        var plannerTraitData = new Enemy();
-                        UnsafeUtility.CopyStructureToPtr(ref traitData, UnsafeUtility.AddressOf(ref plannerTraitData));
-                        SetTraitOnObject(plannerTraitData, ref traitBasedObject);
-                    }
                     if (type == typeof(Generated.Semantic.Traits.LocationData))
                     {
                         var traitData = sourceEntityManager.GetComponentData<Generated.Semantic.Traits.LocationData>(sourceEntity);
                         var plannerTraitData = new Location();
+                        UnsafeUtility.CopyStructureToPtr(ref traitData, UnsafeUtility.AddressOf(ref plannerTraitData));
+                        SetTraitOnObject(plannerTraitData, ref traitBasedObject);
+                    }
+                    if (type == typeof(Generated.Semantic.Traits.EnemyData))
+                    {
+                        var traitData = sourceEntityManager.GetComponentData<Generated.Semantic.Traits.EnemyData>(sourceEntity);
+                        var plannerTraitData = new Enemy();
                         UnsafeUtility.CopyStructureToPtr(ref traitData, UnsafeUtility.AddressOf(ref plannerTraitData));
                         SetTraitOnObject(plannerTraitData, ref traitBasedObject);
                     }
@@ -441,8 +474,16 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
                         var plannerTraitData = new Player();
                         plannerTraitData.IsSpotted = traitData.IsSpotted;
                         plannerTraitData.IsRunning = traitData.IsRunning;
+                        plannerTraitData.Speed = traitData.Speed;
                         if (entityToObjectId.TryGetValue(traitData.SetWaypoint, out var SetWaypoint))
                             plannerTraitData.SetWaypoint = SetWaypoint;
+                        SetTraitOnObject(plannerTraitData, ref traitBasedObject);
+                    }
+                    if (type == typeof(Generated.Semantic.Traits.MoverData))
+                    {
+                        var traitData = sourceEntityManager.GetComponentData<Generated.Semantic.Traits.MoverData>(sourceEntity);
+                        var plannerTraitData = new Mover();
+                        UnsafeUtility.CopyStructureToPtr(ref traitData, UnsafeUtility.AddressOf(ref plannerTraitData));
                         SetTraitOnObject(plannerTraitData, ref traitBasedObject);
                     }
                 }
@@ -451,36 +492,40 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
 
         public void SetTraitOnObject(ITrait trait, ref TraitBasedObject traitBasedObject)
         {
-            if (trait is Enemy EnemyTrait)
-                SetTraitOnObject(EnemyTrait, ref traitBasedObject);
-            else if (trait is Location LocationTrait)
+            if (trait is Location LocationTrait)
                 SetTraitOnObject(LocationTrait, ref traitBasedObject);
+            else if (trait is Enemy EnemyTrait)
+                SetTraitOnObject(EnemyTrait, ref traitBasedObject);
             else if (trait is Player PlayerTrait)
                 SetTraitOnObject(PlayerTrait, ref traitBasedObject);
-            else if (trait is Hideable HideableTrait)
-                SetTraitOnObject(HideableTrait, ref traitBasedObject);
-            else if (trait is GoalPoint GoalPointTrait)
-                SetTraitOnObject(GoalPointTrait, ref traitBasedObject);
             else if (trait is PlanningAgent PlanningAgentTrait)
                 SetTraitOnObject(PlanningAgentTrait, ref traitBasedObject);
+            else if (trait is Moveable MoveableTrait)
+                SetTraitOnObject(MoveableTrait, ref traitBasedObject);
+            else if (trait is GoalPoint GoalPointTrait)
+                SetTraitOnObject(GoalPointTrait, ref traitBasedObject);
+            else if (trait is Mover MoverTrait)
+                SetTraitOnObject(MoverTrait, ref traitBasedObject);
             else 
                 throw new ArgumentException($"Trait {trait} of type {trait.GetType()} is not supported in this state representation.");
         }
 
         public void SetTraitOnObjectAtIndex(ITrait trait, int traitBasedObjectIndex)
         {
-            if (trait is Enemy EnemyTrait)
-                SetTraitOnObjectAtIndex(EnemyTrait, traitBasedObjectIndex);
-            else if (trait is Location LocationTrait)
+            if (trait is Location LocationTrait)
                 SetTraitOnObjectAtIndex(LocationTrait, traitBasedObjectIndex);
+            else if (trait is Enemy EnemyTrait)
+                SetTraitOnObjectAtIndex(EnemyTrait, traitBasedObjectIndex);
             else if (trait is Player PlayerTrait)
                 SetTraitOnObjectAtIndex(PlayerTrait, traitBasedObjectIndex);
-            else if (trait is Hideable HideableTrait)
-                SetTraitOnObjectAtIndex(HideableTrait, traitBasedObjectIndex);
-            else if (trait is GoalPoint GoalPointTrait)
-                SetTraitOnObjectAtIndex(GoalPointTrait, traitBasedObjectIndex);
             else if (trait is PlanningAgent PlanningAgentTrait)
                 SetTraitOnObjectAtIndex(PlanningAgentTrait, traitBasedObjectIndex);
+            else if (trait is Moveable MoveableTrait)
+                SetTraitOnObjectAtIndex(MoveableTrait, traitBasedObjectIndex);
+            else if (trait is GoalPoint GoalPointTrait)
+                SetTraitOnObjectAtIndex(GoalPointTrait, traitBasedObjectIndex);
+            else if (trait is Mover MoverTrait)
+                SetTraitOnObjectAtIndex(MoverTrait, traitBasedObjectIndex);
             else 
                 throw new ArgumentException($"Trait {trait} of type {trait.GetType()} is not supported in this state representation.");
         }
@@ -584,12 +629,13 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
                 return false;
 
 
-            RemoveTraitOnObject<Enemy>(ref traitBasedObject);
             RemoveTraitOnObject<Location>(ref traitBasedObject);
+            RemoveTraitOnObject<Enemy>(ref traitBasedObject);
             RemoveTraitOnObject<Player>(ref traitBasedObject);
-            RemoveTraitOnObject<Hideable>(ref traitBasedObject);
-            RemoveTraitOnObject<GoalPoint>(ref traitBasedObject);
             RemoveTraitOnObject<PlanningAgent>(ref traitBasedObject);
+            RemoveTraitOnObject<Moveable>(ref traitBasedObject);
+            RemoveTraitOnObject<GoalPoint>(ref traitBasedObject);
+            RemoveTraitOnObject<Mover>(ref traitBasedObject);
 
             TraitBasedObjects.RemoveAt(objectIndex);
             TraitBasedObjectIds.RemoveAt(objectIndex);
@@ -674,12 +720,13 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
 
         public bool RemoveTraitBasedObjectAtIndex(int traitBasedObjectIndex)
         {
-            RemoveTraitOnObjectAtIndex<Enemy>(traitBasedObjectIndex);
             RemoveTraitOnObjectAtIndex<Location>(traitBasedObjectIndex);
+            RemoveTraitOnObjectAtIndex<Enemy>(traitBasedObjectIndex);
             RemoveTraitOnObjectAtIndex<Player>(traitBasedObjectIndex);
-            RemoveTraitOnObjectAtIndex<Hideable>(traitBasedObjectIndex);
-            RemoveTraitOnObjectAtIndex<GoalPoint>(traitBasedObjectIndex);
             RemoveTraitOnObjectAtIndex<PlanningAgent>(traitBasedObjectIndex);
+            RemoveTraitOnObjectAtIndex<Moveable>(traitBasedObjectIndex);
+            RemoveTraitOnObjectAtIndex<GoalPoint>(traitBasedObjectIndex);
+            RemoveTraitOnObjectAtIndex<Mover>(traitBasedObjectIndex);
 
             TraitBasedObjects.RemoveAt(traitBasedObjectIndex);
             TraitBasedObjectIds.RemoveAt(traitBasedObjectIndex);
@@ -771,17 +818,19 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
             switch (index)
             {
                 case 0:
-                    return EnemyBuffer.Reinterpret<T>();
-                case 1:
                     return LocationBuffer.Reinterpret<T>();
+                case 1:
+                    return EnemyBuffer.Reinterpret<T>();
                 case 2:
                     return PlayerBuffer.Reinterpret<T>();
                 case 3:
-                    return HideableBuffer.Reinterpret<T>();
-                case 4:
-                    return GoalPointBuffer.Reinterpret<T>();
-                case 5:
                     return PlanningAgentBuffer.Reinterpret<T>();
+                case 4:
+                    return MoveableBuffer.Reinterpret<T>();
+                case 5:
+                    return GoalPointBuffer.Reinterpret<T>();
+                case 6:
+                    return MoverBuffer.Reinterpret<T>();
             }
 
             return default;
@@ -796,12 +845,13 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
 
             // Easy check is to make sure each state has the same number of trait-based objects
             if (TraitBasedObjects.Length != rhsState.TraitBasedObjects.Length
-                || EnemyBuffer.Length != rhsState.EnemyBuffer.Length
                 || LocationBuffer.Length != rhsState.LocationBuffer.Length
+                || EnemyBuffer.Length != rhsState.EnemyBuffer.Length
                 || PlayerBuffer.Length != rhsState.PlayerBuffer.Length
-                || HideableBuffer.Length != rhsState.HideableBuffer.Length
+                || PlanningAgentBuffer.Length != rhsState.PlanningAgentBuffer.Length
+                || MoveableBuffer.Length != rhsState.MoveableBuffer.Length
                 || GoalPointBuffer.Length != rhsState.GoalPointBuffer.Length
-                || PlanningAgentBuffer.Length != rhsState.PlanningAgentBuffer.Length)
+                || MoverBuffer.Length != rhsState.MoverBuffer.Length)
                 return false;
 
             var objectMap = new ObjectCorrespondence(TraitBasedObjectIds.Length, Allocator.Temp);
@@ -815,12 +865,13 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
         {
             // Easy check is to make sure each state has the same number of domain objects
             if (TraitBasedObjects.Length != rhsState.TraitBasedObjects.Length
-                || EnemyBuffer.Length != rhsState.EnemyBuffer.Length
                 || LocationBuffer.Length != rhsState.LocationBuffer.Length
+                || EnemyBuffer.Length != rhsState.EnemyBuffer.Length
                 || PlayerBuffer.Length != rhsState.PlayerBuffer.Length
-                || HideableBuffer.Length != rhsState.HideableBuffer.Length
+                || PlanningAgentBuffer.Length != rhsState.PlanningAgentBuffer.Length
+                || MoveableBuffer.Length != rhsState.MoveableBuffer.Length
                 || GoalPointBuffer.Length != rhsState.GoalPointBuffer.Length
-                || PlanningAgentBuffer.Length != rhsState.PlanningAgentBuffer.Length)
+                || MoverBuffer.Length != rhsState.MoverBuffer.Length)
                 return false;
 
             return TryGetObjectMapping(rhsState, objectMap);
@@ -887,13 +938,13 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
             if (!traitBasedObjectLHS.HasSameTraits(traitBasedObjectRHS))
                 return false;
 
-            if (traitBasedObjectLHS.EnemyIndex != TraitBasedObject.Unset
-                && !EnemyTraitAttributesEqual(EnemyBuffer[traitBasedObjectLHS.EnemyIndex], rhsState.EnemyBuffer[traitBasedObjectRHS.EnemyIndex]))
+            if (traitBasedObjectLHS.LocationIndex != TraitBasedObject.Unset
+                && !LocationTraitAttributesEqual(LocationBuffer[traitBasedObjectLHS.LocationIndex], rhsState.LocationBuffer[traitBasedObjectRHS.LocationIndex]))
                 return false;
 
 
-            if (traitBasedObjectLHS.LocationIndex != TraitBasedObject.Unset
-                && !LocationTraitAttributesEqual(LocationBuffer[traitBasedObjectLHS.LocationIndex], rhsState.LocationBuffer[traitBasedObjectRHS.LocationIndex]))
+            if (traitBasedObjectLHS.EnemyIndex != TraitBasedObject.Unset
+                && !EnemyTraitAttributesEqual(EnemyBuffer[traitBasedObjectLHS.EnemyIndex], rhsState.EnemyBuffer[traitBasedObjectRHS.EnemyIndex]))
                 return false;
 
 
@@ -905,7 +956,19 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
 
 
 
+            if (traitBasedObjectLHS.MoverIndex != TraitBasedObject.Unset
+                && !MoverTraitAttributesEqual(MoverBuffer[traitBasedObjectLHS.MoverIndex], rhsState.MoverBuffer[traitBasedObjectRHS.MoverIndex]))
+                return false;
+
+
             return true;
+        }
+        
+        bool LocationTraitAttributesEqual(Location one, Location two)
+        {
+            return
+                    one.Position == two.Position && 
+                    one.Forward == two.Forward;
         }
         
         bool EnemyTraitAttributesEqual(Enemy one, Enemy two)
@@ -918,18 +981,23 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
                     one.FOVRadius == two.FOVRadius;
         }
         
-        bool LocationTraitAttributesEqual(Location one, Location two)
-        {
-            return
-                    one.Position == two.Position && 
-                    one.Forward == two.Forward;
-        }
-        
         bool PlayerTraitAttributesEqual(Player one, Player two)
         {
             return
                     one.IsSpotted == two.IsSpotted && 
-                    one.IsRunning == two.IsRunning;
+                    one.IsRunning == two.IsRunning && 
+                    one.Speed == two.Speed;
+        }
+        
+        bool MoverTraitAttributesEqual(Mover one, Mover two)
+        {
+            return
+                    one.X == two.X && 
+                    one.Y == two.Y && 
+                    one.Z == two.Z && 
+                    one.ForwardX == two.ForwardX && 
+                    one.ForwardY == two.ForwardY && 
+                    one.ForwardZ == two.ForwardZ;
         }
         
         bool CheckRelationsAndQueueObjects(TraitBasedObject traitBasedObjectLHS, TraitBasedObject traitBasedObjectRHS, StateData rhsState, ObjectCorrespondence objectMap)
@@ -969,6 +1037,15 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
 
             int bufferLength;
 
+            bufferLength = LocationBuffer.Length;
+            for (int i = 0; i < bufferLength; i++)
+            {
+                var element = LocationBuffer[i];
+                var value = 397
+                    ^ element.Position.GetHashCode()
+                    ^ element.Forward.GetHashCode();
+                stateHashValue = 3860031 + (stateHashValue + value) * 2779 + (stateHashValue * value * 2);
+            }
             bufferLength = EnemyBuffer.Length;
             for (int i = 0; i < bufferLength; i++)
             {
@@ -981,25 +1058,23 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
                     ^ element.FOVRadius.GetHashCode();
                 stateHashValue = 3860031 + (stateHashValue + value) * 2779 + (stateHashValue * value * 2);
             }
-            bufferLength = LocationBuffer.Length;
-            for (int i = 0; i < bufferLength; i++)
-            {
-                var element = LocationBuffer[i];
-                var value = 397
-                    ^ element.Position.GetHashCode()
-                    ^ element.Forward.GetHashCode();
-                stateHashValue = 3860031 + (stateHashValue + value) * 2779 + (stateHashValue * value * 2);
-            }
             bufferLength = PlayerBuffer.Length;
             for (int i = 0; i < bufferLength; i++)
             {
                 var element = PlayerBuffer[i];
                 var value = 397
                     ^ element.IsSpotted.GetHashCode()
-                    ^ element.IsRunning.GetHashCode();
+                    ^ element.IsRunning.GetHashCode()
+                    ^ element.Speed.GetHashCode();
                 stateHashValue = 3860031 + (stateHashValue + value) * 2779 + (stateHashValue * value * 2);
             }
-            bufferLength = HideableBuffer.Length;
+            bufferLength = PlanningAgentBuffer.Length;
+            for (int i = 0; i < bufferLength; i++)
+            {
+                var value = 397;
+                stateHashValue = 3860031 + (stateHashValue + value) * 2779 + (stateHashValue * value * 2);
+            }
+            bufferLength = MoveableBuffer.Length;
             for (int i = 0; i < bufferLength; i++)
             {
                 var value = 397;
@@ -1011,10 +1086,17 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
                 var value = 397;
                 stateHashValue = 3860031 + (stateHashValue + value) * 2779 + (stateHashValue * value * 2);
             }
-            bufferLength = PlanningAgentBuffer.Length;
+            bufferLength = MoverBuffer.Length;
             for (int i = 0; i < bufferLength; i++)
             {
-                var value = 397;
+                var element = MoverBuffer[i];
+                var value = 397
+                    ^ element.X.GetHashCode()
+                    ^ element.Y.GetHashCode()
+                    ^ element.Z.GetHashCode()
+                    ^ element.ForwardX.GetHashCode()
+                    ^ element.ForwardY.GetHashCode()
+                    ^ element.ForwardZ.GetHashCode();
                 stateHashValue = 3860031 + (stateHashValue + value) * 2779 + (stateHashValue * value * 2);
             }
 
@@ -1037,11 +1119,11 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
 
                 var traitIndex = traitBasedObject[i++];
                 if (traitIndex != TraitBasedObject.Unset)
-                    sb.AppendLine(EnemyBuffer[traitIndex].ToString());
+                    sb.AppendLine(LocationBuffer[traitIndex].ToString());
 
                 traitIndex = traitBasedObject[i++];
                 if (traitIndex != TraitBasedObject.Unset)
-                    sb.AppendLine(LocationBuffer[traitIndex].ToString());
+                    sb.AppendLine(EnemyBuffer[traitIndex].ToString());
 
                 traitIndex = traitBasedObject[i++];
                 if (traitIndex != TraitBasedObject.Unset)
@@ -1049,7 +1131,11 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
 
                 traitIndex = traitBasedObject[i++];
                 if (traitIndex != TraitBasedObject.Unset)
-                    sb.AppendLine(HideableBuffer[traitIndex].ToString());
+                    sb.AppendLine(PlanningAgentBuffer[traitIndex].ToString());
+
+                traitIndex = traitBasedObject[i++];
+                if (traitIndex != TraitBasedObject.Unset)
+                    sb.AppendLine(MoveableBuffer[traitIndex].ToString());
 
                 traitIndex = traitBasedObject[i++];
                 if (traitIndex != TraitBasedObject.Unset)
@@ -1057,7 +1143,7 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
 
                 traitIndex = traitBasedObject[i++];
                 if (traitIndex != TraitBasedObject.Unset)
-                    sb.AppendLine(PlanningAgentBuffer[traitIndex].ToString());
+                    sb.AppendLine(MoverBuffer[traitIndex].ToString());
 
                 sb.AppendLine();
             }
@@ -1076,12 +1162,13 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
         [ReadOnly,NativeDisableContainerSafetyRestriction] public BufferFromEntity<TraitBasedObject> TraitBasedObjects;
         [ReadOnly,NativeDisableContainerSafetyRestriction] public BufferFromEntity<TraitBasedObjectId> TraitBasedObjectIds;
 
-        [ReadOnly,NativeDisableContainerSafetyRestriction] public BufferFromEntity<Enemy> EnemyData;
         [ReadOnly,NativeDisableContainerSafetyRestriction] public BufferFromEntity<Location> LocationData;
+        [ReadOnly,NativeDisableContainerSafetyRestriction] public BufferFromEntity<Enemy> EnemyData;
         [ReadOnly,NativeDisableContainerSafetyRestriction] public BufferFromEntity<Player> PlayerData;
-        [ReadOnly,NativeDisableContainerSafetyRestriction] public BufferFromEntity<Hideable> HideableData;
-        [ReadOnly,NativeDisableContainerSafetyRestriction] public BufferFromEntity<GoalPoint> GoalPointData;
         [ReadOnly,NativeDisableContainerSafetyRestriction] public BufferFromEntity<PlanningAgent> PlanningAgentData;
+        [ReadOnly,NativeDisableContainerSafetyRestriction] public BufferFromEntity<Moveable> MoveableData;
+        [ReadOnly,NativeDisableContainerSafetyRestriction] public BufferFromEntity<GoalPoint> GoalPointData;
+        [ReadOnly,NativeDisableContainerSafetyRestriction] public BufferFromEntity<Mover> MoverData;
 
         [NativeDisableContainerSafetyRestriction,ReadOnly] ObjectCorrespondence m_ObjectCorrespondence;
 
@@ -1091,12 +1178,13 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
             TraitBasedObjects = system.GetBufferFromEntity<TraitBasedObject>(true);
             TraitBasedObjectIds = system.GetBufferFromEntity<TraitBasedObjectId>(true);
 
-            EnemyData = system.GetBufferFromEntity<Enemy>(true);
             LocationData = system.GetBufferFromEntity<Location>(true);
+            EnemyData = system.GetBufferFromEntity<Enemy>(true);
             PlayerData = system.GetBufferFromEntity<Player>(true);
-            HideableData = system.GetBufferFromEntity<Hideable>(true);
-            GoalPointData = system.GetBufferFromEntity<GoalPoint>(true);
             PlanningAgentData = system.GetBufferFromEntity<PlanningAgent>(true);
+            MoveableData = system.GetBufferFromEntity<Moveable>(true);
+            GoalPointData = system.GetBufferFromEntity<GoalPoint>(true);
+            MoverData = system.GetBufferFromEntity<Mover>(true);
 
             m_StateArchetype = stateArchetype;
             JobIndex = 0;
@@ -1114,12 +1202,13 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
                 TraitBasedObjects = TraitBasedObjects[stateEntity],
                 TraitBasedObjectIds = TraitBasedObjectIds[stateEntity],
 
-                EnemyBuffer = EnemyData[stateEntity],
                 LocationBuffer = LocationData[stateEntity],
+                EnemyBuffer = EnemyData[stateEntity],
                 PlayerBuffer = PlayerData[stateEntity],
-                HideableBuffer = HideableData[stateEntity],
-                GoalPointBuffer = GoalPointData[stateEntity],
                 PlanningAgentBuffer = PlanningAgentData[stateEntity],
+                MoveableBuffer = MoveableData[stateEntity],
+                GoalPointBuffer = GoalPointData[stateEntity],
+                MoverBuffer = MoverData[stateEntity],
             };
         }
 
@@ -1208,12 +1297,13 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
         protected override void OnCreate()
         {
             m_StateArchetype = base.EntityManager.CreateArchetype(typeof(State), typeof(TraitBasedObject), typeof(TraitBasedObjectId), typeof(HashCode),
-                typeof(Enemy),
                 typeof(Location),
+                typeof(Enemy),
                 typeof(Player),
-                typeof(Hideable),
+                typeof(PlanningAgent),
+                typeof(Moveable),
                 typeof(GoalPoint),
-                typeof(PlanningAgent));
+                typeof(Mover));
 
             m_EntityCommandBuffers = new List<EntityCommandBuffer>();
         }

@@ -24,6 +24,7 @@ MonoBehaviour:
   - m_Name: Player
     m_RequiredTraits:
     - {fileID: 11400000, guid: 54b85485fe12d7a498cdc469687b5816, type: 2}
+    - {fileID: 11400000, guid: 04bfc658f08663645a9f9ba1508a757c, type: 2}
     m_ProhibitedTraits: []
     m_LimitCount: 0
     m_LimitComparerType: 
@@ -43,5 +44,5 @@ MonoBehaviour:
       m_TraitPropertyId: -1
       m_Enum: {fileID: 0}
       m_Value: 
-  m_TerminalReward: 100
+  m_TerminalReward: 0
   m_CustomTerminalRewards: []
