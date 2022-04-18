@@ -135,14 +135,18 @@ public class EnemyController : MonoBehaviour
         //transform.rotation = Quaternion.LookRotation(directions[(int) closestDir.Item1]);
     }
 
-    // Start is called before the first frame update
-    void Awake()
+    private void Awake()
     {
         // Initialize initial state
         agent = GetComponent<NavMeshAgent>();
         fov = transform.GetChild(0).GetComponent<FieldOfView>();
         isWalking = true;
         isInspecting = false;
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
         //Walk to first waypoint
         agent.SetDestination(_waypoints[waypointPointer].position);
     }
@@ -152,6 +156,7 @@ public class EnemyController : MonoBehaviour
     {
         //Debug.Log("Facing: " + transform.forward);
         UpdateFacingPlayer();
+        fov.FindPlayer();
 
         // Inspecting area
         if (!isWalking)

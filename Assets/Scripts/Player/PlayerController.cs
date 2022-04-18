@@ -8,10 +8,11 @@ using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
-    float updateQueryDelay = 0.1f;
+    float updateQueryDelay = 0.5f;
     float timeOfLastQueryUpdate;
     DecisionController decisionController;
     GameObject player;
+    PlayerHandler playerHandler;
     Player playerTrait;
     Mover moverTrait;
     NavMeshAgent navMAgent;
@@ -21,6 +22,7 @@ public class PlayerController : MonoBehaviour
     {
         decisionController = GetComponent<DecisionController>();
         player = GameObject.Find("Player");
+        playerHandler = player.GetComponent<PlayerHandler>();
         playerTrait = player.GetComponent<Player>();
         moverTrait = player.GetComponent<Mover>();
         navMAgent = player.GetComponent<NavMeshAgent>();
@@ -38,10 +40,11 @@ public class PlayerController : MonoBehaviour
         moverTrait.ForwardX = player.transform.forward.x;
         moverTrait.ForwardY = player.transform.forward.y;
         moverTrait.ForwardZ = player.transform.forward.z;
+        //Debug.Log("Player running: " + playerTrait.IsRunning);
 
         // Update world state constantly and not just after every action
         if (decisionController.Initialized && decisionController.IsIdle && 
-            Time.realtimeSinceStartup > timeOfLastQueryUpdate + updateQueryDelay && !playerTrait.IsRunning && !playerTrait.IsSpotted)
+            Time.realtimeSinceStartup > timeOfLastQueryUpdate + updateQueryDelay && !playerHandler.isSpotted)
         {
             decisionController.UpdateStateWithWorldQuery();
             timeOfLastQueryUpdate = Time.realtimeSinceStartup;
@@ -76,27 +79,30 @@ public class PlayerController : MonoBehaviour
     {
         //Debug.Log("Running away to: " + closestWaypoint.name);
         navMAgent.SetDestination(destination.transform.position);
-        while (true)
-        {
-            if (!navMAgent.pathPending)
-            {
-                if (navMAgent.remainingDistance <= navMAgent.stoppingDistance)
-                {
-                    if (!navMAgent.hasPath || navMAgent.velocity.sqrMagnitude == 0f)
-                    {
-                        break;
-                    }
-                }
-            }
-            yield return null;
-        }
-    
+        playerHandler.isRunning = true;
+        //while (true)
+        //{
+        //    if (!navMAgent.pathPending)
+        //    {
+        //        if (navMAgent.remainingDistance <= navMAgent.stoppingDistance)
+        //        {
+        //            if (!navMAgent.hasPath || navMAgent.velocity.sqrMagnitude == 0f)
+        //            {
+        //                break;
+        //            }
+        //        }
+        //    }
+        //    yield return null;
+        //}
+        yield return null;
         
     }
 
     public IEnumerator Wait()
     {
-        yield return null;
+        playerHandler.isHiding = true;
+        playerHandler.isRunning = false;
+        yield return new WaitForSeconds(1.5f);
     }
 
 

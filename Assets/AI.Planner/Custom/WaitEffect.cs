@@ -40,11 +40,20 @@ public struct WaitEffect : ICustomActionEffect<StateData>
         float timeToHideable = Vector3.Distance(hideableLocationTrait.Position, playerPos) / playerTrait.Speed;
         float enemyTimeToWaypoint = enemyTrait.DistToWaypoint / enemyTrait.Speed;
 
-        float timeDelta = 0f;
+        //Debug.Log("EnemyPos: " + enemyPos);
+        //Debug.Log("PlayerPos: " + playerPos);
+        //Debug.Log("Player Speed: " + playerTrait.Speed);
+        //Debug.Log("Enemy Direction: " + enemyDirection);
+        //Debug.Log("Player Direction: " + playerDirection);
+        //Debug.Log("Time to hideable:" + timeToHideable);
+        //Debug.Log("Enemy time to waypoint: " + enemyTimeToWaypoint);
 
+        float timeDelta = 0f;
+        int iterations = 0;
         //Incrementally check if player coincides with enemy's vision with t = 0.5
         while (timeDelta <= timeToHideable)
         {
+            
             enemyPos += enemyDirection * 0.5f * enemyTrait.Speed;
             playerPos += playerDirection * 0.5f * playerTrait.Speed;
 
@@ -60,7 +69,7 @@ public struct WaitEffect : ICustomActionEffect<StateData>
             }
 
             timeDelta += 0.5f;
-            
+
             //Enemy reached its checkpoint
             if (enemyTimeToWaypoint - timeDelta <= 0)
             {
@@ -71,7 +80,6 @@ public struct WaitEffect : ICustomActionEffect<StateData>
 
         //Apply necessary trait updates (mover trait details are redundant as they will be updated with world state when subplan is complete)
         playerTrait.IsRunning = false;
-        playerTrait.SetWaypoint = hideableId;
         playerTrait.IsHiding = true;
 
         //Add to new state

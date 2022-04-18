@@ -8,12 +8,16 @@ public class PlayerHandler : MonoBehaviour
 {
     private Rigidbody rb;
     private NavMeshAgent agent;
-    public bool isHiding = false;
     private Vector3 prevPos;
     public float thrust = 1.2f;
     [SerializeField]
     private List<Transform> _waypoints;
+    [HideInInspector]
     public bool isSpotted = false;
+    [HideInInspector]
+    public bool isRunning = false;
+    [HideInInspector]
+    public bool isHiding = false;
 
     public void setIsSpotted (bool b)
     {

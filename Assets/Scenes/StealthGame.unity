@@ -4249,7 +4249,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6394127625303521747, guid: 6dc83f3ec9e972f448766212546824d8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 26.94
+      value: 26.93
       objectReference: {fileID: 0}
     - target: {fileID: 6394127625303521747, guid: 6dc83f3ec9e972f448766212546824d8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4257,7 +4257,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6394127625303521747, guid: 6dc83f3ec9e972f448766212546824d8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -15.07
+      value: -13.91
       objectReference: {fileID: 0}
     - target: {fileID: 6394127625303521747, guid: 6dc83f3ec9e972f448766212546824d8, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5381,7 +5381,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6394127625303521747, guid: 6dc83f3ec9e972f448766212546824d8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.34
+      value: 6.15
       objectReference: {fileID: 0}
     - target: {fileID: 6394127625303521747, guid: 6dc83f3ec9e972f448766212546824d8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5389,7 +5389,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6394127625303521747, guid: 6dc83f3ec9e972f448766212546824d8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -19.42
+      value: -9.76
       objectReference: {fileID: 0}
     - target: {fileID: 6394127625303521747, guid: 6dc83f3ec9e972f448766212546824d8, type: 3}
       propertyPath: m_LocalRotation.w
@@ -9702,11 +9702,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c46b2e996b54298408d6e44ca3680379, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isHiding: 0
   thrust: 3
   _waypoints:
   - {fileID: 0}
   isSpotted: 0
+  isRunning: 0
+  isHiding: 0
 --- !u!195 &2085050757
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -9744,7 +9745,7 @@ MonoBehaviour:
   m_p0: {fileID: 0}
   m_p3: 0
   m_p4: 0
-  m_p5: 0
+  m_p5: 5
   m_p6: 0
 --- !u!114 &2085050759
 MonoBehaviour:
