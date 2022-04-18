@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
         //    yield return null;
         //}
 
-        //playerTrait.SetWaypoint = destination;
+        playerTrait.SetWaypoint = destination;
 
         yield return null;
     }

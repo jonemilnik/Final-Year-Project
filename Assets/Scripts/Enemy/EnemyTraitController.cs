@@ -25,6 +25,8 @@ public class EnemyTraitController : MonoBehaviour
         enemyTrait.DistToPlayer = controller.GetDistToPlayer();
         enemyTrait.DistToWaypoint = controller.GetDistToNextWaypoint();
         enemyTrait.IsFacingPlayer = controller.isFacingPlayer;
+        enemyTrait.Speed = controller.agent.velocity.magnitude;
+        //Debug.Log("Enemy speed: " + enemyTrait.Speed);
 
         moverTrait.X = transform.position.x;
         moverTrait.Y = transform.position.y;

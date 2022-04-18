@@ -6,7 +6,8 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
-    private NavMeshAgent agent;
+    [HideInInspector]
+    public NavMeshAgent agent;
     private int waypointPointer = 0;
     private bool isWalking;
     private bool isInspecting;

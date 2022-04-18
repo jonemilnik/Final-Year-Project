@@ -34,7 +34,7 @@ public struct WaitEffect : ICustomActionEffect<StateData>
         Vector3 enemyDirection = new Vector3(enemyMoverTrait.ForwardX, enemyMoverTrait.ForwardY, enemyMoverTrait.ForwardZ);
 
         //Varies with the different hideable args passed to action
-        Vector3 playerDirection = playerPos - hideableLocationTrait.Position;
+        Vector3 playerDirection = hideableLocationTrait.Position - playerPos;
 
         //Calculate estimated time to reach hideable and enemy to its waypoint
         float timeToHideable = Vector3.Distance(hideableLocationTrait.Position, playerPos) / playerTrait.Speed;
@@ -65,6 +65,7 @@ public struct WaitEffect : ICustomActionEffect<StateData>
             {
                 //Makes state undesireable to planner due to termination definition
                 playerTrait.IsSpotted = true;
+                Debug.Log("Spottable Location: " + hideableId.Name.ToString());
                 break;
             }
 

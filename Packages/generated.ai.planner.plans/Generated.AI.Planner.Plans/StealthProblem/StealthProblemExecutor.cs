@@ -123,6 +123,10 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                             var traitLocation = stateData.GetTraitOnObjectAtIndex<Location>(traitBasedObjectIndex);
                             arguments[i] = split.Length == 3 ? traitLocation.GetField(split[2]) : traitLocation;
                             break;
+                        case nameof(GoalPoint):
+                            var traitGoalPoint = stateData.GetTraitOnObjectAtIndex<GoalPoint>(traitBasedObjectIndex);
+                            arguments[i] = split.Length == 3 ? traitGoalPoint.GetField(split[2]) : traitGoalPoint;
+                            break;
                         case nameof(Enemy):
                             var traitEnemy = stateData.GetTraitOnObjectAtIndex<Enemy>(traitBasedObjectIndex);
                             arguments[i] = split.Length == 3 ? traitEnemy.GetField(split[2]) : traitEnemy;
@@ -146,10 +150,6 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                         case nameof(Hideable):
                             var traitHideable = stateData.GetTraitOnObjectAtIndex<Hideable>(traitBasedObjectIndex);
                             arguments[i] = split.Length == 3 ? traitHideable.GetField(split[2]) : traitHideable;
-                            break;
-                        case nameof(GoalPoint):
-                            var traitGoalPoint = stateData.GetTraitOnObjectAtIndex<GoalPoint>(traitBasedObjectIndex);
-                            arguments[i] = split.Length == 3 ? traitGoalPoint.GetField(split[2]) : traitGoalPoint;
                             break;
                     }
                 }

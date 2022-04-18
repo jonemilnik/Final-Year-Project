@@ -16,6 +16,7 @@ MonoBehaviour:
   - m_Name: To
     m_RequiredTraits:
     - {fileID: 11400000, guid: 6b7c2cd8001b84552891cf17ebf8b587, type: 2}
+    - {fileID: 11400000, guid: b42f1dc7c796a6d46b190fb2ed46749a, type: 2}
     m_ProhibitedTraits:
     - {fileID: 11400000, guid: 80239e6d49fa88f42a4404dc77adba35, type: 2}
     - {fileID: 11400000, guid: 54b85485fe12d7a498cdc469687b5816, type: 2}
@@ -60,7 +61,7 @@ MonoBehaviour:
       m_TraitPropertyId: -1
       m_Enum: {fileID: 0}
       m_Value: true
-  - m_Operator: ==
+  - m_Operator: '!='
     m_CustomOperatorType: 
     m_OperandA:
       m_Parameter: Agent
@@ -69,7 +70,7 @@ MonoBehaviour:
       m_Enum: {fileID: 0}
       m_Value: 
     m_OperandB:
-      m_Parameter: 
+      m_Parameter: To
       m_Trait: {fileID: 0}
       m_TraitPropertyId: -1
       m_Enum: {fileID: 0}
