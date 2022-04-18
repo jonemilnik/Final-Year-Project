@@ -61,11 +61,11 @@ namespace Generated.AI.Planner.Plans.StealthProblem
 
         void InitializeLocalContainers()
         {
-            EnemyFilter = new NativeArray<ComponentType>(2, Allocator.Temp){[0] = ComponentType.ReadWrite<Enemy>(),[1] = ComponentType.ReadWrite<Mover>(),  };
+            EnemyFilter = new NativeArray<ComponentType>(1, Allocator.Temp){[0] = ComponentType.ReadWrite<Enemy>(),  };
             EnemyObjectIndices = new NativeList<int>(2, Allocator.Temp);
-            AgentFilter = new NativeArray<ComponentType>(2, Allocator.Temp){[0] = ComponentType.ReadWrite<Player>(),[1] = ComponentType.ReadWrite<Mover>(),  };
+            AgentFilter = new NativeArray<ComponentType>(1, Allocator.Temp){[0] = ComponentType.ReadWrite<Player>(),  };
             AgentObjectIndices = new NativeList<int>(2, Allocator.Temp);
-            ToFilter = new NativeArray<ComponentType>(2, Allocator.Temp){[0] = ComponentType.ReadWrite<Hideable>(),[1] = ComponentType.ReadWrite<Location>(),  };
+            ToFilter = new NativeArray<ComponentType>(1, Allocator.Temp){[0] = ComponentType.ReadWrite<Hideable>(),  };
             ToObjectIndices = new NativeList<int>(2, Allocator.Temp);
 
             ArgumentPermutations = new NativeList<ActionKey>(4, Allocator.Temp);
@@ -112,6 +112,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                 
                 
                 
+                
             
             
 
@@ -124,6 +125,9 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                 if (!(PlayerBuffer[AgentObject.PlayerIndex].IsRunning == false))
                     continue;
                 
+                if (!(PlayerBuffer[AgentObject.PlayerIndex].IsHiding == false))
+                    continue;
+                
                 
                 
             
@@ -133,6 +137,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             {
                 var ToIndex = ToObjectIndices[i2];
                 var ToObject = stateData.TraitBasedObjects[ToIndex];
+                
                 
                 
                 

@@ -109,10 +109,10 @@ public class FieldOfView : MonoBehaviour
             {
                 PlayerHandler player = collider.GetComponent<PlayerHandler>();
                 //If player not hiding
-                if (!player.isHiding)
+                if (true)
                 {
                     player.setIsSpotted(true);
-                    //Debug.Log("Player spotted! ");
+                    Debug.Log("Player spotted! ");
                     //GetComponentInParent<EnemyController>().setPlayerSpotted(true);
                     //FindObjectOfType<GameManager>().LoseGame();
                 }

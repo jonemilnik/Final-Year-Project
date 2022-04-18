@@ -16,7 +16,6 @@ MonoBehaviour:
   - m_Name: Enemy
     m_RequiredTraits:
     - {fileID: 11400000, guid: 80239e6d49fa88f42a4404dc77adba35, type: 2}
-    - {fileID: 11400000, guid: 04bfc658f08663645a9f9ba1508a757c, type: 2}
     m_ProhibitedTraits: []
     m_LimitCount: 0
     m_LimitComparerType: 
@@ -24,14 +23,12 @@ MonoBehaviour:
   - m_Name: Agent
     m_RequiredTraits:
     - {fileID: 11400000, guid: 54b85485fe12d7a498cdc469687b5816, type: 2}
-    - {fileID: 11400000, guid: 04bfc658f08663645a9f9ba1508a757c, type: 2}
     m_ProhibitedTraits: []
     m_LimitCount: 0
     m_LimitComparerType: 
     m_LimitComparerReference: 
   - m_Name: Hideable
     m_RequiredTraits:
-    - {fileID: 11400000, guid: 6b7c2cd8001b84552891cf17ebf8b587, type: 2}
     - {fileID: 11400000, guid: 27b8bb141379f2d43b378c1d62a1ab5f, type: 2}
     m_ProhibitedTraits: []
     m_LimitCount: 0

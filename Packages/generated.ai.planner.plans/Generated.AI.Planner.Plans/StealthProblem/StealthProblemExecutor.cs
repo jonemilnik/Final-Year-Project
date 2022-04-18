@@ -143,13 +143,13 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                             var traitMoveable = stateData.GetTraitOnObjectAtIndex<Moveable>(traitBasedObjectIndex);
                             arguments[i] = split.Length == 3 ? traitMoveable.GetField(split[2]) : traitMoveable;
                             break;
-                        case nameof(Mover):
-                            var traitMover = stateData.GetTraitOnObjectAtIndex<Mover>(traitBasedObjectIndex);
-                            arguments[i] = split.Length == 3 ? traitMover.GetField(split[2]) : traitMover;
-                            break;
                         case nameof(Hideable):
                             var traitHideable = stateData.GetTraitOnObjectAtIndex<Hideable>(traitBasedObjectIndex);
                             arguments[i] = split.Length == 3 ? traitHideable.GetField(split[2]) : traitHideable;
+                            break;
+                        case nameof(Mover):
+                            var traitMover = stateData.GetTraitOnObjectAtIndex<Mover>(traitBasedObjectIndex);
+                            arguments[i] = split.Length == 3 ? traitMover.GetField(split[2]) : traitMover;
                             break;
                     }
                 }

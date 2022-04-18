@@ -65,7 +65,7 @@ public struct WaitEffect : ICustomActionEffect<StateData>
             {
                 //Makes state undesireable to planner due to termination definition
                 playerTrait.IsSpotted = true;
-                Debug.Log("Spottable Location: " + hideableId.Name.ToString());
+                //Debug.Log(string.Format("Spottable Location: ", hideableId.Name.ToString()) );
                 break;
             }
 
@@ -81,7 +81,7 @@ public struct WaitEffect : ICustomActionEffect<StateData>
 
         //Apply necessary trait updates (mover trait details are redundant as they will be updated with world state when subplan is complete)
         playerTrait.IsRunning = false;
-        playerTrait.IsHiding = true;
+       
 
         //Add to new state
         newState.SetTraitOnObject(playerTrait, ref player);

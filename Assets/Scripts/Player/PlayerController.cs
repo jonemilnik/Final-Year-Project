@@ -33,6 +33,8 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         playerTrait.IsSpotted = player.GetComponent<PlayerHandler>().isSpotted;
+        playerTrait.IsHiding = playerHandler.isHiding;
+        playerTrait.IsRunning = playerHandler.isRunning;
         moverTrait.X = player.transform.position.x;
         moverTrait.Y = player.transform.position.y;
         moverTrait.Z = player.transform.position.z;
@@ -80,6 +82,7 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("Running away to: " + closestWaypoint.name);
         navMAgent.SetDestination(destination.transform.position);
         playerHandler.isRunning = true;
+        playerTrait.SetWaypoint = destination;
         //while (true)
         //{
         //    if (!navMAgent.pathPending)
@@ -100,9 +103,8 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator Wait()
     {
-        playerHandler.isHiding = true;
         playerHandler.isRunning = false;
-        yield return new WaitForSeconds(1.5f);
+        yield return null;
     }
 
 

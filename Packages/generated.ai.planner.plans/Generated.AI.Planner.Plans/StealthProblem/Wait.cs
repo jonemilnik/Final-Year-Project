@@ -61,11 +61,11 @@ namespace Generated.AI.Planner.Plans.StealthProblem
 
         void InitializeLocalContainers()
         {
-            EnemyFilter = new NativeArray<ComponentType>(2, Allocator.Temp){[0] = ComponentType.ReadWrite<Enemy>(),[1] = ComponentType.ReadWrite<Mover>(),  };
+            EnemyFilter = new NativeArray<ComponentType>(1, Allocator.Temp){[0] = ComponentType.ReadWrite<Enemy>(),  };
             EnemyObjectIndices = new NativeList<int>(2, Allocator.Temp);
-            AgentFilter = new NativeArray<ComponentType>(2, Allocator.Temp){[0] = ComponentType.ReadWrite<Player>(),[1] = ComponentType.ReadWrite<Mover>(),  };
+            AgentFilter = new NativeArray<ComponentType>(1, Allocator.Temp){[0] = ComponentType.ReadWrite<Player>(),  };
             AgentObjectIndices = new NativeList<int>(2, Allocator.Temp);
-            HideableFilter = new NativeArray<ComponentType>(2, Allocator.Temp){[0] = ComponentType.ReadWrite<Location>(),[1] = ComponentType.ReadWrite<Hideable>(),  };
+            HideableFilter = new NativeArray<ComponentType>(1, Allocator.Temp){[0] = ComponentType.ReadWrite<Hideable>(),  };
             HideableObjectIndices = new NativeList<int>(2, Allocator.Temp);
 
             ArgumentPermutations = new NativeList<ActionKey>(4, Allocator.Temp);
