@@ -58,7 +58,6 @@ public class PlayerHandler : MonoBehaviour
         for (int i = 0; i < colliders.Length; i++)
         {
             Collider collider = colliders[i];
-            Debug.Log(collider.name);
             float distance = Vector3.SqrMagnitude(transform.position - collider.transform.position);
 
             if (collider.name == "Bin" && distance <= closestDist)
@@ -69,10 +68,17 @@ public class PlayerHandler : MonoBehaviour
 
         Vector3 binPos = closestBin.bounds.center;
         agent.enabled = false;
-        transform.position = new Vector3(binPos.x, binPos.y + 0.25f, binPos.z);
         prevPos = transform.position;
+        transform.position = new Vector3(binPos.x, binPos.y + 0.25f, binPos.z);
         isHiding = true;
 
+    }
+
+    public void StopHiding()
+    {
+        transform.position = prevPos;
+        isHiding = false;
+        agent.enabled = true;
     }
 
     void HidePlayer(Collider collider)

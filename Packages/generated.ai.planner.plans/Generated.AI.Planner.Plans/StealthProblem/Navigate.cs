@@ -55,7 +55,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
 
         void InitializeLocalContainers()
         {
-            ToFilter = new NativeArray<ComponentType>(6, Allocator.Temp){[0] = ComponentType.ReadWrite<Location>(),[1] = ComponentType.ReadWrite<GoalPoint>(), [2] = ComponentType.Exclude<Enemy>(), [3] = ComponentType.Exclude<Player>(), [4] = ComponentType.Exclude<PlanningAgent>(), [5] = ComponentType.Exclude<Moveable>(),  };
+            ToFilter = new NativeArray<ComponentType>(3, Allocator.Temp){[0] = ComponentType.ReadWrite<Location>(),[1] = ComponentType.ReadWrite<GoalPoint>(), [2] = ComponentType.Exclude<Hideable>(),  };
             ToObjectIndices = new NativeList<int>(2, Allocator.Temp);
             AgentFilter = new NativeArray<ComponentType>(1, Allocator.Temp){[0] = ComponentType.ReadWrite<Player>(),  };
             AgentObjectIndices = new NativeList<int>(2, Allocator.Temp);
@@ -153,7 +153,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
 
         float Reward(StateData originalState, ActionKey action, StateData newState)
         {
-            var reward = -1f;
+            var reward = -1.5f;
 
             return reward;
         }

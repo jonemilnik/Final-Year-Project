@@ -47,6 +47,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             { ActionScheduler.NavigateGuid, nameof(Navigate) },
             { ActionScheduler.RunAwayGuid, nameof(RunAway) },
             { ActionScheduler.HideGuid, nameof(Hide) },
+            { ActionScheduler.LeaveHidingGuid, nameof(LeaveHiding) },
         };
 
         PlannerStateConverter<TraitBasedObject, StateEntityKey, StateData, StateDataContext, StateManager> m_StateConverter;
@@ -79,6 +80,9 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                 case var actionGuid when actionGuid == ActionScheduler.HideGuid:
                     actionName = nameof(Hide);
                     break;
+                case var actionGuid when actionGuid == ActionScheduler.LeaveHidingGuid:
+                    actionName = nameof(LeaveHiding);
+                    break;
             }
 
             var executeInfos = GetExecutionInfo(actionName);
@@ -109,6 +113,9 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                     case nameof(Hide):
                         parameterIndex = Hide.GetIndexForParameterName(traitBasedObjectName);
                         break;
+                    case nameof(LeaveHiding):
+                        parameterIndex = LeaveHiding.GetIndexForParameterName(traitBasedObjectName);
+                        break;
                 }
 
                 if (parameterIndex == -1)
@@ -127,25 +134,17 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                             var traitGoalPoint = stateData.GetTraitOnObjectAtIndex<GoalPoint>(traitBasedObjectIndex);
                             arguments[i] = split.Length == 3 ? traitGoalPoint.GetField(split[2]) : traitGoalPoint;
                             break;
-                        case nameof(Enemy):
-                            var traitEnemy = stateData.GetTraitOnObjectAtIndex<Enemy>(traitBasedObjectIndex);
-                            arguments[i] = split.Length == 3 ? traitEnemy.GetField(split[2]) : traitEnemy;
+                        case nameof(Hideable):
+                            var traitHideable = stateData.GetTraitOnObjectAtIndex<Hideable>(traitBasedObjectIndex);
+                            arguments[i] = split.Length == 3 ? traitHideable.GetField(split[2]) : traitHideable;
                             break;
                         case nameof(Player):
                             var traitPlayer = stateData.GetTraitOnObjectAtIndex<Player>(traitBasedObjectIndex);
                             arguments[i] = split.Length == 3 ? traitPlayer.GetField(split[2]) : traitPlayer;
                             break;
-                        case nameof(PlanningAgent):
-                            var traitPlanningAgent = stateData.GetTraitOnObjectAtIndex<PlanningAgent>(traitBasedObjectIndex);
-                            arguments[i] = split.Length == 3 ? traitPlanningAgent.GetField(split[2]) : traitPlanningAgent;
-                            break;
-                        case nameof(Moveable):
-                            var traitMoveable = stateData.GetTraitOnObjectAtIndex<Moveable>(traitBasedObjectIndex);
-                            arguments[i] = split.Length == 3 ? traitMoveable.GetField(split[2]) : traitMoveable;
-                            break;
-                        case nameof(Hideable):
-                            var traitHideable = stateData.GetTraitOnObjectAtIndex<Hideable>(traitBasedObjectIndex);
-                            arguments[i] = split.Length == 3 ? traitHideable.GetField(split[2]) : traitHideable;
+                        case nameof(Enemy):
+                            var traitEnemy = stateData.GetTraitOnObjectAtIndex<Enemy>(traitBasedObjectIndex);
+                            arguments[i] = split.Length == 3 ? traitEnemy.GetField(split[2]) : traitEnemy;
                             break;
                         case nameof(Mover):
                             var traitMover = stateData.GetTraitOnObjectAtIndex<Mover>(traitBasedObjectIndex);
@@ -205,6 +204,9 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                         break;
                  case var actionGuid when actionGuid == ActionScheduler.HideGuid:
                     parameterNames = Hide.parameterNames;
+                        break;
+                 case var actionGuid when actionGuid == ActionScheduler.LeaveHidingGuid:
+                    parameterNames = LeaveHiding.parameterNames;
                         break;
             }
 

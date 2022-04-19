@@ -74,7 +74,7 @@ public class PlayerController : MonoBehaviour
 
         playerTrait.SetWaypoint = destination;
 
-        yield return null;
+        yield return new WaitForSeconds(.5f);
     }
 
     public IEnumerator RunAway(GameObject destination)
@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
         navMAgent.SetDestination(destination.transform.position);
         //playerHandler.isRunning = true;
         playerTrait.SetWaypoint = destination;
-        playerHandler.isRunning = true;
+        //playerHandler.isRunning = true;
         //while (true)
         //{
         //    if (!navMAgent.pathPending)
@@ -98,16 +98,21 @@ public class PlayerController : MonoBehaviour
         //    }
         //    yield return null;
         //}
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(.5f);
         
     }
 
     public IEnumerator Hide()
     {
         playerHandler.Hide();
-        playerHandler.isRunning = false;
-        yield return null;
+        yield return new WaitForSeconds(.5f);
         
+    }
+
+    public IEnumerator LeaveHiding()
+    {
+        playerHandler.StopHiding();
+        yield return new WaitForSeconds(.5f);
     }
 
 

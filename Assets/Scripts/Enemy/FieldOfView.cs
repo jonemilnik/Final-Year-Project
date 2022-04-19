@@ -112,7 +112,7 @@ public class FieldOfView : MonoBehaviour
                 if (true)
                 {
                     player.setIsSpotted(true);
-                    Debug.Log("Player spotted! ");
+                    //Debug.Log("Player spotted! ");
                     //GetComponentInParent<EnemyController>().setPlayerSpotted(true);
                     //FindObjectOfType<GameManager>().LoseGame();
                 }

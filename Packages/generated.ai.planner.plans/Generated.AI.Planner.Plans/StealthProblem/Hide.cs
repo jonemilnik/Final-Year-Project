@@ -94,6 +94,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                 
                 
                 
+                
             
             
 
@@ -103,6 +104,9 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                 var AgentObject = stateData.TraitBasedObjects[AgentIndex];
                 
                 if (!(PlayerBuffer[AgentObject.PlayerIndex].SetWaypoint == stateData.GetTraitBasedObjectId(HideableIndex)))
+                    continue;
+                
+                if (!(PlayerBuffer[AgentObject.PlayerIndex].IsHiding == false))
                     continue;
                 
                 
@@ -152,7 +156,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
 
         float Reward(StateData originalState, ActionKey action, StateData newState)
         {
-            var reward = 1f;
+            var reward = -0.75f;
 
             return reward;
         }

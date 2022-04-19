@@ -6,7 +6,7 @@ using Generated.AI.Planner.StateRepresentation.StealthProblem;
 using Location = Unity.AI.Planner.Traits.Location;
 using Unity.AI.Planner.Traits;
 
-public struct WaitEffect : ICustomActionEffect<StateData>
+public struct RunAwayWaitEffect : ICustomActionEffect<StateData>
 {
 
     public void ApplyCustomActionEffectsToState(StateData originalState, ActionKey action, StateData newState)
@@ -14,19 +14,19 @@ public struct WaitEffect : ICustomActionEffect<StateData>
         //calc time it will take to hideable and use to update state
         //apply state update with t = 0.5s to determine if player is spotted
 
-        var enemyId = originalState.GetTraitBasedObjectId(action[0]);
-        var enemy = originalState.GetTraitBasedObject(enemyId);
-        var enemyTrait = originalState.GetTraitOnObject<Enemy>(enemy);
-        var enemyMoverTrait = originalState.GetTraitOnObject<Mover>(enemy);
+        var enemyId = newState.GetTraitBasedObjectId(action[0]);
+        var enemy = newState.GetTraitBasedObject(enemyId);
+        var enemyTrait = newState.GetTraitOnObject<Enemy>(enemy);
+        var enemyMoverTrait = newState.GetTraitOnObject<Mover>(enemy);
 
-        var playerId = originalState.GetTraitBasedObjectId(action[1]);
-        var player = originalState.GetTraitBasedObject(playerId);
-        var playerTrait = originalState.GetTraitOnObject<Player>(player);
-        var playerMoverTrait = originalState.GetTraitOnObject<Mover>(player);
+        var playerId = newState.GetTraitBasedObjectId(action[1]);
+        var player = newState.GetTraitBasedObject(playerId);
+        var playerTrait = newState.GetTraitOnObject<Player>(player);
+        var playerMoverTrait = newState.GetTraitOnObject<Mover>(player);
 
-        var hideableId = originalState.GetTraitBasedObjectId(action[2]);
-        var hideable = originalState.GetTraitBasedObject(hideableId);
-        var hideableLocationTrait = originalState.GetTraitOnObject<Location>(hideable);
+        var hideableId = newState.GetTraitBasedObjectId(action[2]);
+        var hideable = newState.GetTraitBasedObject(hideableId);
+        var hideableLocationTrait = newState.GetTraitOnObject<Location>(hideable);
 
         //Temp vars to check if action is valid
         Vector3 enemyPos = new Vector3(enemyMoverTrait.X, enemyMoverTrait.Y, enemyMoverTrait.Z);
@@ -38,7 +38,14 @@ public struct WaitEffect : ICustomActionEffect<StateData>
 
         //Calculate estimated time to reach hideable and enemy to its waypoint
         float timeToHideable = Vector3.Distance(hideableLocationTrait.Position, playerPos) / playerTrait.Speed;
-        float enemyTimeToWaypoint = enemyTrait.DistToWaypoint / enemyTrait.Speed;
+
+        float enemyTimeToWaypoint = 0f;
+        //Avoid zero division errors
+        if (enemyTrait.DistToWaypoint != 0 && enemyTrait.Speed != 0)
+        {
+            enemyTimeToWaypoint = enemyTrait.DistToWaypoint / enemyTrait.Speed;
+        }
+        
 
         //Debug.Log("EnemyPos: " + enemyPos);
         //Debug.Log("PlayerPos: " + playerPos);
@@ -49,27 +56,24 @@ public struct WaitEffect : ICustomActionEffect<StateData>
         //Debug.Log("Enemy time to waypoint: " + enemyTimeToWaypoint);
 
         float timeDelta = 0f;
-        int iterations = 0;
         //Incrementally check if player coincides with enemy's vision with t = 0.5
         while (timeDelta <= timeToHideable)
         {
             
-            enemyPos += enemyDirection * 0.5f * enemyTrait.Speed;
-            playerPos += playerDirection * 0.5f * playerTrait.Speed;
+            enemyPos += enemyDirection * 0.25f * enemyTrait.Speed;
+            playerPos += playerDirection * 0.25f * playerTrait.Speed;
 
             //Calculate distance between enemy and player to check if player has been spotted
             float distToEnemy = Vector3.Distance(enemyPos, playerPos);
-
             //Player within enemy view radius
             if (distToEnemy <= enemyTrait.FOVRadius)
             {
                 //Makes state undesireable to planner due to termination definition
                 playerTrait.IsSpotted = true;
-                //Debug.Log(string.Format("Spottable Location: ", hideableId.Name.ToString()) );
                 break;
             }
 
-            timeDelta += 0.5f;
+            timeDelta += 0.25f;
 
             //Enemy reached its checkpoint
             if (enemyTimeToWaypoint - timeDelta <= 0)
@@ -78,10 +82,25 @@ public struct WaitEffect : ICustomActionEffect<StateData>
             }
 
         }
-        
-        //Apply necessary trait updates (mover trait details are redundant as they will be updated with world state when subplan is complete)
-        //Add to new state
+
+        //Apply necessary trait updates and add to new state
+
+        //Update position if player not spotted
+        //if (!playerTrait.IsSpotted)
+        //{
+        //    playerMoverTrait.X = hideableLocationTrait.Position.x;
+        //    playerMoverTrait.Y = hideableLocationTrait.Position.y;
+        //    playerMoverTrait.Z = hideableLocationTrait.Position.z;
+        //    newState.SetTraitOnObject(playerMoverTrait, ref player);
+        //}
+
+        playerMoverTrait.X = hideableLocationTrait.Position.x;
+        playerMoverTrait.Y = hideableLocationTrait.Position.y;
+        playerMoverTrait.Z = hideableLocationTrait.Position.z;
+        newState.SetTraitOnObject(playerMoverTrait, ref player);
+
         newState.SetTraitOnObject(playerTrait, ref player);
+
 
 
 

@@ -16,6 +16,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
         public static readonly Guid NavigateGuid = Guid.NewGuid();
         public static readonly Guid RunAwayGuid = Guid.NewGuid();
         public static readonly Guid HideGuid = Guid.NewGuid();
+        public static readonly Guid LeaveHidingGuid = Guid.NewGuid();
 
         // Input
         public NativeList<StateEntityKey> UnexpandedStates { get; set; }
@@ -39,6 +40,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             public EntityCommandBuffer NavigateECB;
             public EntityCommandBuffer RunAwayECB;
             public EntityCommandBuffer HideECB;
+            public EntityCommandBuffer LeaveHidingECB;
 
             public void Execute()
             {
@@ -74,6 +76,16 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                         CreatedStateInfo.Enqueue(HideRefs[j].TransitionInfo);
                     entityManager.RemoveComponent(stateEntity, typeof(HideFixupReference));
                 }
+
+                LeaveHidingECB.Playback(entityManager);
+                for (int i = 0; i < UnexpandedStates.Length; i++)
+                {
+                    var stateEntity = UnexpandedStates[i].Entity;
+                    var LeaveHidingRefs = entityManager.GetBuffer<LeaveHidingFixupReference>(stateEntity);
+                    for (int j = 0; j < LeaveHidingRefs.Length; j++)
+                        CreatedStateInfo.Enqueue(LeaveHidingRefs[j].TransitionInfo);
+                    entityManager.RemoveComponent(stateEntity, typeof(LeaveHidingFixupReference));
+                }
             }
         }
 
@@ -89,13 +101,17 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             var HideDataContext = StateManager.StateDataContext;
             var HideECB = StateManager.GetEntityCommandBuffer();
             HideDataContext.EntityCommandBuffer = HideECB.AsParallelWriter();
+            var LeaveHidingDataContext = StateManager.StateDataContext;
+            var LeaveHidingECB = StateManager.GetEntityCommandBuffer();
+            LeaveHidingDataContext.EntityCommandBuffer = LeaveHidingECB.AsParallelWriter();
 
-            var allActionJobs = new NativeArray<JobHandle>(4, Allocator.TempJob)
+            var allActionJobs = new NativeArray<JobHandle>(5, Allocator.TempJob)
             {
                 [0] = new Navigate(NavigateGuid, UnexpandedStates, NavigateDataContext).Schedule(UnexpandedStates, 0, inputDeps),
                 [1] = new RunAway(RunAwayGuid, UnexpandedStates, RunAwayDataContext).Schedule(UnexpandedStates, 0, inputDeps),
                 [2] = new Hide(HideGuid, UnexpandedStates, HideDataContext).Schedule(UnexpandedStates, 0, inputDeps),
-                [3] = entityManager.ExclusiveEntityTransactionDependency
+                [3] = new LeaveHiding(LeaveHidingGuid, UnexpandedStates, LeaveHidingDataContext).Schedule(UnexpandedStates, 0, inputDeps),
+                [4] = entityManager.ExclusiveEntityTransactionDependency
             };
 
             var allActionJobsHandle = JobHandle.CombineDependencies(allActionJobs);
@@ -110,6 +126,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                 NavigateECB = NavigateECB,
                 RunAwayECB = RunAwayECB,
                 HideECB = HideECB,
+                LeaveHidingECB = LeaveHidingECB,
             };
 
             var playbackJobHandle = playbackJob.Schedule(allActionJobsHandle);
