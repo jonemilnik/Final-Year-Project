@@ -81,8 +81,9 @@ public class PlayerController : MonoBehaviour
     {
         //Debug.Log("Running away to: " + closestWaypoint.name);
         navMAgent.SetDestination(destination.transform.position);
-        playerHandler.isRunning = true;
+        //playerHandler.isRunning = true;
         playerTrait.SetWaypoint = destination;
+        playerHandler.isRunning = true;
         //while (true)
         //{
         //    if (!navMAgent.pathPending)
@@ -97,14 +98,16 @@ public class PlayerController : MonoBehaviour
         //    }
         //    yield return null;
         //}
-        yield return null;
+        yield return new WaitForSeconds(0.5f);
         
     }
 
-    public IEnumerator Wait()
+    public IEnumerator Hide()
     {
+        playerHandler.Hide();
         playerHandler.isRunning = false;
         yield return null;
+        
     }
 
 

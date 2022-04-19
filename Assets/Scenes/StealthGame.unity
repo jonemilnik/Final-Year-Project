@@ -819,6 +819,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 180111954}
+    - target: {fileID: 4223853046843454884, guid: 40100b558a40dbd43be5e776cedfa893, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4996356668932025059, guid: 40100b558a40dbd43be5e776cedfa893, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -7211,7 +7215,7 @@ MonoBehaviour:
     00000002:
       type: {class: DistanceFilter, ns: Unity.Semantic.Traits.Queries, asm: Unity.Semantic.Traits.Queries}
       data:
-        m_Radius: 12
+        m_Radius: 10
         m_Source: {fileID: 2085050760}
 --- !u!114 &1245314752
 MonoBehaviour:
@@ -7269,9 +7273,9 @@ MonoBehaviour:
       m_TraitPropertyId: -1
       m_Enum: {fileID: 0}
       m_Value: 
-  - m_ActionName: Wait
+  - m_ActionName: Hide
     m_PlanExecutorStateUpdateMode: 1
-    m_Method: Wait
+    m_Method: Hide
     m_SourceGameObject: {fileID: 1245314750}
     m_Source: {fileID: 1245314753}
     m_Arguments: []
@@ -7351,7 +7355,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6394127625303521747, guid: 6dc83f3ec9e972f448766212546824d8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 25.42
+      value: 17.36
       objectReference: {fileID: 0}
     - target: {fileID: 6394127625303521747, guid: 6dc83f3ec9e972f448766212546824d8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -7359,7 +7363,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6394127625303521747, guid: 6dc83f3ec9e972f448766212546824d8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -25.26
+      value: -22.42
       objectReference: {fileID: 0}
     - target: {fileID: 6394127625303521747, guid: 6dc83f3ec9e972f448766212546824d8, type: 3}
       propertyPath: m_LocalRotation.w
@@ -7768,6 +7772,14 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1333196172}
+    - target: {fileID: 4223853046843454884, guid: 40100b558a40dbd43be5e776cedfa893, type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4223853046843454884, guid: 40100b558a40dbd43be5e776cedfa893, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4996356668932025059, guid: 40100b558a40dbd43be5e776cedfa893, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -7793,6 +7805,10 @@ PrefabInstance:
       value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6231450594000930496, guid: 40100b558a40dbd43be5e776cedfa893, type: 3}
+      propertyPath: m_Name
+      value: Bin
+      objectReference: {fileID: 0}
+    - target: {fileID: 6231450594000930496, guid: 40100b558a40dbd43be5e776cedfa893, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 8
       objectReference: {fileID: 0}
@@ -7800,6 +7816,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1333196172}
+    - target: {fileID: 8340676584049375808, guid: 40100b558a40dbd43be5e776cedfa893, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8392464360056776548, guid: 40100b558a40dbd43be5e776cedfa893, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -9694,7 +9714,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0

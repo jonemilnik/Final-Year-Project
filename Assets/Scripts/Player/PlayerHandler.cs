@@ -47,7 +47,34 @@ public class PlayerHandler : MonoBehaviour
             rb.AddForce(Vector3.left * thrust);
         }
     }
-    
+
+    public void Hide()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 4.0f);
+        Collider closestBin = null;
+        float closestDist = Mathf.Infinity;
+
+        //Find closest bin in radius of 4
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            Collider collider = colliders[i];
+            Debug.Log(collider.name);
+            float distance = Vector3.SqrMagnitude(transform.position - collider.transform.position);
+
+            if (collider.name == "Bin" && distance <= closestDist)
+            {
+                closestBin = collider;
+            }
+        }
+
+        Vector3 binPos = closestBin.bounds.center;
+        agent.enabled = false;
+        transform.position = new Vector3(binPos.x, binPos.y + 0.25f, binPos.z);
+        prevPos = transform.position;
+        isHiding = true;
+
+    }
+
     void HidePlayer(Collider collider)
     {
         if (!isHiding)
@@ -55,7 +82,7 @@ public class PlayerHandler : MonoBehaviour
             isHiding = true;
             prevPos = rb.position;
             Vector3 colliderPos = collider.bounds.center;
-            rb.transform.position = new Vector3(colliderPos.x, colliderPos.y + 0.25f, colliderPos.z);
+            rb.transform.position = new Vector3(colliderPos.x, colliderPos.y + .25f, colliderPos.z);
         } else
         {
             isHiding = false;
@@ -89,7 +116,7 @@ public class PlayerHandler : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        //rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
         
     }
@@ -98,11 +125,17 @@ public class PlayerHandler : MonoBehaviour
     {
         //transform.position = GameObject.Find("StartState").GetComponent<Transform>().position;
         Physics.IgnoreCollision(GetComponent<Collider>(), GameObject.Find("EnemyWalls").GetComponent<Collider>());
+        Physics.IgnoreCollision(GetComponent<Collider>(), GameObject.Find("Player").GetComponent<Collider>());
+        //Physics.IgnoreCollision(GetComponent<Collider>(), GameObject.Find("Map").GetComponent<Collider>());
+        //Physics.IgnoreCollision(GetComponent<Collider>(), GameObject.Find("Bin2").GetComponent<Collider>());
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        //transform.position = agent.nextPosition;
         //CheckMovementInput();
         //CheckActionInput();
     }

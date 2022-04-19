@@ -122,11 +122,9 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                 var AgentObject = stateData.TraitBasedObjects[AgentIndex];
                 
                 
-                if (!(PlayerBuffer[AgentObject.PlayerIndex].IsRunning == false))
-                    continue;
-                
                 if (!(PlayerBuffer[AgentObject.PlayerIndex].IsHiding == false))
                     continue;
+                
                 
                 
                 
@@ -140,6 +138,8 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                 
                 
                 
+                if (!(PlayerBuffer[AgentObject.PlayerIndex].SetWaypoint != stateData.GetTraitBasedObjectId(ToIndex)))
+                    continue;
                 
                 
                 
@@ -178,6 +178,9 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                     @Player.@IsRunning = true;
                     newPlayerBuffer[originalAgentObject.PlayerIndex] = @Player;
             }
+            {
+                    new global::RunAwayWaitEffect().ApplyCustomActionEffectsToState(originalState, action, newState);
+            }
 
             
 
@@ -190,7 +193,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
 
         float Reward(StateData originalState, ActionKey action, StateData newState)
         {
-            var reward = -0.5f;
+            var reward = -1f;
 
             return reward;
         }

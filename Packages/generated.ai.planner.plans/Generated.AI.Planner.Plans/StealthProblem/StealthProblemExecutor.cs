@@ -46,7 +46,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
         {
             { ActionScheduler.NavigateGuid, nameof(Navigate) },
             { ActionScheduler.RunAwayGuid, nameof(RunAway) },
-            { ActionScheduler.WaitGuid, nameof(Wait) },
+            { ActionScheduler.HideGuid, nameof(Hide) },
         };
 
         PlannerStateConverter<TraitBasedObject, StateEntityKey, StateData, StateDataContext, StateManager> m_StateConverter;
@@ -76,8 +76,8 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                 case var actionGuid when actionGuid == ActionScheduler.RunAwayGuid:
                     actionName = nameof(RunAway);
                     break;
-                case var actionGuid when actionGuid == ActionScheduler.WaitGuid:
-                    actionName = nameof(Wait);
+                case var actionGuid when actionGuid == ActionScheduler.HideGuid:
+                    actionName = nameof(Hide);
                     break;
             }
 
@@ -106,8 +106,8 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                     case nameof(RunAway):
                         parameterIndex = RunAway.GetIndexForParameterName(traitBasedObjectName);
                         break;
-                    case nameof(Wait):
-                        parameterIndex = Wait.GetIndexForParameterName(traitBasedObjectName);
+                    case nameof(Hide):
+                        parameterIndex = Hide.GetIndexForParameterName(traitBasedObjectName);
                         break;
                 }
 
@@ -203,8 +203,8 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                  case var actionGuid when actionGuid == ActionScheduler.RunAwayGuid:
                     parameterNames = RunAway.parameterNames;
                         break;
-                 case var actionGuid when actionGuid == ActionScheduler.WaitGuid:
-                    parameterNames = Wait.parameterNames;
+                 case var actionGuid when actionGuid == ActionScheduler.HideGuid:
+                    parameterNames = Hide.parameterNames;
                         break;
             }
 
