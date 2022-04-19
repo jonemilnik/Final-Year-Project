@@ -96,7 +96,6 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             ToObjectIndices.Clear();
             stateData.GetTraitBasedObjectIndices(ToObjectIndices, ToFilter);
             
-            var EnemyBuffer = stateData.EnemyBuffer;
             var PlayerBuffer = stateData.PlayerBuffer;
             
             
@@ -105,9 +104,6 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             {
                 var EnemyIndex = EnemyObjectIndices[i0];
                 var EnemyObject = stateData.TraitBasedObjects[EnemyIndex];
-                
-                if (!(EnemyBuffer[EnemyObject.EnemyIndex].IsFacingPlayer == true))
-                    continue;
                 
                 
                 
@@ -120,7 +116,6 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             {
                 var AgentIndex = AgentObjectIndices[i1];
                 var AgentObject = stateData.TraitBasedObjects[AgentIndex];
-                
                 
                 if (!(PlayerBuffer[AgentObject.PlayerIndex].IsHiding == false))
                     continue;
@@ -142,7 +137,6 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                 
                 
                 
-                
 
                 var actionKey = new ActionKey(k_MaxArguments) {
                                                         ActionGuid = ActionGuid,
@@ -150,6 +144,9 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                                                        [k_AgentIndex] = AgentIndex,
                                                        [k_ToIndex] = ToIndex,
                                                     };
+                  if (!new global::RunAwayPrecondition().CheckCustomPrecondition(stateData, actionKey))
+                    continue;
+
                 argumentPermutations.Add(actionKey);
             
             }
@@ -180,6 +177,11 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             }
             {
                     new global::RunAwayWaitEffect().ApplyCustomActionEffectsToState(originalState, action, newState);
+            }
+            {
+                    var @Player = newPlayerBuffer[originalAgentObject.PlayerIndex];
+                    @Player.@IsWaypointSet = true;
+                    newPlayerBuffer[originalAgentObject.PlayerIndex] = @Player;
             }
 
             

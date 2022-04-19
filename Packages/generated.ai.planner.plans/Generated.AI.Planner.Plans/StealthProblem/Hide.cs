@@ -95,6 +95,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                 
                 
                 
+                
             
             
 
@@ -107,6 +108,9 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                     continue;
                 
                 if (!(PlayerBuffer[AgentObject.PlayerIndex].IsHiding == false))
+                    continue;
+                
+                if (!(PlayerBuffer[AgentObject.PlayerIndex].IsWaypointSet == true))
                     continue;
                 
                 
@@ -142,6 +146,11 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             {
                     var @Player = newPlayerBuffer[originalAgentObject.PlayerIndex];
                     @Player.@IsRunning = false;
+                    newPlayerBuffer[originalAgentObject.PlayerIndex] = @Player;
+            }
+            {
+                    var @Player = newPlayerBuffer[originalAgentObject.PlayerIndex];
+                    @Player.@IsWaypointSet = false;
                     newPlayerBuffer[originalAgentObject.PlayerIndex] = @Player;
             }
 

@@ -8,7 +8,7 @@ using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
-    float updateQueryDelay = 0.5f;
+    float updateQueryDelay = 0.1f;
     float timeOfLastQueryUpdate;
     DecisionController decisionController;
     GameObject player;
@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        playerTrait.IsSpotted = player.GetComponent<PlayerHandler>().isSpotted;
+        playerTrait.IsSpotted = playerHandler.isSpotted;
         playerTrait.IsHiding = playerHandler.isHiding;
         playerTrait.IsRunning = playerHandler.isRunning;
         moverTrait.X = player.transform.position.x;
@@ -57,47 +57,19 @@ public class PlayerController : MonoBehaviour
     public IEnumerator MoveTo(GameObject destination)
     {
         navMAgent.SetDestination(destination.transform.position);
-        //while (true)
-        //{
-        //    if (!navMAgent.pathPending)
-        //    {
-        //        if (navMAgent.remainingDistance <= navMAgent.stoppingDistance)
-        //        {
-        //            if (!navMAgent.hasPath || navMAgent.velocity.sqrMagnitude == 0f)
-        //            {
-        //                break;
-        //            }
-        //        }
-        //    }
-        //    yield return null;
-        //}
 
         playerTrait.SetWaypoint = destination;
+        playerTrait.IsWaypointSet = true;
 
         yield return new WaitForSeconds(.5f);
     }
 
     public IEnumerator RunAway(GameObject destination)
     {
-        //Debug.Log("Running away to: " + closestWaypoint.name);
         navMAgent.SetDestination(destination.transform.position);
-        //playerHandler.isRunning = true;
         playerTrait.SetWaypoint = destination;
-        //playerHandler.isRunning = true;
-        //while (true)
-        //{
-        //    if (!navMAgent.pathPending)
-        //    {
-        //        if (navMAgent.remainingDistance <= navMAgent.stoppingDistance)
-        //        {
-        //            if (!navMAgent.hasPath || navMAgent.velocity.sqrMagnitude == 0f)
-        //            {
-        //                break;
-        //            }
-        //        }
-        //    }
-        //    yield return null;
-        //}
+        playerTrait.IsWaypointSet = true;
+        
         yield return new WaitForSeconds(.5f);
         
     }
@@ -105,6 +77,7 @@ public class PlayerController : MonoBehaviour
     public IEnumerator Hide()
     {
         playerHandler.Hide();
+        playerTrait.IsWaypointSet = false;
         yield return new WaitForSeconds(.5f);
         
     }
@@ -112,6 +85,7 @@ public class PlayerController : MonoBehaviour
     public IEnumerator LeaveHiding()
     {
         playerHandler.StopHiding();
+        playerTrait.IsWaypointSet = false;
         yield return new WaitForSeconds(.5f);
     }
 

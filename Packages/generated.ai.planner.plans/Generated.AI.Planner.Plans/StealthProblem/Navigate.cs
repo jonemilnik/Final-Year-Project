@@ -96,6 +96,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                 
                 
                 
+                
             
             
 
@@ -111,6 +112,9 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                     continue;
                 
                 if (!(PlayerBuffer[AgentObject.PlayerIndex].SetWaypoint != stateData.GetTraitBasedObjectId(ToIndex)))
+                    continue;
+                
+                if (!(PlayerBuffer[AgentObject.PlayerIndex].IsWaypointSet == false))
                     continue;
                 
                 
@@ -139,6 +143,11 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             {
                     var @Player = newPlayerBuffer[originalAgentObject.PlayerIndex];
                     @Player.@SetWaypoint = originalState.GetTraitBasedObjectId(originalToObject);
+                    newPlayerBuffer[originalAgentObject.PlayerIndex] = @Player;
+            }
+            {
+                    var @Player = newPlayerBuffer[originalAgentObject.PlayerIndex];
+                    @Player.@IsWaypointSet = true;
                     newPlayerBuffer[originalAgentObject.PlayerIndex] = @Player;
             }
 

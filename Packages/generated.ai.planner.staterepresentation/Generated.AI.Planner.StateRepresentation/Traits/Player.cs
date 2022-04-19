@@ -14,11 +14,13 @@ namespace Generated.AI.Planner.StateRepresentation
         public const string FieldIsRunning = "IsRunning";
         public const string FieldSpeed = "Speed";
         public const string FieldIsHiding = "IsHiding";
+        public const string FieldIsWaypointSet = "IsWaypointSet";
         public Unity.AI.Planner.Traits.TraitBasedObjectId SetWaypoint;
         public System.Boolean IsSpotted;
         public System.Boolean IsRunning;
         public System.Single Speed;
         public System.Boolean IsHiding;
+        public System.Boolean IsWaypointSet;
 
         public void SetField(string fieldName, object value)
         {
@@ -39,6 +41,9 @@ namespace Generated.AI.Planner.StateRepresentation
                 case nameof(IsHiding):
                     IsHiding = (System.Boolean)value;
                     break;
+                case nameof(IsWaypointSet):
+                    IsWaypointSet = (System.Boolean)value;
+                    break;
                 default:
                     throw new ArgumentException($"Field \"{fieldName}\" does not exist on trait Player.");
             }
@@ -58,6 +63,8 @@ namespace Generated.AI.Planner.StateRepresentation
                     return Speed;
                 case nameof(IsHiding):
                     return IsHiding;
+                case nameof(IsWaypointSet):
+                    return IsWaypointSet;
                 default:
                     throw new ArgumentException($"Field \"{fieldName}\" does not exist on trait Player.");
             }
@@ -65,12 +72,12 @@ namespace Generated.AI.Planner.StateRepresentation
 
         public bool Equals(Player other)
         {
-            return SetWaypoint == other.SetWaypoint && IsSpotted == other.IsSpotted && IsRunning == other.IsRunning && Speed == other.Speed && IsHiding == other.IsHiding;
+            return SetWaypoint == other.SetWaypoint && IsSpotted == other.IsSpotted && IsRunning == other.IsRunning && Speed == other.Speed && IsHiding == other.IsHiding && IsWaypointSet == other.IsWaypointSet;
         }
 
         public override string ToString()
         {
-            return $"Player\n  SetWaypoint: {SetWaypoint}\n  IsSpotted: {IsSpotted}\n  IsRunning: {IsRunning}\n  Speed: {Speed}\n  IsHiding: {IsHiding}";
+            return $"Player\n  SetWaypoint: {SetWaypoint}\n  IsSpotted: {IsSpotted}\n  IsRunning: {IsRunning}\n  Speed: {Speed}\n  IsHiding: {IsHiding}\n  IsWaypointSet: {IsWaypointSet}";
         }
     }
 }

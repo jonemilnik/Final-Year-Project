@@ -50,22 +50,20 @@ public class PlayerHandler : MonoBehaviour
 
     public void Hide()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, 4.0f);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 5.0f);
         Collider closestBin = null;
         float closestDist = Mathf.Infinity;
-
         //Find closest bin in radius of 4
         for (int i = 0; i < colliders.Length; i++)
         {
             Collider collider = colliders[i];
             float distance = Vector3.SqrMagnitude(transform.position - collider.transform.position);
-
             if (collider.name == "Bin" && distance <= closestDist)
             {
                 closestBin = collider;
+                
             }
         }
-
         Vector3 binPos = closestBin.bounds.center;
         agent.enabled = false;
         prevPos = transform.position;

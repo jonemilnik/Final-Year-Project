@@ -141,6 +141,11 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                     @Player.@IsHiding = false;
                     newPlayerBuffer[originalAgentObject.PlayerIndex] = @Player;
             }
+            {
+                    var @Player = newPlayerBuffer[originalAgentObject.PlayerIndex];
+                    @Player.@IsWaypointSet = false;
+                    newPlayerBuffer[originalAgentObject.PlayerIndex] = @Player;
+            }
 
             
 

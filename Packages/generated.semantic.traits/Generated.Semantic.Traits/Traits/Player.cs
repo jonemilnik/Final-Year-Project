@@ -133,6 +133,28 @@ namespace Generated.Semantic.Traits
                     m_EntityManager.SetComponentData(m_Entity, data);
             }
         }
+        public System.Boolean IsWaypointSet
+        {
+            get
+            {
+                if (m_EntityManager != default && m_EntityManager.HasComponent<PlayerData>(m_Entity))
+                {
+                    m_p9 = m_EntityManager.GetComponentData<PlayerData>(m_Entity).IsWaypointSet;
+                }
+
+                return m_p9;
+            }
+            set
+            {
+                PlayerData data = default;
+                var dataActive = m_EntityManager != default && m_EntityManager.HasComponent<PlayerData>(m_Entity);
+                if (dataActive)
+                    data = m_EntityManager.GetComponentData<PlayerData>(m_Entity);
+                data.IsWaypointSet = m_p9 = value;
+                if (dataActive)
+                    m_EntityManager.SetComponentData(m_Entity, data);
+            }
+        }
         public PlayerData Data
         {
             get => m_EntityManager != default && m_EntityManager.HasComponent<PlayerData>(m_Entity) ?
@@ -160,6 +182,9 @@ namespace Generated.Semantic.Traits
         [SerializeField]
         [InspectorName("IsHiding")]
         System.Boolean m_p6 = false;
+        [SerializeField]
+        [InspectorName("IsWaypointSet")]
+        System.Boolean m_p9 = false;
         #pragma warning restore 649
 
         EntityManager m_EntityManager;
@@ -179,6 +204,7 @@ namespace Generated.Semantic.Traits
             data.IsRunning = m_p4;
             data.Speed = m_p5;
             data.IsHiding = m_p6;
+            data.IsWaypointSet = m_p9;
 
             return data;
         }
