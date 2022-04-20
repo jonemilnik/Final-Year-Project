@@ -60,8 +60,8 @@ public struct RunAwayWaitEffect : ICustomActionEffect<StateData>
         while (timeDelta <= timeToHideable)
         {
             
-            enemyPos += enemyDirection * 0.25f * enemyTrait.Speed;
-            playerPos += playerDirection * 0.25f * playerTrait.Speed;
+            enemyPos += enemyDirection * 0.1f * enemyTrait.Speed;
+            playerPos += playerDirection * 0.1f * playerTrait.Speed;
 
             //Calculate distance between enemy and player to check if player has been spotted
             float distToEnemy = Vector3.Distance(enemyPos, playerPos);
@@ -73,7 +73,7 @@ public struct RunAwayWaitEffect : ICustomActionEffect<StateData>
                 break;
             }
 
-            timeDelta += 0.25f;
+            timeDelta += 0.1f;
 
             //Enemy reached its checkpoint
             if (enemyTimeToWaypoint - timeDelta <= 0)

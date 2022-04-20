@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
         moverTrait.ForwardX = player.transform.forward.x;
         moverTrait.ForwardY = player.transform.forward.y;
         moverTrait.ForwardZ = player.transform.forward.z;
-        //Debug.Log("Player running: " + playerTrait.IsRunning);
+        //Debug.Log("Agent speed: " + navMAgent.velocity.magnitude);
 
         // Update world state constantly and not just after every action
         if (decisionController.Initialized && decisionController.IsIdle && 

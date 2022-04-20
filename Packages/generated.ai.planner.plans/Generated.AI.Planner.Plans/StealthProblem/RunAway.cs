@@ -167,12 +167,12 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             var newPlayerBuffer = newState.PlayerBuffer;
             {
                     var @Player = newPlayerBuffer[originalAgentObject.PlayerIndex];
-                    @Player.@SetWaypoint = originalState.GetTraitBasedObjectId(originalToObject);
+                    @Player.@IsRunning = true;
                     newPlayerBuffer[originalAgentObject.PlayerIndex] = @Player;
             }
             {
                     var @Player = newPlayerBuffer[originalAgentObject.PlayerIndex];
-                    @Player.@IsRunning = true;
+                    @Player.@SetWaypoint = originalState.GetTraitBasedObjectId(originalToObject);
                     newPlayerBuffer[originalAgentObject.PlayerIndex] = @Player;
             }
             {
@@ -196,6 +196,9 @@ namespace Generated.AI.Planner.Plans.StealthProblem
         float Reward(StateData originalState, ActionKey action, StateData newState)
         {
             var reward = -1f;
+            {
+                reward -= new global::RunAwayReward().RewardModifier( originalState, action, newState);
+            }
 
             return reward;
         }
