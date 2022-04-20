@@ -15,10 +15,24 @@ public struct RunAwayPrecondition : ICustomActionPrecondition<StateData>
         var enemyTrait = state.GetTraitOnObject<Enemy>(enemy);
 
         //If enemy within radius of 5 units or facing player
-        if (enemyTrait.IsFacingPlayer || enemyTrait.DistToPlayer <= 5.0f)
+        if (enemyTrait.IsFacingPlayer || enemyTrait.DistToPlayer <= enemyTrait.FOVRadius + 2f)
         {
             return true;
         }
+
+        if (enemyTrait.IsFacingPlayer)
+        {
+            if (enemyTrait.DistToPlayer <= enemyTrait.FOVRadius + 2f)
+            {
+                return true;
+            }
+            return false;
+
+        } else
+        {
+
+        }
+        
 
         return false;
     }

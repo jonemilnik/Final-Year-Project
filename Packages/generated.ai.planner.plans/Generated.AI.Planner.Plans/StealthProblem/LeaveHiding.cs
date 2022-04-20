@@ -18,12 +18,10 @@ namespace Generated.AI.Planner.Plans.StealthProblem
         public Guid ActionGuid;
         
         const int k_AgentIndex = 0;
-        const int k_EnemyIndex = 1;
-        const int k_MaxArguments = 2;
+        const int k_MaxArguments = 1;
 
         public static readonly string[] parameterNames = {
             "Agent",
-            "Enemy",
         };
 
         [ReadOnly] NativeArray<StateEntityKey> m_StatesToExpand;
@@ -32,8 +30,6 @@ namespace Generated.AI.Planner.Plans.StealthProblem
         // local allocations
         [NativeDisableContainerSafetyRestriction] NativeArray<ComponentType> AgentFilter;
         [NativeDisableContainerSafetyRestriction] NativeList<int> AgentObjectIndices;
-        [NativeDisableContainerSafetyRestriction] NativeArray<ComponentType> EnemyFilter;
-        [NativeDisableContainerSafetyRestriction] NativeList<int> EnemyObjectIndices;
 
         [NativeDisableContainerSafetyRestriction] NativeList<ActionKey> ArgumentPermutations;
         [NativeDisableContainerSafetyRestriction] NativeList<LeaveHidingFixupReference> TransitionInfo;
@@ -47,8 +43,6 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             m_StateDataContext = stateDataContext;
             AgentFilter = default;
             AgentObjectIndices = default;
-            EnemyFilter = default;
-            EnemyObjectIndices = default;
             ArgumentPermutations = default;
             TransitionInfo = default;
         }
@@ -57,8 +51,6 @@ namespace Generated.AI.Planner.Plans.StealthProblem
         {
             AgentFilter = new NativeArray<ComponentType>(1, Allocator.Temp){[0] = ComponentType.ReadWrite<Player>(),  };
             AgentObjectIndices = new NativeList<int>(2, Allocator.Temp);
-            EnemyFilter = new NativeArray<ComponentType>(1, Allocator.Temp){[0] = ComponentType.ReadWrite<Enemy>(),  };
-            EnemyObjectIndices = new NativeList<int>(2, Allocator.Temp);
 
             ArgumentPermutations = new NativeList<ActionKey>(4, Allocator.Temp);
             TransitionInfo = new NativeList<LeaveHidingFixupReference>(ArgumentPermutations.Length, Allocator.Temp);
@@ -69,8 +61,6 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             
             if (string.Equals(parameterName, "Agent", StringComparison.OrdinalIgnoreCase))
                  return k_AgentIndex;
-            if (string.Equals(parameterName, "Enemy", StringComparison.OrdinalIgnoreCase))
-                 return k_EnemyIndex;
 
             return -1;
         }
@@ -80,11 +70,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
             AgentObjectIndices.Clear();
             stateData.GetTraitBasedObjectIndices(AgentObjectIndices, AgentFilter);
             
-            EnemyObjectIndices.Clear();
-            stateData.GetTraitBasedObjectIndices(EnemyObjectIndices, EnemyFilter);
-            
             var PlayerBuffer = stateData.PlayerBuffer;
-            var EnemyBuffer = stateData.EnemyBuffer;
             
             
 
@@ -96,34 +82,15 @@ namespace Generated.AI.Planner.Plans.StealthProblem
                 if (!(PlayerBuffer[AgentObject.PlayerIndex].IsHiding == true))
                     continue;
                 
-                
-                
-                
-            
-            
-
-            for (int i1 = 0; i1 < EnemyObjectIndices.Length; i1++)
-            {
-                var EnemyIndex = EnemyObjectIndices[i1];
-                var EnemyObject = stateData.TraitBasedObjects[EnemyIndex];
-                
-                
-                if (!(EnemyBuffer[EnemyObject.EnemyIndex].IsFacingPlayer == false))
-                    continue;
-                
-                if (!(EnemyBuffer[EnemyObject.EnemyIndex].DistToPlayer >= 6f))
-                    continue;
-                
-                
 
                 var actionKey = new ActionKey(k_MaxArguments) {
                                                         ActionGuid = ActionGuid,
                                                        [k_AgentIndex] = AgentIndex,
-                                                       [k_EnemyIndex] = EnemyIndex,
                                                     };
+                  if (!new global::LeaveHidingPrecondition().CheckCustomPrecondition(stateData, actionKey))
+                    continue;
+
                 argumentPermutations.Add(actionKey);
-            
-            }
             
             }
         }
@@ -193,11 +160,6 @@ namespace Generated.AI.Planner.Plans.StealthProblem
         public static T GetAgentTrait<T>(StateData state, ActionKey action) where T : struct, ITrait
         {
             return state.GetTraitOnObjectAtIndex<T>(action[k_AgentIndex]);
-        }
-        
-        public static T GetEnemyTrait<T>(StateData state, ActionKey action) where T : struct, ITrait
-        {
-            return state.GetTraitOnObjectAtIndex<T>(action[k_EnemyIndex]);
         }
         
     }

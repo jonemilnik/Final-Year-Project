@@ -8,7 +8,8 @@ public class PlayerHandler : MonoBehaviour
 {
     private Rigidbody rb;
     private NavMeshAgent agent;
-    private Vector3 prevPos;
+    [HideInInspector]
+    public Vector3 prevPos;
     public float thrust = 1.2f;
     [SerializeField]
     private List<Transform> _waypoints;

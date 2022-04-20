@@ -15,17 +15,36 @@ public class EnemyController : MonoBehaviour
     //private float waitTime;
     [SerializeField]
     private List<Transform> _waypoints;
+    //Designates rotation when inspecting area
     [SerializeField]
     private float inspectAngle;
+    //Initial transform forward at start of inspecting behaviour
+    private Vector3 initialForward;
     [HideInInspector]
     public bool isFacingPlayer = false;
     FieldOfView fov;
 
     void UpdateFacingPlayer()
     {
-        Transform player = GameObject.Find("Player").transform;
-        Vector3 dirToPlayer = player.position - transform.position;
-        if (Vector3.Angle(transform.forward, dirToPlayer) <= 90)
+        PlayerHandler player = GameObject.Find("Player").GetComponent<PlayerHandler>();
+        Vector3 dirToPlayer = player.transform.position - transform.position;
+
+        //Set direction to hideable waypoint as player can exit to that spot
+        if (player.isHiding)
+        {
+            dirToPlayer = player.prevPos - transform.position;
+        }
+        
+        Vector3 forward = transform.forward;
+
+        //Forward used is different when enemy inspecting
+        if (isInspecting)
+        {
+            forward = initialForward;
+        }
+
+        //If player can be spotted when enemy inspecting
+        if (Vector3.Angle(forward, dirToPlayer) <= inspectAngle + fov.viewAngle / 2)
         {
             isFacingPlayer = true;
         } else
@@ -51,7 +70,7 @@ public class EnemyController : MonoBehaviour
         isInspecting = true; 
 
         //Face path first
-        yield return StartCoroutine("FacePath");
+        yield return StartCoroutine(FacePath());
 
         //Inspect Left
         yield return StartCoroutine(InspectDirection(-inspectAngle, 0.05f, 0.15f));
@@ -85,6 +104,9 @@ public class EnemyController : MonoBehaviour
     IEnumerator FacePath()
     {
         Vector3 dir = GetDirToPath();
+
+        //Store initial forward - used for checking if facing player
+        initialForward = dir;
         Quaternion lookRotation = Quaternion.LookRotation(dir);
         float time = 0.0f;
         float rotationSpeed = 0.05f;
