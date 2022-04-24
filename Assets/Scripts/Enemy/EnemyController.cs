@@ -9,10 +9,10 @@ public class EnemyController : MonoBehaviour
     [HideInInspector]
     public NavMeshAgent agent;
     private int waypointPointer = 0;
-    private bool isWalking;
-    private bool isInspecting;
-    //[SerializeField]
-    //private float waitTime;
+    [HideInInspector]
+    public bool isWalking;
+    [HideInInspector]
+    public bool isInspecting;
     [SerializeField]
     private List<Transform> _waypoints;
     //Designates rotation when inspecting area
@@ -51,7 +51,6 @@ public class EnemyController : MonoBehaviour
         {
             isFacingPlayer = false;
         }
-        //Debug.Log(isFacingPlayer);
     }
 
     public float GetDistToPlayer()
@@ -163,8 +162,7 @@ public class EnemyController : MonoBehaviour
         // Initialize initial state
         agent = GetComponent<NavMeshAgent>();
         fov = transform.GetChild(0).GetComponent<FieldOfView>();
-        isWalking = true;
-        isInspecting = false;
+
     }
 
     // Start is called before the first frame update
@@ -172,12 +170,13 @@ public class EnemyController : MonoBehaviour
     {
         //Walk to first waypoint
         agent.SetDestination(_waypoints[waypointPointer].position);
+        isWalking = true;
+        isInspecting = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log("Facing: " + transform.forward);
         UpdateFacingPlayer();
         fov.FindPlayer();
 
@@ -194,7 +193,6 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-
             // Normalises vectors to worry only about x and z values
             Vector3 normalVector = new Vector3(1, 0, 1);
 

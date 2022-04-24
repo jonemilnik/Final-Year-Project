@@ -19,6 +19,8 @@ public class PlayerHandler : MonoBehaviour
     public bool isRunning = false;
     [HideInInspector]
     public bool isHiding = false;
+    [HideInInspector]
+    public List<GameObject> nearbyEnemies;
 
     public void setIsSpotted (bool b)
     {
@@ -101,6 +103,42 @@ public class PlayerHandler : MonoBehaviour
         return Physics.OverlapSphere(rb.position, radius);
     }
 
+    List<GameObject> GetListInActiveRadius(float radius)
+    {
+        List<GameObject> enemies = new List<GameObject>();
+        Collider[] colliders = Physics.OverlapSphere(rb.position, radius);
+        foreach (Collider collider in colliders)
+        {
+            enemies.Add(collider.gameObject);
+        }
+
+        return enemies;
+    }
+
+    void GetNearbyEnemies()
+    {
+        List<GameObject> colliders = GetListInActiveRadius(7f);
+        for (int i = 0; i < colliders.Count; i++)
+        {
+            //Add only new enemy colliders
+            if (string.Equals(colliders[i].tag, "Enemy") && !nearbyEnemies.Contains(colliders[i]))
+            {
+                nearbyEnemies.Add(colliders[i]);
+            }
+
+        }
+
+        //Remove enemies out of range
+        for (int i = 0; i < nearbyEnemies.Count; i++)
+        {
+            if (!colliders.Contains(nearbyEnemies[i]) )
+            {
+                nearbyEnemies.Remove(nearbyEnemies[i]);
+            }
+        }
+        
+    }
+
 
     void CheckActionInput()
     {
@@ -121,8 +159,9 @@ public class PlayerHandler : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        //rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
+        nearbyEnemies = new List<GameObject>();
         
     }
 
@@ -139,7 +178,9 @@ public class PlayerHandler : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {   //Constantly update nearby Enemies
+        GetNearbyEnemies();
+
         //transform.position = agent.nextPosition;
         //CheckMovementInput();
         //CheckActionInput();
