@@ -27,30 +27,10 @@ public class PlayerHandler : MonoBehaviour
         isSpotted = b;
     }
 
-    
-    void CheckMovementInput() 
+    public void Navigate(Vector3 destination)
     {
-        if (Input.GetKey(KeyCode.W))
-        {
-            rb.AddForce(Vector3.forward * thrust);
-        }
-
-        if (Input.GetKey(KeyCode.S))
-        {
-            rb.AddForce(Vector3.back * thrust);
-        }
-
-        if (Input.GetKey(KeyCode.D))
-        {
-            rb.AddForce(Vector3.right * thrust);
-        }
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            rb.AddForce(Vector3.left * thrust);
-        }
+        agent.SetDestination(destination);
     }
-
     public void Hide()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, 5.0f);
@@ -82,40 +62,20 @@ public class PlayerHandler : MonoBehaviour
         agent.enabled = true;
     }
 
-    void HidePlayer(Collider collider)
-    {
-        if (!isHiding)
-        {
-            isHiding = true;
-            prevPos = rb.position;
-            Vector3 colliderPos = collider.bounds.center;
-            rb.transform.position = new Vector3(colliderPos.x, colliderPos.y + .25f, colliderPos.z);
-        } else
-        {
-            isHiding = false;
-            rb.transform.position = prevPos;
-        }
-       
-    }
 
-    Collider[] GetInActiveRadius(float radius)
+    public List<GameObject> GetListInActiveRadius(float radius)
     {
-        return Physics.OverlapSphere(rb.position, radius);
-    }
-
-    List<GameObject> GetListInActiveRadius(float radius)
-    {
-        List<GameObject> enemies = new List<GameObject>();
+        List<GameObject> objects = new List<GameObject>();
         Collider[] colliders = Physics.OverlapSphere(rb.position, radius);
         foreach (Collider collider in colliders)
         {
-            enemies.Add(collider.gameObject);
+            objects.Add(collider.gameObject);
         }
 
-        return enemies;
+        return objects;
     }
 
-    void GetNearbyEnemies()
+    void UpdateNearbyEnemies()
     {
         List<GameObject> colliders = GetListInActiveRadius(7f);
         for (int i = 0; i < colliders.Count; i++)
@@ -140,49 +100,25 @@ public class PlayerHandler : MonoBehaviour
     }
 
 
-    void CheckActionInput()
-    {
-        Collider[] hitColliders = GetInActiveRadius(2.5f);
 
-        if (Input.GetKeyDown(KeyCode.E) && hitColliders.Length != 0)
-        {
-            foreach(Collider collider in hitColliders)
-            {
-                if (collider.gameObject.CompareTag("Bin"))
-                {
-                    HidePlayer(collider);
-                    break;
-                }
-            }
-        }
-    }
     // Start is called before the first frame update
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
         nearbyEnemies = new List<GameObject>();
-        
     }
 
     private void Start()
     {
-        //transform.position = GameObject.Find("StartState").GetComponent<Transform>().position;
+        //Prevents unusual behaviour between NavMeshAgent and RigidBody components
         Physics.IgnoreCollision(GetComponent<Collider>(), GameObject.Find("EnemyWalls").GetComponent<Collider>());
         Physics.IgnoreCollision(GetComponent<Collider>(), GameObject.Find("Player").GetComponent<Collider>());
-        //Physics.IgnoreCollision(GetComponent<Collider>(), GameObject.Find("Map").GetComponent<Collider>());
-        //Physics.IgnoreCollision(GetComponent<Collider>(), GameObject.Find("Bin2").GetComponent<Collider>());
-
-
     }
 
     // Update is called once per frame
     void Update()
     {   //Constantly update nearby Enemies
-        GetNearbyEnemies();
-
-        //transform.position = agent.nextPosition;
-        //CheckMovementInput();
-        //CheckActionInput();
+        UpdateNearbyEnemies();
     }
 }

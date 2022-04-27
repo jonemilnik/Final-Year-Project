@@ -47,14 +47,6 @@ public struct RunAwayWaitEffect : ICustomActionEffect<StateData>
         }
         
 
-        //Debug.Log("EnemyPos: " + enemyPos);
-        //Debug.Log("PlayerPos: " + playerPos);
-        //Debug.Log("Player Speed: " + playerTrait.Speed);
-        //Debug.Log("Enemy Direction: " + enemyDirection);
-        //Debug.Log("Player Direction: " + playerDirection);
-        //Debug.Log("Time to hideable:" + timeToHideable);
-        //Debug.Log("Enemy time to waypoint: " + enemyTimeToWaypoint);
-
         float timeDelta = 0f;
         //Incrementally check if player coincides with enemy's vision with t = 0.5
         while (timeDelta <= timeToHideable)
@@ -84,16 +76,6 @@ public struct RunAwayWaitEffect : ICustomActionEffect<StateData>
         }
 
         //Apply necessary trait updates and add to new state
-
-        //Update position if player not spotted
-        //if (!playerTrait.IsSpotted)
-        //{
-        //    playerMoverTrait.X = hideableLocationTrait.Position.x;
-        //    playerMoverTrait.Y = hideableLocationTrait.Position.y;
-        //    playerMoverTrait.Z = hideableLocationTrait.Position.z;
-        //    newState.SetTraitOnObject(playerMoverTrait, ref player);
-        //}
-
         playerMoverTrait.X = hideableLocationTrait.Position.x;
         playerMoverTrait.Y = hideableLocationTrait.Position.y;
         playerMoverTrait.Z = hideableLocationTrait.Position.z;

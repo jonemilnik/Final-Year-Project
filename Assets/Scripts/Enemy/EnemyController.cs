@@ -22,7 +22,8 @@ public class EnemyController : MonoBehaviour
     private Vector3 initialForward;
     [HideInInspector]
     public bool isFacingPlayer = false;
-    FieldOfView fov;
+    [HideInInspector]
+    public FieldOfView fov;
 
     void UpdateFacingPlayer()
     {
@@ -78,21 +79,22 @@ public class EnemyController : MonoBehaviour
         yield return StartCoroutine(InspectDirection(inspectAngle * 2, 0.05f, 0.15f));
 
         //Centre view again
-        yield return StartCoroutine(InspectDirection(-inspectAngle, 0.05f, 0.04f));
+        yield return StartCoroutine(InspectDirection(-inspectAngle, 0.05f, 0.15f));
 
         isInspecting = false;
     }
 
     IEnumerator InspectDirection(float angle, float rotationSpeed, float timeLimit)
     {
-        
-        //Angle to look from forward direction
+        //Keep track of animation time
         float time = 0.0f;
 
+        //Angle to look from forward direction
         Vector3 inspectDir = fov.GetVectorFromAngle(angle);
         Quaternion rotation = Quaternion.LookRotation(inspectDir);
 
-        while (time < 0.15f)
+        //While timelimit has not surpassed
+        while (time < timeLimit)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, time);
             time += Time.deltaTime * rotationSpeed;
@@ -133,6 +135,7 @@ public class EnemyController : MonoBehaviour
         //Stores index of direction and value of distance to path
         (int?, float?) closestDir = (null, null);
 
+        //Iterate through each basic direction
         for (int i = 0; i < directions.Length; i++)
         {
             RaycastHit hit;

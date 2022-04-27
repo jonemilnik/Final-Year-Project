@@ -19,8 +19,6 @@ public class FieldOfView : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine("FindPlayerWithDelay", .3f);
-
         //Vectors for fov vision
         leftMostVector = GetVectorFromAngle(-viewAngle / 2) * viewRadius;
         rightMostVector = GetVectorFromAngle(viewAngle / 2) * viewRadius;
@@ -38,14 +36,14 @@ public class FieldOfView : MonoBehaviour
 
     }
 
-    IEnumerator FindPlayerWithDelay(float delay)
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(delay);
-            FindPlayer();
-        }
-    }
+    //IEnumerator FindPlayerWithDelay(float delay)
+    //{
+    //    while (true)
+    //    {
+    //        yield return new WaitForSeconds(delay);
+    //        FindPlayer();
+    //    }
+    //}
 
     void DrawFieldOfView()
     {

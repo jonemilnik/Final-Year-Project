@@ -5413,7 +5413,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6394127625303521747, guid: 6dc83f3ec9e972f448766212546824d8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.36
+      value: 10.03
       objectReference: {fileID: 0}
     - target: {fileID: 6394127625303521747, guid: 6dc83f3ec9e972f448766212546824d8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5421,7 +5421,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6394127625303521747, guid: 6dc83f3ec9e972f448766212546824d8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -21.46
+      value: -20.4
       objectReference: {fileID: 0}
     - target: {fileID: 6394127625303521747, guid: 6dc83f3ec9e972f448766212546824d8, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6316,7 +6316,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 133949481066734525, guid: 48acd2872a7e05641b5e5d27b9324a90, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.02
+      value: -1.85
       objectReference: {fileID: 0}
     - target: {fileID: 133949481066734525, guid: 48acd2872a7e05641b5e5d27b9324a90, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6324,7 +6324,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 133949481066734525, guid: 48acd2872a7e05641b5e5d27b9324a90, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.68
+      value: 6.73
       objectReference: {fileID: 0}
     - target: {fileID: 133949481066734525, guid: 48acd2872a7e05641b5e5d27b9324a90, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6794,7 +6794,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 133949481066734525, guid: 48acd2872a7e05641b5e5d27b9324a90, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.81
+      value: -2.35
       objectReference: {fileID: 0}
     - target: {fileID: 133949481066734525, guid: 48acd2872a7e05641b5e5d27b9324a90, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9614,6 +9614,7 @@ GameObject:
   - component: {fileID: 2085050759}
   - component: {fileID: 2085050758}
   - component: {fileID: 2085050761}
+  - component: {fileID: 2085050762}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -9817,6 +9818,18 @@ MonoBehaviour:
   m_p3: 0
   m_p4: 0
   m_p5: 0
+--- !u!114 &2085050762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2085050750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8ab1e556f54c794e94a38f14bfd4fb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2118013608
 PrefabInstance:
   m_ObjectHideFlags: 0

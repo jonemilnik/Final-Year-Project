@@ -12,8 +12,6 @@ public class PlayerController : MonoBehaviour
     GameObject player;
     PlayerHandler playerHandler;
     Player playerTrait;
-    Mover moverTrait;
-    NavMeshAgent navMAgent;
     //Used for replanning purposes
     bool enemiesLeftNearby = false;
     //Tracks which enemies need to be replanned for and
@@ -21,14 +19,13 @@ public class PlayerController : MonoBehaviour
     List<GameObject> enemiesCanReplan;
     List<GameObject> walkingEnemiesCannotReplan;
     List<GameObject> inspectingEnemiesCannotReplan;
+
     private void Start()
     {
         decisionController = GetComponent<DecisionController>();
         player = GameObject.Find("Player");
         playerHandler = player.GetComponent<PlayerHandler>();
         playerTrait = player.GetComponent<Player>();
-        moverTrait = player.GetComponent<Mover>();
-        navMAgent = player.GetComponent<NavMeshAgent>();
         enemiesCanReplan = new List<GameObject>();
         walkingEnemiesCannotReplan = new List<GameObject>();
         inspectingEnemiesCannotReplan = new List<GameObject>();
@@ -43,7 +40,7 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < nearbyEnemies.Count; i++)
         {
             GameObject enemy = nearbyEnemies[i];
-            //Debug.Log(enemy.name);
+
             //If new enemy detected
             if (!enemiesCanReplan.Contains(nearbyEnemies[i]) && !walkingEnemiesCannotReplan.Contains(nearbyEnemies[i]) &&
                 !inspectingEnemiesCannotReplan.Contains(nearbyEnemies[i]))
@@ -112,34 +109,18 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
-        UpdateEnemiesToReplan();
-
-        playerTrait.IsSpotted = playerHandler.isSpotted;
-        playerTrait.IsHiding = playerHandler.isHiding;
-        playerTrait.IsRunning = playerHandler.isRunning;
-        moverTrait.X = player.transform.position.x;
-        moverTrait.Y = player.transform.position.y;
-        moverTrait.Z = player.transform.position.z;
-
-        moverTrait.ForwardX = player.transform.forward.x;
-        moverTrait.ForwardY = player.transform.forward.y;
-        moverTrait.ForwardZ = player.transform.forward.z;
-        //Debug.Log("Agent speed: " + navMAgent.velocity.magnitude);
-
-
-        RePlan();
-        // Update world state constantly and not just after every action
-        //if (decisionController.Initialized && decisionController.IsIdle && 
-        //    Time.realtimeSinceStartup > timeOfLastQueryUpdate + updateQueryDelay && !playerHandler.isSpotted)
-        //{
-        //    decisionController.UpdateStateWithWorldQuery();
-        //    timeOfLastQueryUpdate = Time.realtimeSinceStartup;
-        //}
-
+        if (!playerHandler.isSpotted) 
+        {
+            RePlan();
+        }
+        
     }
 
     private void RePlan()
     {
+        //Update current enemy tracker to see if replans have
+        //been made to account for enemy movements
+        UpdateEnemiesToReplan();
 
         if (decisionController.Initialized && decisionController.IsIdle)
         {
@@ -172,7 +153,7 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator MoveTo(GameObject destination)
     {
-        navMAgent.SetDestination(destination.transform.position);
+        playerHandler.Navigate(destination.transform.position);
 
         playerTrait.SetWaypoint = destination;
         playerTrait.IsWaypointSet = true;
@@ -182,7 +163,7 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator RunAway(GameObject destination)
     {
-        navMAgent.SetDestination(destination.transform.position);
+        playerHandler.Navigate(destination.transform.position);
         playerTrait.SetWaypoint = destination;
         playerTrait.IsWaypointSet = true;
         

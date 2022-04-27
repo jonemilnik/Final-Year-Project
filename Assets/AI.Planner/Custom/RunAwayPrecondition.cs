@@ -20,18 +20,18 @@ public struct RunAwayPrecondition : ICustomActionPrecondition<StateData>
             return true;
         }
 
-        if (enemyTrait.IsFacingPlayer)
-        {
-            if (enemyTrait.DistToPlayer <= enemyTrait.FOVRadius + 2f)
-            {
-                return true;
-            }
-            return false;
+        //if (enemyTrait.IsFacingPlayer)
+        //{
+        //    if (enemyTrait.DistToPlayer <= enemyTrait.FOVRadius + 2f)
+        //    {
+        //        return true;
+        //    }
+        //    return false;
 
-        } else
-        {
+        //} else
+        //{
 
-        }
+        //}
         
 
         return false;
