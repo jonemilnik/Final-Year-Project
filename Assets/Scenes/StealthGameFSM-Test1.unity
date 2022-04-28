@@ -4899,7 +4899,7 @@ GameObject:
   - component: {fileID: 912969271}
   m_Layer: 0
   m_Name: Enemy2Waypoints
-  m_TagString: Untagged
+  m_TagString: EnemyWaypoints
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6830,7 +6830,7 @@ GameObject:
   - component: {fileID: 1286152695}
   m_Layer: 0
   m_Name: PlayerWaypoints
-  m_TagString: Untagged
+  m_TagString: PlayerWaypoints
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7858,7 +7858,7 @@ GameObject:
   - component: {fileID: 1683860271}
   m_Layer: 0
   m_Name: Enemy1Waypoints
-  m_TagString: Untagged
+  m_TagString: EnemyWaypoints
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7890,7 +7890,7 @@ GameObject:
   - component: {fileID: 1703147750}
   m_Layer: 0
   m_Name: Enemy3Waypoints
-  m_TagString: Untagged
+  m_TagString: EnemyWaypoints
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

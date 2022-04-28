@@ -32,7 +32,7 @@ public struct LeaveHidingPrecondition : ICustomActionPrecondition<StateData>
             var enemy = state.GetTraitOnObjectAtIndex<Enemy>(enemyIndices[i]);
             
             //If not safe for player to leave
-            if (enemy.IsFacingPlayer && enemy.DistToPlayer <= 6f)
+            if (enemy.IsFacingPlayer || enemy.DistToPlayer <= 6f)
             {
                 enemyIndices.Dispose();
                 return false;

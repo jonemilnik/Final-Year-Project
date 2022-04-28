@@ -196,6 +196,9 @@ namespace Generated.AI.Planner.Plans.StealthProblem
         float Reward(StateData originalState, ActionKey action, StateData newState)
         {
             var reward = -1f;
+            {
+                reward -= new global::RunAwayReward().RewardModifier( originalState, action, newState);
+            }
 
             return reward;
         }

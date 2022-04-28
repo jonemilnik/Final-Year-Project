@@ -137,4 +137,7 @@ MonoBehaviour:
       m_Enum: {fileID: 0}
       m_Value: true
   m_Reward: -1
-  m_CustomRewards: []
+  m_CustomRewards:
+  - m_Operator: -=
+    m_Typename: RunAwayReward
+    m_Parameters: []

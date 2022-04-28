@@ -113,13 +113,13 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
 
-        //RePlan();
+        RePlan();
         if (decisionController.IsIdle && Time.realtimeSinceStartup > timeOfLastQuery + queryDelay)
         {
             decisionController.UpdateStateWithWorldQuery();
             timeOfLastQuery = Time.realtimeSinceStartup;
         }
-        
+
     }
 
     private void RePlan()

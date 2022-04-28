@@ -6,15 +6,17 @@ TagManager:
   tags:
   - Bin
   - Enemy
+  - EnemyWaypoints
+  - PlayerWaypoints
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Path
+  - 
   - Water
   - UI
-  - Ground
-  - FieldOfView
+  - 
+  - 
   - Player
   - 
   - 
