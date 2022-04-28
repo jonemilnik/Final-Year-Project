@@ -990,7 +990,10 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
                     one.DistToPlayer == two.DistToPlayer && 
                     one.Speed == two.Speed && 
                     one.DistToWaypoint == two.DistToWaypoint && 
-                    one.FOVRadius == two.FOVRadius;
+                    one.FOVRadius == two.FOVRadius && 
+                    one.WaypointX == two.WaypointX && 
+                    one.WaypointY == two.WaypointY && 
+                    one.WaypointZ == two.WaypointZ;
         }
         
         bool MoverTraitAttributesEqual(Mover one, Mover two)
@@ -1083,7 +1086,10 @@ namespace Generated.AI.Planner.StateRepresentation.StealthProblem
                     ^ element.DistToPlayer.GetHashCode()
                     ^ element.Speed.GetHashCode()
                     ^ element.DistToWaypoint.GetHashCode()
-                    ^ element.FOVRadius.GetHashCode();
+                    ^ element.FOVRadius.GetHashCode()
+                    ^ element.WaypointX.GetHashCode()
+                    ^ element.WaypointY.GetHashCode()
+                    ^ element.WaypointZ.GetHashCode();
                 stateHashValue = 3860031 + (stateHashValue + value) * 2779 + (stateHashValue * value * 2);
             }
             bufferLength = MoverBuffer.Length;

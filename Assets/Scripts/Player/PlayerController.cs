@@ -19,6 +19,9 @@ public class PlayerController : MonoBehaviour
     List<GameObject> enemiesCanReplan;
     List<GameObject> walkingEnemiesCannotReplan;
     List<GameObject> inspectingEnemiesCannotReplan;
+    float timeOfLastQuery = 0f;
+    float queryDelay = .5f;
+
 
     private void Start()
     {
@@ -109,9 +112,12 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
-        if (!playerHandler.isSpotted) 
+
+        //RePlan();
+        if (decisionController.IsIdle && Time.realtimeSinceStartup > timeOfLastQuery + queryDelay)
         {
-            RePlan();
+            decisionController.UpdateStateWithWorldQuery();
+            timeOfLastQuery = Time.realtimeSinceStartup;
         }
         
     }

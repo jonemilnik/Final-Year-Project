@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Collections;
+using Unity.Entities;
 using Generated.AI.Planner.StateRepresentation;
 using Generated.AI.Planner.StateRepresentation.StealthProblem;
 using Location = Unity.AI.Planner.Traits.Location;
@@ -14,10 +16,10 @@ public struct RunAwayWaitEffect : ICustomActionEffect<StateData>
         //calc time it will take to hideable and use to update state
         //apply state update with t = 0.5s to determine if player is spotted
 
-        var enemyId = newState.GetTraitBasedObjectId(action[0]);
-        var enemy = newState.GetTraitBasedObject(enemyId);
-        var enemyTrait = newState.GetTraitOnObject<Enemy>(enemy);
-        var enemyMoverTrait = newState.GetTraitOnObject<Mover>(enemy);
+        //var enemyId = newState.GetTraitBasedObjectId(action[0]);
+        //var enemy = newState.GetTraitBasedObject(enemyId);
+        //var enemyTrait = newState.GetTraitOnObject<Enemy>(enemy);
+        //var enemyMoverTrait = newState.GetTraitOnObject<Mover>(enemy);
 
         var playerId = newState.GetTraitBasedObjectId(action[1]);
         var player = newState.GetTraitBasedObject(playerId);
@@ -28,51 +30,73 @@ public struct RunAwayWaitEffect : ICustomActionEffect<StateData>
         var hideable = newState.GetTraitBasedObject(hideableId);
         var hideableLocationTrait = newState.GetTraitOnObject<Location>(hideable);
 
-        //Temp vars to check if action is valid
-        Vector3 enemyPos = new Vector3(enemyMoverTrait.X, enemyMoverTrait.Y, enemyMoverTrait.Z);
-        Vector3 playerPos = new Vector3(playerMoverTrait.X, playerMoverTrait.Y, playerMoverTrait.Z);
-        Vector3 enemyDirection = new Vector3(enemyMoverTrait.ForwardX, enemyMoverTrait.ForwardY, enemyMoverTrait.ForwardZ);
+        //Get all queried enemies as enemyIndices
+        var enemyIndices = new NativeList<int>(newState.TraitBasedObjects.Length, Allocator.Temp);
+        var enemyFilter = new NativeArray<ComponentType>(1, Allocator.Temp) { [0] = ComponentType.ReadWrite<Enemy>() };
 
-        //Varies with the different hideable args passed to action
-        Vector3 playerDirection = hideableLocationTrait.Position - playerPos;
+        newState.GetTraitBasedObjectIndices(enemyIndices, enemyFilter);
+        enemyFilter.Dispose();
 
-        //Calculate estimated time to reach hideable and enemy to its waypoint
-        float timeToHideable = Vector3.Distance(hideableLocationTrait.Position, playerPos) / playerTrait.Speed;
-
-        float enemyTimeToWaypoint = 0f;
-        //Avoid zero division errors
-        if (enemyTrait.DistToWaypoint != 0 && enemyTrait.Speed != 0)
-        {
-            enemyTimeToWaypoint = enemyTrait.DistToWaypoint / enemyTrait.Speed;
-        }
         
 
-        float timeDelta = 0f;
-        //Incrementally check if player coincides with enemy's vision with t = 0.5
-        while (timeDelta <= timeToHideable)
+        //Iterate through each enemy to see whether player gets spotted by one when moving to hideable
+        for (int i = 0; i < enemyIndices.Length; i++)
         {
-            
-            enemyPos += enemyDirection * 0.1f * enemyTrait.Speed;
-            playerPos += playerDirection * 0.1f * playerTrait.Speed;
+            var enemyTrait = newState.GetTraitOnObjectAtIndex<Enemy>(enemyIndices[i]);
+            var enemyMoverTrait = newState.GetTraitOnObjectAtIndex<Mover>(enemyIndices[i]);
 
-            //Calculate distance between enemy and player to check if player has been spotted
-            float distToEnemy = Vector3.Distance(enemyPos, playerPos);
-            //Player within enemy view radius
-            if (distToEnemy <= enemyTrait.FOVRadius)
+            //Temp vars to check if action is valid
+            Vector3 enemyPos = new Vector3(enemyMoverTrait.X, enemyMoverTrait.Y, enemyMoverTrait.Z);
+            Vector3 playerPos = new Vector3(playerMoverTrait.X, playerMoverTrait.Y, playerMoverTrait.Z);
+            float enemySpeed = enemyTrait.Speed;
+            float playerSpeed = playerTrait.Speed;
+
+            //Calculate enemy direction to waypoint
+            Vector3 enemyNextWaypoint = new Vector3(enemyTrait.WaypointX, enemyTrait.WaypointY, enemyTrait.WaypointZ);
+            Vector3 eTemp = (-enemyPos + enemyNextWaypoint).normalized;
+            Vector3 enemyDirection = new Vector3(eTemp.x, 0, eTemp.z);
+
+            //Calculate player direction to waypoint
+            Vector3 pTemp = (hideableLocationTrait.Position - playerPos).normalized;
+            Vector3 playerDirection = new Vector3(pTemp.x, 0, pTemp.z);
+
+            //Calculate estimated time to reach hideable and enemy to its waypoint
+            float timeToHideable = Vector3.Distance(hideableLocationTrait.Position, playerPos) / playerTrait.Speed;
+
+            float enemyTimeToWaypoint = 0f;
+            //Avoid zero division errors
+            if (enemyTrait.DistToWaypoint != 0 && enemyTrait.Speed != 0)
             {
-                //Makes state undesireable to planner due to termination definition
-                playerTrait.IsSpotted = true;
-                break;
+                enemyTimeToWaypoint = enemyTrait.DistToWaypoint / enemyTrait.Speed;
             }
 
-            timeDelta += 0.1f;
-
-            //Enemy reached its checkpoint
-            if (enemyTimeToWaypoint - timeDelta <= 0)
+            float timeDelta = 0f;
+            //Incrementally check if player coincides with enemy's vision with t = 0.5
+            while (timeDelta <= timeToHideable)
             {
-                enemyTrait.Speed = 0;
-            }
 
+                enemyPos = enemyPos + (enemyDirection * 0.25f * enemySpeed);
+                playerPos = playerPos + (playerDirection * 0.25f * playerSpeed);
+
+                //Calculate distance between enemy and player to check if player has been spotted
+                float distToEnemy = Vector3.Distance(enemyPos, playerPos);
+                //Player within enemy view radius
+                if (distToEnemy <= enemyTrait.FOVRadius)
+                {
+                    //Makes state undesireable to planner due to termination definition
+                    playerTrait.IsSpotted = true;
+                    break;
+                }
+
+                timeDelta += 0.25f;
+
+                //Enemy reached its checkpoint
+                if (enemyTimeToWaypoint - timeDelta <= 0)
+                {
+                    enemySpeed = 0;
+                }
+
+            }
         }
 
         //Apply necessary trait updates and add to new state
@@ -83,6 +107,7 @@ public struct RunAwayWaitEffect : ICustomActionEffect<StateData>
 
         newState.SetTraitOnObject(playerTrait, ref player);
 
+        enemyIndices.Dispose();
 
 
 

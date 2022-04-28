@@ -14,11 +14,17 @@ namespace Generated.AI.Planner.StateRepresentation
         public const string FieldSpeed = "Speed";
         public const string FieldDistToWaypoint = "DistToWaypoint";
         public const string FieldFOVRadius = "FOVRadius";
+        public const string FieldWaypointX = "WaypointX";
+        public const string FieldWaypointY = "WaypointY";
+        public const string FieldWaypointZ = "WaypointZ";
         public System.Boolean IsFacingPlayer;
         public System.Single DistToPlayer;
         public System.Single Speed;
         public System.Single DistToWaypoint;
         public System.Single FOVRadius;
+        public System.Single WaypointX;
+        public System.Single WaypointY;
+        public System.Single WaypointZ;
 
         public void SetField(string fieldName, object value)
         {
@@ -39,6 +45,15 @@ namespace Generated.AI.Planner.StateRepresentation
                 case nameof(FOVRadius):
                     FOVRadius = (System.Single)value;
                     break;
+                case nameof(WaypointX):
+                    WaypointX = (System.Single)value;
+                    break;
+                case nameof(WaypointY):
+                    WaypointY = (System.Single)value;
+                    break;
+                case nameof(WaypointZ):
+                    WaypointZ = (System.Single)value;
+                    break;
                 default:
                     throw new ArgumentException($"Field \"{fieldName}\" does not exist on trait Enemy.");
             }
@@ -58,6 +73,12 @@ namespace Generated.AI.Planner.StateRepresentation
                     return DistToWaypoint;
                 case nameof(FOVRadius):
                     return FOVRadius;
+                case nameof(WaypointX):
+                    return WaypointX;
+                case nameof(WaypointY):
+                    return WaypointY;
+                case nameof(WaypointZ):
+                    return WaypointZ;
                 default:
                     throw new ArgumentException($"Field \"{fieldName}\" does not exist on trait Enemy.");
             }
@@ -65,12 +86,12 @@ namespace Generated.AI.Planner.StateRepresentation
 
         public bool Equals(Enemy other)
         {
-            return IsFacingPlayer == other.IsFacingPlayer && DistToPlayer == other.DistToPlayer && Speed == other.Speed && DistToWaypoint == other.DistToWaypoint && FOVRadius == other.FOVRadius;
+            return IsFacingPlayer == other.IsFacingPlayer && DistToPlayer == other.DistToPlayer && Speed == other.Speed && DistToWaypoint == other.DistToWaypoint && FOVRadius == other.FOVRadius && WaypointX == other.WaypointX && WaypointY == other.WaypointY && WaypointZ == other.WaypointZ;
         }
 
         public override string ToString()
         {
-            return $"Enemy\n  IsFacingPlayer: {IsFacingPlayer}\n  DistToPlayer: {DistToPlayer}\n  Speed: {Speed}\n  DistToWaypoint: {DistToWaypoint}\n  FOVRadius: {FOVRadius}";
+            return $"Enemy\n  IsFacingPlayer: {IsFacingPlayer}\n  DistToPlayer: {DistToPlayer}\n  Speed: {Speed}\n  DistToWaypoint: {DistToWaypoint}\n  FOVRadius: {FOVRadius}\n  WaypointX: {WaypointX}\n  WaypointY: {WaypointY}\n  WaypointZ: {WaypointZ}";
         }
     }
 }

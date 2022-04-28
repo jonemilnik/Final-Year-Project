@@ -19,7 +19,10 @@ MonoBehaviour:
   - id: 2
   - id: 3
   - id: 4
-  m_NextElementId: 9
+  - id: 5
+  - id: 6
+  - id: 7
+  m_NextElementId: 13
   references:
     version: 1
     00000000:
@@ -52,3 +55,21 @@ MonoBehaviour:
         m_Name: FOVRadius
         m_Id: 8
         m_Value: 4
+    00000005:
+      type: {class: FloatProperty, ns: Unity.Semantic.Traits, asm: Unity.Semantic.Traits}
+      data:
+        m_Name: WaypointX
+        m_Id: 10
+        m_Value: 0
+    00000006:
+      type: {class: FloatProperty, ns: Unity.Semantic.Traits, asm: Unity.Semantic.Traits}
+      data:
+        m_Name: WaypointY
+        m_Id: 11
+        m_Value: 0
+    00000007:
+      type: {class: FloatProperty, ns: Unity.Semantic.Traits, asm: Unity.Semantic.Traits}
+      data:
+        m_Name: WaypointZ
+        m_Id: 12
+        m_Value: 0

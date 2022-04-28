@@ -123,6 +123,72 @@ namespace Generated.Semantic.Traits
                     m_EntityManager.SetComponentData(m_Entity, data);
             }
         }
+        public System.Single WaypointX
+        {
+            get
+            {
+                if (m_EntityManager != default && m_EntityManager.HasComponent<EnemyData>(m_Entity))
+                {
+                    m_p10 = m_EntityManager.GetComponentData<EnemyData>(m_Entity).WaypointX;
+                }
+
+                return m_p10;
+            }
+            set
+            {
+                EnemyData data = default;
+                var dataActive = m_EntityManager != default && m_EntityManager.HasComponent<EnemyData>(m_Entity);
+                if (dataActive)
+                    data = m_EntityManager.GetComponentData<EnemyData>(m_Entity);
+                data.WaypointX = m_p10 = value;
+                if (dataActive)
+                    m_EntityManager.SetComponentData(m_Entity, data);
+            }
+        }
+        public System.Single WaypointY
+        {
+            get
+            {
+                if (m_EntityManager != default && m_EntityManager.HasComponent<EnemyData>(m_Entity))
+                {
+                    m_p11 = m_EntityManager.GetComponentData<EnemyData>(m_Entity).WaypointY;
+                }
+
+                return m_p11;
+            }
+            set
+            {
+                EnemyData data = default;
+                var dataActive = m_EntityManager != default && m_EntityManager.HasComponent<EnemyData>(m_Entity);
+                if (dataActive)
+                    data = m_EntityManager.GetComponentData<EnemyData>(m_Entity);
+                data.WaypointY = m_p11 = value;
+                if (dataActive)
+                    m_EntityManager.SetComponentData(m_Entity, data);
+            }
+        }
+        public System.Single WaypointZ
+        {
+            get
+            {
+                if (m_EntityManager != default && m_EntityManager.HasComponent<EnemyData>(m_Entity))
+                {
+                    m_p12 = m_EntityManager.GetComponentData<EnemyData>(m_Entity).WaypointZ;
+                }
+
+                return m_p12;
+            }
+            set
+            {
+                EnemyData data = default;
+                var dataActive = m_EntityManager != default && m_EntityManager.HasComponent<EnemyData>(m_Entity);
+                if (dataActive)
+                    data = m_EntityManager.GetComponentData<EnemyData>(m_Entity);
+                data.WaypointZ = m_p12 = value;
+                if (dataActive)
+                    m_EntityManager.SetComponentData(m_Entity, data);
+            }
+        }
         public EnemyData Data
         {
             get => m_EntityManager != default && m_EntityManager.HasComponent<EnemyData>(m_Entity) ?
@@ -150,6 +216,15 @@ namespace Generated.Semantic.Traits
         [SerializeField]
         [InspectorName("FOVRadius")]
         System.Single m_p8 = 4f;
+        [SerializeField]
+        [InspectorName("WaypointX")]
+        System.Single m_p10 = 0f;
+        [SerializeField]
+        [InspectorName("WaypointY")]
+        System.Single m_p11 = 0f;
+        [SerializeField]
+        [InspectorName("WaypointZ")]
+        System.Single m_p12 = 0f;
         #pragma warning restore 649
 
         EntityManager m_EntityManager;
@@ -164,6 +239,9 @@ namespace Generated.Semantic.Traits
             data.Speed = m_p5;
             data.DistToWaypoint = m_p6;
             data.FOVRadius = m_p8;
+            data.WaypointX = m_p10;
+            data.WaypointY = m_p11;
+            data.WaypointZ = m_p12;
 
             return data;
         }

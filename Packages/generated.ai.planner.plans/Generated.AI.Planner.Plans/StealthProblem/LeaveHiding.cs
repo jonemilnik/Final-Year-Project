@@ -125,7 +125,7 @@ namespace Generated.AI.Planner.Plans.StealthProblem
 
         float Reward(StateData originalState, ActionKey action, StateData newState)
         {
-            var reward = -0.75f;
+            var reward = 0f;
 
             return reward;
         }

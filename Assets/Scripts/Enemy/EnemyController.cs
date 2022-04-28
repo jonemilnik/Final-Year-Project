@@ -62,7 +62,13 @@ public class EnemyController : MonoBehaviour
 
     public float GetDistToNextWaypoint()
     {
-        return agent.remainingDistance;
+        //return agent.remainingDistance;
+        return Vector3.Distance(_waypoints[waypointPointer].position, transform.position);
+    }
+
+    public Vector3 GetNextWaypoint()
+    {
+        return _waypoints[waypointPointer].transform.position;
     }
 
     IEnumerator InspectArea() 
@@ -160,7 +166,7 @@ public class EnemyController : MonoBehaviour
         //transform.rotation = Quaternion.LookRotation(directions[(int) closestDir.Item1]);
     }
 
-    private void Awake()
+    void Awake()
     {
         // Initialize initial state
         agent = GetComponent<NavMeshAgent>();
@@ -186,7 +192,7 @@ public class EnemyController : MonoBehaviour
         // Inspecting area
         if (!isWalking)
         {
-            
+
             if (!isInspecting)
             {
                 isWalking = true;

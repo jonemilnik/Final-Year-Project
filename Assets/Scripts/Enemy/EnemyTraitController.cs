@@ -25,8 +25,13 @@ public class EnemyTraitController : MonoBehaviour
         enemyTrait.DistToPlayer = controller.GetDistToPlayer();
         enemyTrait.DistToWaypoint = controller.GetDistToNextWaypoint();
         enemyTrait.IsFacingPlayer = controller.isFacingPlayer;
-        enemyTrait.Speed = controller.agent.velocity.magnitude;
-        //Debug.Log("Enemy speed: " + enemyTrait.Speed);
+        enemyTrait.Speed = controller.agent.speed;
+
+        Vector3 nextWaypoint = controller.GetNextWaypoint();
+        enemyTrait.WaypointX = nextWaypoint.x;
+        enemyTrait.WaypointY = nextWaypoint.y;
+        enemyTrait.WaypointZ = nextWaypoint.z;
+
 
         moverTrait.X = transform.position.x;
         moverTrait.Y = transform.position.y;
@@ -36,7 +41,5 @@ public class EnemyTraitController : MonoBehaviour
         moverTrait.ForwardY = transform.forward.y;
         moverTrait.ForwardZ = transform.forward.z;
 
-        //enemyTrait.IsFacingPlayer = controller.isFacingPlayer;
-        //Debug.Log("Enemy facing player: " + enemyTrait.IsFacingPlayer);
     }
 }
