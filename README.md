@@ -14,6 +14,6 @@ without being detected.
 The purpose of this project is to evaluate common reactive approaches (behaviour trees) to deliberative ones (planner).
 There are 3 testing-configuration scenes of the game for each of the agents. These can be found in the scenes folder. 
 
-##Fixing errors
+## Fixing errors
 You may encounter random error logs that come up after the unity project has been open for a while. A simple program restart is enough to fix the issue. If it still persists, consider restarting your computer. 
 
