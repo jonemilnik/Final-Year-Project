@@ -36,15 +36,6 @@ public class FieldOfView : MonoBehaviour
 
     }
 
-    //IEnumerator FindPlayerWithDelay(float delay)
-    //{
-    //    while (true)
-    //    {
-    //        yield return new WaitForSeconds(delay);
-    //        FindPlayer();
-    //    }
-    //}
-
     void DrawFieldOfView()
     {
         //No. of triangles to render
@@ -110,9 +101,6 @@ public class FieldOfView : MonoBehaviour
                 if (!player.isHiding)
                 {
                     player.setIsSpotted(true);
-                    //Debug.Log("Player spotted! ");
-                    //GetComponentInParent<EnemyController>().setPlayerSpotted(true);
-                    //FindObjectOfType<GameManager>().LoseGame();
                 }
             }
 

@@ -11,15 +11,10 @@ using Unity.AI.Planner.Traits;
 public struct RunAwayWaitEffect : ICustomActionEffect<StateData>
 {
 
+    // Propagates enemy changes in the state incrementally with t = 0.25 
+    // Also checks to see if player is spotted and sets the trait property to true
     public void ApplyCustomActionEffectsToState(StateData originalState, ActionKey action, StateData newState)
     {
-        //calc time it will take to hideable and use to update state
-        //apply state update with t = 0.5s to determine if player is spotted
-
-        //var enemyId = newState.GetTraitBasedObjectId(action[0]);
-        //var enemy = newState.GetTraitBasedObject(enemyId);
-        //var enemyTrait = newState.GetTraitOnObject<Enemy>(enemy);
-        //var enemyMoverTrait = newState.GetTraitOnObject<Mover>(enemy);
 
         var playerId = newState.GetTraitBasedObjectId(action[1]);
         var player = newState.GetTraitBasedObject(playerId);
@@ -71,15 +66,16 @@ public struct RunAwayWaitEffect : ICustomActionEffect<StateData>
             }
 
             float timeDelta = 0f;
-            //Incrementally check if player coincides with enemy's vision with t = 0.5
+            //Incrementally check if player coincides with enemy's vision with t = 0.25
             while (timeDelta <= timeToHideable)
             {
 
                 enemyPos = enemyPos + (enemyDirection * 0.25f * enemySpeed);
                 playerPos = playerPos + (playerDirection * 0.25f * playerSpeed);
 
-                //Calculate distance between enemy and player to check if player has been spotted
+                //Calculate euclidean distance between enemy and player to check if player has been spotted
                 float distToEnemy = Vector3.Distance(enemyPos, playerPos);
+
                 //Player within enemy view radius
                 if (distToEnemy <= enemyTrait.FOVRadius)
                 {

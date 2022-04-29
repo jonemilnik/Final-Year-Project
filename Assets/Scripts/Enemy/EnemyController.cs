@@ -62,7 +62,6 @@ public class EnemyController : MonoBehaviour
 
     public float GetDistToNextWaypoint()
     {
-        //return agent.remainingDistance;
         return Vector3.Distance(_waypoints[waypointPointer].position, transform.position);
     }
 
@@ -163,7 +162,7 @@ public class EnemyController : MonoBehaviour
             }
         }
         return directions[(int)closestDir.Item1];
-        //transform.rotation = Quaternion.LookRotation(directions[(int) closestDir.Item1]);
+
     }
 
     void Awake()

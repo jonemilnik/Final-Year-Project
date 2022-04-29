@@ -9,7 +9,7 @@ public class AgentStateManager : MonoBehaviour
     public AgentRunningState runningState = new AgentRunningState();
     public AgentNavigatingState navigatingState = new AgentNavigatingState();
     public AgentHidingState hidingState = new AgentHidingState();
-    public AgentLeaveHidingState leaveHidingState = new AgentLeaveHidingState();
+
     [HideInInspector]
     public NavMeshAgent agent;
     [HideInInspector]
@@ -31,6 +31,7 @@ public class AgentStateManager : MonoBehaviour
         currentState.UpdateState(this);
     }
 
+    // Changes current state to arg state
     public void TransitionState(AgentBaseState state)
     {
         currentState = state;

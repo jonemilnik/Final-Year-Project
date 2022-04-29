@@ -8,6 +8,7 @@ using Unity.AI.Planner.Traits;
 
 public struct RunAwayReward : ICustomActionReward<StateData>
 {
+    // Returns distance between hideable and player
     public float RewardModifier(StateData originalState, ActionKey action, StateData newState)
     {
         var playerId = originalState.GetTraitBasedObjectId(action[1]);
