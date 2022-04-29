@@ -1,4 +1,4 @@
-# 6CCS3PRJ Individual Project - Unity's A.I. Planner vs Behaviour Trees
+# 6CCS3PRJ Individual Project - Unity's A.I. Planner vs Finite State Machines
 ---
 Unity version: 2020.3.21f1
 
@@ -10,9 +10,9 @@ Stealthy agent is given a path with a goal location to reach. Along the path the
 the agent to avoid being detected by cyclic patrolling agents. The aim of the game is to reach the goal location 
 without being detected.
 
-## Project Description
+## Running Agent Tests
 The purpose of this project is to evaluate common reactive approaches (behaviour trees) to deliberative ones (planner).
-There are 3 testing-configuration scenes of the game for each of the agents. These can be found in the scenes folder. 
+There are 3 testing-configuration scenes of the game for each of the agents. These can be found in the scenes folder. Make sure that only one scene at a time is loaded before pressing the play button as this can cause the project to crash or produce unexpected results.
 
 ## Fixing errors
 You may encounter random error logs that come up after the unity project has been open for a while. A simple program restart is enough to fix the issue. If it still persists, consider restarting your computer. 
